@@ -2,6 +2,7 @@ package common
 
 import (
 	"coban/api/0.1/server/api/databases"
+	"errors"
 )
 
 func GetAddresses() []databases.Address {
@@ -31,15 +32,30 @@ func CreateAddress(street string, zip string, city string, companyID uint) (data
 		return address, err
 	}
 	databases.DB.Create(&address)
+
 	return address, nil
 }
 
-func UpdateAddress(street string, zip string, city string, companyID uint, addressID uint) (databases.Address, error) {
-	address := databases.Address{Street:street, Zip:zip, City:city, CompanyID:companyID, ID:addressID}
+func UpdateAddress(street string, zip string, city string, companyID uint, id uint) (databases.Address, error) {
+	address := databases.Address{Street:street, Zip:zip, City:city, CompanyID:companyID, ID:id}
 
 	if err := address.IsValid(false); err != nil {
 		return address, err
 	}
 	databases.DB.Save(&address)
+
 	return address, nil
+}
+
+func DeleteAddress(id uint) error {
+	var address databases.Address
+
+	databases.DB.First(&address, id)
+	databases.DB.Delete(&address)
+
+	if address.ID != 0 {
+		return errors.New("This address can't be deleted")
+	}
+
+	return nil
 }

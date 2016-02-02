@@ -2,6 +2,7 @@ package common
 
 import (
 	"coban/api/0.1/server/api/databases"
+	"errors"
 )
 
 func GetCompanies() []databases.Company {
@@ -44,4 +45,18 @@ func UpdateCompany(name string, id uint) (databases.Company, error) {
 	databases.DB.Save(&company)
 
 	return company, nil
+}
+
+func DeleteCompany(id uint) error {
+	var company databases.Company
+
+	databases.DB.Where(databases.Address{CompanyID:id}).Delete(databases.Address{})
+	databases.DB.First(&company, id)
+	databases.DB.Delete(&company)
+
+	if company.ID != 0 {
+		return errors.New("This company can't be deleted.")
+	}
+
+	return nil
 }
