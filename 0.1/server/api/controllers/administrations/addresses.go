@@ -1,9 +1,9 @@
 package administrations
 
 import (
-	"coban/0.1/server/api/controllers/common"
+	"coban/api/0.1/server/api/controllers/common"
 	"net/http"
-	"coban/0.1/server/api/databases"
+	"coban/api/0.1/server/api/databases"
 )
 
 func GetAddresses(w http.ResponseWriter, r *http.Request) {

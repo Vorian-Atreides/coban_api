@@ -3,8 +3,8 @@ package common
 import (
 	"errors"
 
-	"coban/0.1/server/api/databases"
-	"coban/0.1/server/api/utils"
+	"coban/api/0.1/server/api/databases"
+	"coban/api/0.1/server/api/utils"
 )
 
 const (
@@ -26,10 +26,10 @@ func IsAdmin(scopes byte) bool {
 	return scopes & admin == admin
 }
 
-func BuildScope(scopes ...byte) {
-	scope := 0
+func BuildScope(scopes ...byte) byte {
+	var scope byte
 
-	for val, _ := range scopes {
+	for _, val := range scopes {
 		scope |= val
 	}
 	return scope

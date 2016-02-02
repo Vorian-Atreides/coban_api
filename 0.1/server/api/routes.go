@@ -1,7 +1,7 @@
 package main
 
 import (
-	"coban/0.1/server/api/controllers/administrations"
+	"coban/api/0.1/server/api/controllers/administrations"
 
 	"github.com/gorilla/mux"
 	"net/http"

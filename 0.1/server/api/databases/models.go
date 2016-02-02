@@ -64,7 +64,8 @@ type Device 			struct {
 
 	IsPaired			bool			`sql:"not null;" json:"is-paired"`
 
-	UserID				uint			`json:"-"`
+	User				*User
+	UserID				uint			`sql:"not null" json:"-"`
 }
 
 // JSON Account
@@ -79,6 +80,8 @@ type Account 			struct {
 	Email				string			`sql:"not null; unique" json:"email"`
 	Password			string			`sql:"not null" json:"-"`
 	Scope				byte
+
+	User				*User
 }
 
 // JSON User
@@ -109,13 +112,13 @@ type User 				struct {
 	LastName			string			`sql:"not null;" json:"last-name"`
 	IsManager			bool			`sql:"not null;" json:"-"`
 
-	Account				Account			`json:"account"`
+	Account				*Account		`json:"account"`
 	AccountID			uint			`sql:"not null;" json:"-"`
 
-	Company				Company			`json:"company"`
+	Company				*Company		`json:"company"`
 	CompanyID			uint			`sql:"not null;" json:"-"`
 
-	Device				Device			`json:"device"`
+	Device				*Device			`json:"device"`
 }
 
 // JSON TransportType

@@ -1,7 +1,7 @@
 package administrations
 
 import (
-	"coban/0.1/server/api/controllers/common"
+	"coban/api/0.1/server/api/controllers/common"
 	"io/ioutil"
 	"net/http"
 )

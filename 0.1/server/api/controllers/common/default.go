@@ -1,7 +1,7 @@
 package common
 
 import (
-	"coban/0.1/server/api/databases"
+	"coban/api/0.1/server/api/databases"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"

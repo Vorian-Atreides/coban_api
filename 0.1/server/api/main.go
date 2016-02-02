@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"coban/0.1/server/api/utils"
-	"coban/0.1/server/api/controllers/common"
+	"coban/api/0.1/server/api/utils"
+	"coban/api/0.1/server/api/controllers/common"
 )
 
 func main() {
