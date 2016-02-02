@@ -1,9 +1,7 @@
 api:
-  image: golang:1.4.2
   build: ./api
   volumes:
-    - ./api:/go/src/coban/0.1/server/api
-    - ./configurations:/go/src/coban/0.1/server/api/configurations
+    - ./configurations:/etc/configurations
 #  links:
 #    - db
 

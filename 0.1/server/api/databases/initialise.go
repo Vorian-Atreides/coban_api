@@ -23,7 +23,7 @@ type Database struct {
 }
 
 func ParseConfigurationFile() map[string]Database {
-	path, err := filepath.Abs("configurations/environments.yml")
+	path, err := filepath.Abs("/etc/configurations/environments.yml")
 	if err != nil {
 		log.Fatal(err)
 	}

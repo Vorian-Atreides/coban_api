@@ -1,7 +1,12 @@
 api:
   ports:
     - 9000:3001
-  command: gin run
+  volumes:
+    - ./api:/go/src/coban/api/0.1/server/api
+  command:
+    - go-wrapper download
+    - go-wrapper install
+    - go-wrapper run
   environment:
     DB_ENV: development
     PORT: 3001
