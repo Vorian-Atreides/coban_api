@@ -1,13 +1,16 @@
 package common
 
 import (
-	"coban/api/0.1/server/api/databases"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
-	"log"
+
+	"coban/api/0.1/server/api/databases"
+	"coban/api/0.1/server/api/utils"
 )
 
 func WriteBody(w http.ResponseWriter, content interface {}) error {
@@ -35,6 +38,28 @@ func UpdateOrInsertInitialisation(w http.ResponseWriter, r *http.Request, model 
 		return err
 	}
 	return nil
+}
+
+func CheckTokenAndScope(r *http.Request, scopeChecker IsScope) (databases.User, error) {
+	var user databases.User
+
+	token, err := utils.ParseTokenFromRequest(r)
+	if err != nil {
+		return user, err
+	}
+	if !token.Valid {
+		return user, errors.New("This token isn't valid.")
+	}
+	scope, found := token.Claims["scope"].(float64)
+	if !found {
+		return user, errors.New("There aren't any scope in the token.")
+	}
+	if !scopeChecker(byte(scope)) {
+		return user, errors.New("Unauthorised user.")
+	}
+	user.LoadRelated()
+
+	return user, nil
 }
 
 func Error(w http.ResponseWriter, err error) {

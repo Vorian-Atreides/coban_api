@@ -1,9 +1,9 @@
 package common
 
 import (
-	"coban/api/0.1/server/api/databases"
-	"net/http"
 	"errors"
+
+	"coban/api/0.1/server/api/databases"
 )
 
 func GetDevices() []databases.Device {
@@ -27,7 +27,7 @@ func GetDeviceByID(id uint) databases.Device {
 }
 
 func CreateDevice(userID uint) (databases.Device, error) {
-	device := databases.Device{IsPaired:false, userID:userID}
+	device := databases.Device{IsPaired:false, UserID:userID}
 
 	if err := device.IsValid(true); err != nil {
 		return device, err

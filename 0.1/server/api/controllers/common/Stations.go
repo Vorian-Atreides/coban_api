@@ -1,9 +1,7 @@
 package common
 
 import (
-
 	"coban/api/0.1/server/api/databases"
-	"errors"
 )
 
 func GetStations() []databases.Station {

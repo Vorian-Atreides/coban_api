@@ -1,12 +1,13 @@
 package utils
 
 import (
-	"encoding/hex"
 	"crypto/rsa"
 	"crypto/sha512"
+	"encoding/hex"
 	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -16,7 +17,7 @@ var PublicKey	*rsa.PublicKey
 const pathPrivateKey = "../keys/private.pem"
 const pathPublicKey = "../keys/public.pem"
 
-var duration, _ = time.ParseDuration("-2h")
+var duration, _ = time.ParseDuration("2h")
 
 func keyFunc(token *jwt.Token) (interface{}, error) {
 	return PublicKey, nil
@@ -40,6 +41,10 @@ func GenerateToken(userID uint, scope byte) (string, error) {
 
 func ParseToken(tokenString string) (*jwt.Token, error) {
 	return jwt.Parse(tokenString, keyFunc)
+}
+
+func ParseTokenFromRequest(r *http.Request) (*jwt.Token, error) {
+	return jwt.ParseFromRequest(r, keyFunc)
 }
 
 func HashPassword(password string) string {

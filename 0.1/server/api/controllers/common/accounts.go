@@ -13,12 +13,13 @@ const (
 	admin 	= 1 << 2
 )
 
+type IsScope func(byte) bool
+
 func IsClient(scopes byte) bool {
 	return scopes & client == client
 }
 
 func IsOffice(scopes byte) bool {
-	println(scopes)
 	return scopes & office == office
 }
 
@@ -46,18 +47,7 @@ func Authenticate(email string, password string, scope byte) (string, error) {
 	return "", errors.New("This account doesn't exist.")
 }
 
-func CreateAccount(email string, scope byte, password string) (databases.Account, error) {
-	account := databases.Account{Email:email, Scope:scope, Password: utils.HashPassword(password)}
-
-	if err := account.IsValid(true); err != nil {
-		return account, err
-	}
-	databases.DB.Save(&account)
-
-	return account, nil
-}
-
-func GetAccounts() databases.Account {
+func GetAccounts() []databases.Account {
 	var accounts []databases.Account
 
 	databases.DB.Find(&accounts)
@@ -77,6 +67,17 @@ func GetAccountByID(id uint) databases.Account {
 	return account
 }
 
+func CreateAccount(email string, scope byte, password string) (databases.Account, error) {
+	account := databases.Account{Email:email, Scope:scope, Password: utils.HashPassword(password)}
+
+	if err := account.IsValid(true); err != nil {
+		return account, err
+	}
+	databases.DB.Save(&account)
+
+	return account, nil
+}
+
 func UpdateAccount(email string, scope byte, id uint) (databases.Account, error) {
 	account := databases.Account{Email:email, Scope:scope, ID:id}
 
@@ -84,7 +85,7 @@ func UpdateAccount(email string, scope byte, id uint) (databases.Account, error)
 		return account, err
 	}
 
-	return nil
+	return account, nil
 }
 
 func UpdateAccountPassword(password string, id uint) (databases.Account, error) {
