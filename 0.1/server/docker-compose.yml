@@ -1,0 +1,19 @@
+api:
+  build: .
+  ports:
+    - 9000:3001
+  volumes:
+    - ./api:/go/src/coban/0.1/server/api
+  links:
+    - db
+  command: go-wrapper run
+
+db:
+  build: ./mysql
+  ports:
+    - 3306:3306
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: coban_dev
+    MYSQL_USER: coban
+    MYSQL_PASSWORD: password
