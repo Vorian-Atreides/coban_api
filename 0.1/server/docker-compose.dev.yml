@@ -1,0 +1,7 @@
+api:
+  ports:
+    - 9000:3001
+  command: gin run
+  environment:
+    DB_ENV: development
+    PORT: 3001

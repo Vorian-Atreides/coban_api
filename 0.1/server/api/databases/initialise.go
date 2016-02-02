@@ -19,9 +19,10 @@ type Database struct {
 	Name 		string
 	Host		string
 	Port		int
+	Migration	string
 }
 
-func parseConfigurationFile() map[string]Database {
+func ParseConfigurationFile() map[string]Database {
 	path, err := filepath.Abs("configurations/environments.yml")
 	if err != nil {
 		log.Fatal(err)
@@ -38,6 +39,10 @@ func parseConfigurationFile() map[string]Database {
 	return env
 }
 
+func ConnectionString(env Database) string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", env.User, env.Password, env.Host, env.Port, env.Name)
+}
+
 func configuration() string {
 	var arg string
 
@@ -47,11 +52,9 @@ func configuration() string {
 		arg = "development"
 	}
 
-	environments := parseConfigurationFile()
+	environments := ParseConfigurationFile()
 	if env, ok := environments[arg]; ok {
-		connectionString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
-			env.User, env.Password, env.Host, env.Port, env.Name)
-		return connectionString
+		return ConnectionString(env)
 	} else {
 		log.Fatal("Undefined environment: ", arg)
 	}
@@ -65,7 +68,6 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	Migrate()
 
 	DB.LogMode(false)
 }

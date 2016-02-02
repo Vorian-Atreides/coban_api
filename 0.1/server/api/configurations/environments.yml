@@ -1,6 +1,0 @@
-development:
-  user:     coban
-  password: password
-  name:     coban_dev
-  host:     127.0.0.1 #192.168.99.100
-  port:     3306

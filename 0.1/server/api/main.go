@@ -11,7 +11,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		log.Fatal("PORT environment variable was not set")
+		log.Fatal("PORT environment wasn't set.")
 	}
 
 	log.Fatal(http.ListenAndServe(":" + port, router))

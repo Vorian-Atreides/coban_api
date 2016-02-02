@@ -8,23 +8,23 @@ import (
 )
 
 const (
-	client 	= 1
-	office	= 1 << 1
-	admin 	= 1 << 2
+	ClientScope 	= 1
+	OfficeScope		= 1 << 1
+	AdminScope 		= 1 << 2
 )
 
 type IsScope func(byte) bool
 
 func IsClient(scopes byte) bool {
-	return scopes & client == client
+	return scopes & ClientScope == ClientScope
 }
 
 func IsOffice(scopes byte) bool {
-	return scopes & office == office
+	return scopes & OfficeScope == OfficeScope
 }
 
 func IsAdmin(scopes byte) bool {
-	return scopes & admin == admin
+	return scopes & AdminScope == AdminScope
 }
 
 func BuildScope(scopes ...byte) byte {
