@@ -11,8 +11,9 @@ ENV GOPATH /go
 #
 
 WORKDIR /go/src/coban/migrations
-RUN go-wrapper download
-RUN go-wrapper install
+RUN go get
+#RUN go-wrapper download
+#RUN go-wrapper install
 
 #
 # Build the API

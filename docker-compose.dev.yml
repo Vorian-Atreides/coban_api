@@ -2,6 +2,8 @@ api:
   ports:
     - 9000:3001
   command: go-wrapper run
+#    - /go/src/coban/migrations/main
+#    - go-wrapper run
   environment:
     DB_ENV: development
     PORT: 3001
