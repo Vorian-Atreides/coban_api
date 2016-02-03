@@ -3,7 +3,7 @@ package common
 import (
 	"errors"
 
-	"coban/api/0.1/server/api/databases"
+	"coban/api/src/databases"
 )
 
 func GetDevices() []databases.Device {

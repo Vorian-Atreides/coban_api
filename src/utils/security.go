@@ -14,8 +14,8 @@ import (
 var PrivateKey	*rsa.PrivateKey
 var PublicKey	*rsa.PublicKey
 
-const pathPrivateKey = "../keys/private.pem"
-const pathPublicKey = "../keys/public.pem"
+const pathPrivateKey = "/etc/configurations/keys/private.pem"
+const pathPublicKey = "/etc/configurations/keys/public.pem"
 
 var duration, _ = time.ParseDuration("2h")
 

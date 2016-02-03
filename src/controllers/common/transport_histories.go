@@ -3,7 +3,7 @@ package common
 import (
 	"time"
 
-	"coban/api/0.1/server/api/databases"
+	"coban/api/src/databases"
 )
 
 func GetTransportHistories() []databases.TransportHistory {

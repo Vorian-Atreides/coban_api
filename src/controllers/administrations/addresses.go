@@ -3,14 +3,15 @@ package administrations
 import (
 	"net/http"
 
-	"coban/api/0.1/server/api/controllers/common"
-	"coban/api/0.1/server/api/databases"
+	"coban/api/src/controllers/common"
+	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 func GetAddresses(w http.ResponseWriter, r *http.Request) {
 	addresses := common.GetAddresses()
 
-	common.WriteBody(w, addresses)
+	utils.WriteBody(w, addresses)
 }
 
 func CreateAddress(w http.ResponseWriter, r *http.Request) {
@@ -20,8 +21,8 @@ func CreateAddress(w http.ResponseWriter, r *http.Request) {
 	address, err := common.CreateAddress(address.Street, address.Zip, address.City, address.CompanyID)
 
 	if err != nil {
-		common.Error(w, err)
+		utils.Error(w, err)
 		return
 	}
-	common.WriteBody(w, address)
+	utils.WriteBody(w, address)
 }

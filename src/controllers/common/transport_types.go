@@ -1,8 +1,7 @@
 package common
 
 import (
-
-	"coban/api/0.1/server/api/databases"
+	"coban/api/src/databases"
 )
 
 func GetTransportTypes() []databases.TransportType {

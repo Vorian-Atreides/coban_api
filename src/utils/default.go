@@ -1,16 +1,13 @@
-package common
+package utils
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"strconv"
 
-	"coban/api/0.1/server/api/databases"
-	"coban/api/0.1/server/api/utils"
+	"coban/api/src/databases"
 )
 
 func WriteBody(w http.ResponseWriter, content interface {}) error {
@@ -23,6 +20,11 @@ func WriteBody(w http.ResponseWriter, content interface {}) error {
 		return err
 	}
 	return nil
+}
+
+func Error(w http.ResponseWriter, err error) {
+	w.WriteHeader(http.StatusBadRequest)
+	fmt.Fprint(w, err)
 }
 
 func UpdateOrInsertInitialisation(w http.ResponseWriter, r *http.Request, model databases.Model) error {
@@ -40,10 +42,10 @@ func UpdateOrInsertInitialisation(w http.ResponseWriter, r *http.Request, model 
 	return nil
 }
 
-func CheckTokenAndScope(r *http.Request, scopeChecker IsScope) (databases.User, error) {
+func CheckTokenAndScope(r *http.Request, scopeChecker databases.IsScope) (databases.User, error) {
 	var user databases.User
 
-	token, err := utils.ParseTokenFromRequest(r)
+	token, err := ParseTokenFromRequest(r)
 	if err != nil {
 		return user, err
 	}
@@ -60,21 +62,4 @@ func CheckTokenAndScope(r *http.Request, scopeChecker IsScope) (databases.User, 
 	user.LoadRelated()
 
 	return user, nil
-}
-
-func Error(w http.ResponseWriter, err error) {
-	w.WriteHeader(http.StatusBadRequest)
-	fmt.Fprint(w, err)
-}
-
-func GetUINT64Parameter(w http.ResponseWriter, r *http.Request, name string) (uint64, error) {
-	value, err := strconv.ParseUint(mux.Vars(r)[name], 10, 64)
-	if err != nil {
-		return 0, err
-	}
-	return value, nil
-}
-
-func GetStringParameter(r *http.Request, name string) string {
-	return mux.Vars(r)[name]
 }

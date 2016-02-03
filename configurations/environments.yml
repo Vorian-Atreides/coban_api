@@ -2,7 +2,7 @@ development:
   user:       coban
   password:   password
   name:       coban_dev
-  host:       127.0.0.1
+  host:       192.168.99.100 #127.0.0.1
   port:       3306
   migration:  ./dev
 
@@ -10,6 +10,6 @@ test_unit:
   user:       coban
   password:   password
   name:       coban_test_unit
-  host:       127.0.0.1
+  host:       192.168.99.100 #127.0.0.1
   port:       3306
   migration:  ./test

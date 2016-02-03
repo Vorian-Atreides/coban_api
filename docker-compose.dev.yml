@@ -5,7 +5,12 @@ api:
   environment:
     DB_ENV: development
     PORT: 3001
+  links:
+    - db
 
 db:
   environment:
     DB_ENV: development
+    MYSQL_DATABASE: coban_dev
+    MYSQL_USER: coban
+    MYSQL_PASSWORD: password

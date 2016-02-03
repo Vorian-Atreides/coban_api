@@ -3,20 +3,16 @@ package main
 import (
 	"database/sql"
 	"log"
-	"os"
 
 	"github.com/DavidHuie/gomigrate"
 	_ "github.com/go-sql-driver/mysql"
 
-	"coban/api/0.1/server/api/databases"
+	"coban/api/src/databases"
 )
 
 func main() {
-	dbEnv := os.Getenv("DB_ENV")
-	if dbEnv == "" {
-		log.Fatal("Database environment wasn't set.")
-	}
 
+	dbEnv := databases.GetDBEnv()
 	env := databases.ParseConfigurationFile()
 	db, err := sql.Open("mysql", databases.ConnectionString(env[dbEnv]))
 	if err != nil {

@@ -1,8 +1,8 @@
 FROM golang:1.4.2
 
 RUN mkdir -p /go/src/coban/api/
-COPY . /go/src/coban/api
-RUN mv ./databases/migrations /go/src/coban/migrations
+COPY . /go/src/coban/api/src
+RUN mv /go/src/coban/api/src/databases/migrations /go/src/coban/migrations
 
 ENV GOPATH /go
 
@@ -18,7 +18,7 @@ RUN go-wrapper install
 # Build the API
 #
 
-WORKDIR /go/src/coban/api
+WORKDIR /go/src/coban/api/src
 
 #RUN go get github.com/codegangsta/gin
 RUN go-wrapper download
