@@ -1,0 +1,11 @@
+api:
+  ports:
+    - 9000:3001
+  command: go-wrapper run
+  environment:
+    DB_ENV: development
+    PORT: 3001
+
+db:
+  environment:
+    DB_ENV: development

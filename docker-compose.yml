@@ -1,14 +1,15 @@
 api:
-  build: ./api
+  build: ./src
   volumes:
     - ./configurations:/etc/configurations
-#  links:
-#    - db
+    - ./src:/go/src/coban/api  
+  links:
+    - db
 
-#db:
-#  build: ./mysql
-#  ports:
-#    - 3306:3306
+db:
+  build: ./mysql
+  ports:
+    - 3306:3306
 #  environment:
 #    MYSQL_ROOT_PASSWORD: root
 #    MYSQL_DATABASE: coban_dev
