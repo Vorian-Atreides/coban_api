@@ -4,11 +4,12 @@ import (
 	"crypto/rsa"
 	"crypto/sha512"
 	"encoding/hex"
-	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 var PrivateKey	*rsa.PrivateKey
@@ -49,7 +50,8 @@ func ParseTokenFromRequest(r *http.Request) (*jwt.Token, error) {
 
 func HashPassword(password string) string {
 	hasher := sha512.New()
-	hash := hasher.Sum([]byte(password))
+	hasher.Write([]byte(password))
+	hash := hasher.Sum(nil)
 	return hex.EncodeToString(hash)
 }
 

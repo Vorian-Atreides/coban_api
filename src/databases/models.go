@@ -27,6 +27,7 @@ type Address 			struct {
 	Street				string			`sql:"not null" json:"street"`
 	City				string			`sql:"not null" json:"city"`
 
+	Company				*Company		`json:"-"`
 	CompanyID			uint			`sql:"not null" json:"company-id"`
 }
 
@@ -49,7 +50,7 @@ type Company 			struct {
 
 	Name				string			`sql:"not null; unique" json:"name"`
 
-	Addresses			[]Address		`json:"addresses"`
+	Addresses			[]Address		`json:"-"`
 	Employees			[]User			`json:"-"`
 }
 
@@ -81,7 +82,7 @@ type Account 			struct {
 	Password			string			`sql:"not null" json:"-"`
 	Scope				byte			`sql:"not null" json:"-"`
 
-	User				*User
+	User				*User			`sql:"not null" json:"-"`
 }
 
 // JSON User
@@ -160,9 +161,12 @@ type TransportHistory	struct {
 	Stock				uint			`sql:"not null;" json:"stock"`
 	Expense				uint			`sql:"not null;" json:"expense"`
 
-	Entrance			Station			`json:"entrance"`
+	Entrance			*Station		`json:"entrance"`
 	EntranceID			uint			`sql:"not null;" json:"-"`
 
-	Exit				Station			`json:"exit"`
+	Exit				*Station		`json:"exit"`
 	ExitID				uint			`sql:"not null;" json:"-"`
+
+	User				*User			`json:"user"`
+	UserID				uint			`sql:"not null;" json:"-"`
 }

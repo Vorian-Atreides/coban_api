@@ -2,12 +2,13 @@ package databases
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var DB gorm.DB

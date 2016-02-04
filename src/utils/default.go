@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"coban/api/src/databases"
@@ -27,21 +26,6 @@ func Error(w http.ResponseWriter, err error) {
 	fmt.Fprint(w, err)
 }
 
-func UpdateOrInsertInitialisation(w http.ResponseWriter, r *http.Request, model databases.Model) error {
-	if err := model.FromBody(r); err != nil {
-		return err
-	}
-	model.LoadRelated()
-
-	log.Println(model)
-	if err := model.IsValid(true); err != nil {
-		log.Println("Test")
-
-		return err
-	}
-	return nil
-}
-
 func CheckTokenAndScope(r *http.Request, scopeChecker databases.IsScope) (databases.User, error) {
 	var user databases.User
 
@@ -58,6 +42,14 @@ func CheckTokenAndScope(r *http.Request, scopeChecker databases.IsScope) (databa
 	}
 	if !scopeChecker(byte(scope)) {
 		return user, errors.New("Unauthorised user.")
+	}
+	id, found := token.Claims["user"].(float64)
+	if !found {
+		return user, errors.New("There aren't any user in the token.")
+	}
+	databases.DB.First(&user, id)
+	if user.ID == 0 {
+		return user, errors.New("User not found.")
 	}
 	user.LoadRelated()
 

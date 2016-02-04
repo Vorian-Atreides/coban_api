@@ -1,7 +1,6 @@
 package databases
 
 import (
-
 )
 
 //
@@ -9,7 +8,9 @@ import (
 //
 
 func (address *Address) LoadRelated() {
-	DB.Model(address).Related(&address.City)
+	address.Company = new(Company)
+
+	DB.Model(address).Related(address.Company)
 }
 
 //
@@ -19,13 +20,6 @@ func (address *Address) LoadRelated() {
 func (company *Company) LoadRelated() {
 	DB.Model(company).Related(&company.Addresses)
 	DB.Model(company).Related(&company.Employees)
-
-	for i, _ := range company.Addresses {
-		company.Addresses[i].LoadRelated()
-	}
-	for i, _ := range company.Employees {
-		company.Employees[i].LoadRelated()
-	}
 }
 
 //
@@ -33,6 +27,9 @@ func (company *Company) LoadRelated() {
 //
 
 func (device *Device) LoadRelated() {
+	device.User = new(User)
+
+	DB.Model(device).Related(device.User)
 }
 
 //
@@ -40,6 +37,9 @@ func (device *Device) LoadRelated() {
 //
 
 func (account *Account) LoadRelated() {
+	account.User = new(User)
+
+	DB.Model(account).Related(account.User)
 }
 
 //
@@ -47,12 +47,13 @@ func (account *Account) LoadRelated() {
 //
 
 func (user *User) LoadRelated() {
-	DB.Model(user).Related(&user.Account)
-	DB.Model(user).Related(&user.Company)
-	DB.Model(user).Related(&user.Device)
+	user.Account = new(Account)
+	user.Company = new(Company)
+	user.Device = new(Device)
 
-	user.Account.LoadRelated()
-	user.Device.LoadRelated()
+	DB.Model(user).Related(user.Account)
+	DB.Model(user).Related(user.Company)
+	DB.Model(user).Related(user.Device)
 }
 
 //
@@ -60,7 +61,6 @@ func (user *User) LoadRelated() {
 //
 
 func (station *Station) LoadRelated() {
-	DB.Model(station).Related(&station.Type)
 }
 
 //
@@ -68,9 +68,11 @@ func (station *Station) LoadRelated() {
 //
 
 func (transportHistory *TransportHistory) LoadRelated() {
-	DB.Model(transportHistory).Related(&transportHistory.Entrance)
-	DB.Model(transportHistory).Related(&transportHistory.Exit)
+	transportHistory.Entrance = new(Station)
+	transportHistory.Exit = new(Station)
+	transportHistory.User = new(User)
 
-	transportHistory.Entrance.LoadRelated()
-	transportHistory.Exit.LoadRelated()
+	DB.Model(transportHistory).Related(transportHistory.Entrance)
+	DB.Model(transportHistory).Related(transportHistory.Exit)
+	DB.Model(transportHistory).Related(transportHistory.User)
 }
