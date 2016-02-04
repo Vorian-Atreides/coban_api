@@ -71,17 +71,6 @@ func (user *User) FromBody(r *http.Request) error {
 }
 
 //
-// TransportType
-//
-
-func (transportType *TransportType) FromBody(r *http.Request) error {
-	if err := readBody(r, transportType); err != nil {
-		return err
-	}
-	return nil
-}
-
-//
 // Station
 //
 
@@ -89,7 +78,6 @@ func (station *Station) FromBody(r *http.Request) error {
 	if err := readBody(r, station); err != nil {
 		return err
 	}
-	station.TypeID = station.Type.ID
 	return nil
 }
 

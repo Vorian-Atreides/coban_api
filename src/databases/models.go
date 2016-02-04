@@ -79,7 +79,7 @@ type Account 			struct {
 
 	Email				string			`sql:"not null; unique" json:"email"`
 	Password			string			`sql:"not null" json:"-"`
-	Scope				byte
+	Scope				byte			`sql:"not null" json:"-"`
 
 	User				*User
 }
@@ -110,7 +110,6 @@ type User 				struct {
 
 	FirstName			string			`sql:"not null;" json:"first-name"`
 	LastName			string			`sql:"not null;" json:"last-name"`
-	IsManager			bool			`sql:"not null;" json:"-"`
 
 	Account				*Account		`json:"account"`
 	AccountID			uint			`sql:"not null;" json:"-"`
@@ -121,35 +120,18 @@ type User 				struct {
 	Device				*Device			`json:"device"`
 }
 
-// JSON TransportType
-//
-//{
-//	"name":"Metro"
-//}
-
-type TransportType 		struct {
-	ID					uint 			`gorm:"primary_key" json:"-"`
-
-	Name				string			`sql:"not null; unique" json:"name"`
-}
-
 // JSON Station
 //
 //{
 //	"name":"ときょ"
-//	"type":
-//	{
-//		"name":"Metro"
-//	}
+//	"type":"Metro"
 //}
 
 type Station 			struct {
 	ID					uint 			`gorm:"primary_key" json:"-"`
 
 	Name				string			`sql:"not null;" json:"name"`
-
-	Type				TransportType	`json:"type"`
-	TypeID				uint			`sql:"not null;" json:"-"`
+	Type				string			`sql:"not null;" json:"type"`
 }
 
 // JSON TransportHistory
@@ -162,18 +144,12 @@ type Station 			struct {
 //	"entrance":
 //	{
 //		"name":"ときょ"
-//		"type":
-//		{
-//			"name":"Metro"
-//		}
+//		"type":"Metro"
 //	},
 //	"exit":
 //	{
 //		"name":"しんじゅく"
-//		"type":
-//		{
-//			"name":"Metro"
-//		}
+//		"type":"Metro"
 //	}
 //}
 

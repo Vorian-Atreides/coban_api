@@ -130,28 +130,6 @@ func (user User) IsValid(forCreation bool) error {
 }
 
 //
-// TransportType
-//
-
-func (transportType TransportType) IsValid(forCreation bool) error {
-	err := ""
-
-	if transportType.Name == "" {
-		err += "TRANSPORT-TYPE: The name is mandatory."
-	}
-
-	if forCreation {
-		var other TransportType
-		DB.Where(&TransportType{Name:transportType.Name}).Find(&other)
-		if other.ID != 0 {
-			err += "TRANSPORT-TYPE: This type already exist."
-		}
-	}
-
-	return buildError(err)
-}
-
-//
 // Station
 //
 
@@ -161,11 +139,8 @@ func (station Station) IsValid(forCreation bool) error {
 	if station.Name == "" {
 		err += "STATION: The name is mandatory."
 	}
-
-	if station.Type.ID == 0 {
+	if station.Type == "" {
 		err += "STATION: The type is mandatory."
-	} else if er := station.Type.IsValid(false); er != nil {
-		err += er.Error()
 	}
 
 	return buildError(err)

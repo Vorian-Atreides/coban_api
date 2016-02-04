@@ -1,9 +1,8 @@
 api:
+  dockerfile: builds/dev.docker
   ports:
     - 9000:3001
-  command: go-wrapper run
-#    - /go/src/coban/migrations/main
-#    - go-wrapper run
+  command: bash -c "sleep 5 && /go/bin/migrations && /go/bin/src"
   environment:
     DB_ENV: development
     PORT: 3001

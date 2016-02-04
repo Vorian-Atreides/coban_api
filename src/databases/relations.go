@@ -56,20 +56,11 @@ func (user *User) LoadRelated() {
 }
 
 //
-// TransportType
-//
-
-func (transportType *TransportType) LoadRelated() {
-}
-
-//
 // Station
 //
 
 func (station *Station) LoadRelated() {
 	DB.Model(station).Related(&station.Type)
-
-	station.Type.LoadRelated()
 }
 
 //

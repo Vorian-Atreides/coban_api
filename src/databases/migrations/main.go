@@ -10,6 +10,8 @@ import (
 	"coban/api/src/databases"
 )
 
+const path = "/go/src/coban/migrations"
+
 func main() {
 
 	dbEnv := databases.GetDBEnv()
@@ -18,9 +20,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	migrator, err := gomigrate.NewMigrator(db, gomigrate.Mysql{}, env[dbEnv].Migration)
+	migrator, err := gomigrate.NewMigrator(db, gomigrate.Mysql{}, path + env[dbEnv].Migration)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if dbEnv == "test_unit" {
+		if err := migrator.RollbackAll(); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	migrator.Migrate()

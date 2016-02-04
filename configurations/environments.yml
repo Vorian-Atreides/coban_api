@@ -4,7 +4,7 @@ development:
   name:       coban_dev
   host:       192.168.99.100 #127.0.0.1
   port:       3306
-  migration:  ./dev
+  migration:  /dev
 
 test_unit:
   user:       coban
@@ -12,4 +12,4 @@ test_unit:
   name:       coban_test_unit
   host:       192.168.99.100 #127.0.0.1
   port:       3306
-  migration:  ./test
+  migration:  /test

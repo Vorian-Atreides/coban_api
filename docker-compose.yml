@@ -1,11 +1,11 @@
 api:
-  build: ./src
+  build: src
   volumes:
     - ./configurations:/etc/configurations
     - ./src:/go/src/coban/api/src
 
 db:
-  build: ./mysql
+  build: mysql
   ports:
     - 3306:3306
   environment:

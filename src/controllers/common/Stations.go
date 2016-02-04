@@ -24,8 +24,8 @@ func GetstationByID(id uint) databases.Station {
 	return station
 }
 
-func CreateStation(name string, transportTypeID uint) (databases.Station, error) {
-	station := databases.Station{Name:name, TypeID:transportTypeID}
+func CreateStation(name string, transportType string) (databases.Station, error) {
+	station := databases.Station{Name:name, Type:transportType}
 
 	if err := station.IsValid(true); err != nil {
 		return station, err
@@ -35,8 +35,8 @@ func CreateStation(name string, transportTypeID uint) (databases.Station, error)
 	return station, nil
 }
 
-func UpdateStation(name string, transporType uint, id uint) (databases.Station, error) {
-	station := databases.Station{Name:name, TypeID:transporType, ID:id}
+func UpdateStation(name string, transporType string, id uint) (databases.Station, error) {
+	station := databases.Station{Name:name, Type:transporType, ID:id}
 
 	if err := station.IsValid(false); err != nil {
 		return station, err
