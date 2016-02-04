@@ -41,7 +41,7 @@ func GetAccountByID(id uint) databases.Account {
 func CreateAccount(email string, scope byte, password string) (databases.Account, error) {
 	account := databases.Account{Email:email, Scope:scope, Password: utils.HashPassword(password)}
 
-	if err := account.IsValid(true); err != nil {
+	if err := account.IsValid(); err != nil {
 		return account, err
 	}
 	databases.DB.Save(&account)
@@ -52,7 +52,7 @@ func CreateAccount(email string, scope byte, password string) (databases.Account
 func UpdateAccount(email string, scope byte, id uint) (databases.Account, error) {
 	account := databases.Account{Email:email, Scope:scope, ID:id}
 
-	if err := account.IsValid(false); err != nil {
+	if err := account.IsValid(); err != nil {
 		return account, err
 	}
 
@@ -64,7 +64,7 @@ func UpdateAccountPassword(password string, id uint) (databases.Account, error) 
 
 	databases.DB.First(&account, id)
 	account.Password = utils.HashPassword(password)
-	if err := account.IsValid(false); err != nil {
+	if err := account.IsValid(); err != nil {
 		return account, err
 	}
 	databases.DB.Update(&account)

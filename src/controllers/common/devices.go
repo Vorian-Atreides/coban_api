@@ -29,7 +29,7 @@ func GetDeviceByID(id uint) databases.Device {
 func CreateDevice(userID uint) (databases.Device, error) {
 	device := databases.Device{IsPaired:false, UserID:userID}
 
-	if err := device.IsValid(true); err != nil {
+	if err := device.IsValid(); err != nil {
 		return device, err
 	}
 	databases.DB.Save(&device)
@@ -40,7 +40,7 @@ func CreateDevice(userID uint) (databases.Device, error) {
 func UpdateDevice(isPaired bool, userID uint, id uint) (databases.Device, error) {
 	device := databases.Device{IsPaired:isPaired, UserID:userID, ID:id}
 
-	if err := device.IsValid(false); err != nil {
+	if err := device.IsValid(); err != nil {
 		return device, err
 	}
 	databases.DB.Update(&device)

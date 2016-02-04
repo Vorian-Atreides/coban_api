@@ -28,7 +28,7 @@ func GetCompanyByID(id uint) databases.Company {
 func CreateCompany(name string) (databases.Company, error) {
 	company := databases.Company{Name:name}
 
-	if err := company.IsValid(true); err != nil {
+	if err := company.IsValid(); err != nil {
 		return company, err
 	}
 	databases.DB.Save(&company)
@@ -39,7 +39,7 @@ func CreateCompany(name string) (databases.Company, error) {
 func UpdateCompany(name string, id uint) (databases.Company, error) {
 	company := databases.Company{Name:name, ID:id}
 
-	if err := company.IsValid(false); err != nil {
+	if err := company.IsValid(); err != nil {
 		return company, err
 	}
 	databases.DB.Save(&company)

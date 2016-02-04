@@ -32,7 +32,7 @@ func CreateTransportHistory(date time.Time, stock uint, expense uint,
 	transportHistory := databases.TransportHistory{Date:date, Stock:stock, Expense:expense,
 		EntranceID:entranceID, ExitID:exitID}
 
-	if err := transportHistory.IsValid(true); err != nil {
+	if err := transportHistory.IsValid(); err != nil {
 		return transportHistory, err
 	}
 	databases.DB.Save(&transportHistory)

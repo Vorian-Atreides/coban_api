@@ -6,7 +6,7 @@ import (
 )
 
 type Model interface {
-	IsValid(forCreation bool) error
+	IsValid() error
 	LoadRelated()
 	FromBody(r *http.Request) error
 }

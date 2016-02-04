@@ -28,7 +28,7 @@ func GetAddressByID(id uint) databases.Address {
 func CreateAddress(street string, zip string, city string, companyID uint) (databases.Address, error) {
 	address := databases.Address{Street:street, Zip:zip, City:city, CompanyID:companyID}
 
-	if err := address.IsValid(true); err != nil {
+	if err := address.IsValid(); err != nil {
 		return address, err
 	}
 	databases.DB.Create(&address)
@@ -39,7 +39,7 @@ func CreateAddress(street string, zip string, city string, companyID uint) (data
 func UpdateAddress(street string, zip string, city string, companyID uint, id uint) (databases.Address, error) {
 	address := databases.Address{Street:street, Zip:zip, City:city, CompanyID:companyID, ID:id}
 
-	if err := address.IsValid(false); err != nil {
+	if err := address.IsValid(); err != nil {
 		return address, err
 	}
 	databases.DB.Save(&address)

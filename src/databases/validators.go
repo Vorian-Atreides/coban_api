@@ -15,7 +15,7 @@ func buildError(err string) error {
 // Address
 //
 
-func (address Address) IsValid(forCreation bool) error {
+func (address Address) IsValid() error {
 	err := ""
 
 	if address.Street == "" {
@@ -31,14 +31,13 @@ func (address Address) IsValid(forCreation bool) error {
 		err += "ADDRESS: The company is mandatory."
 	}
 
-	if forCreation {
-		var other Address
-		DB.Where(&Address {
-			City:address.City, Street:address.Street,
-			Zip:address.Zip, CompanyID:address.CompanyID }).Find(&other)
-		if other.ID != 0 {
-			err += "ADDRESS: This address already exist."
-		}
+	var items []Address
+	DB.Where(Address{
+		City:address.City, Zip:address.Zip,
+		Street:address.Street, CompanyID:address.CompanyID,
+	}).Not(Address{ID:address.ID}).Find(&items)
+	if len(items) > 0 {
+		err += "ADDRESS: This address already exist."
 	}
 
 	return buildError(err)
@@ -48,19 +47,17 @@ func (address Address) IsValid(forCreation bool) error {
 // Company
 //
 
-func (company Company) IsValid(forCreation bool) error {
+func (company Company) IsValid() error {
 	err := ""
 
 	if company.Name == "" {
 		err += "COMPANY: The name is mandatory."
 	}
 
-	if forCreation {
-		var other Company
-		DB.Where(&Company{Name:company.Name}).Find(&other)
-		if other.ID != 0 {
-			err += "COMPANY: This company already exist."
-		}
+	var items []Company
+	DB.Where(Company{Name:company.Name}).Not(Company{ID:company.ID}).Find(&items)
+	if len(items) > 0 {
+		err += "COMPANY: This company already exist."
 	}
 
 	return buildError(err)
@@ -70,8 +67,18 @@ func (company Company) IsValid(forCreation bool) error {
 // Device
 //
 
-func (device Device) IsValid(forCreation bool) error {
+func (device Device) IsValid() error {
 	err := ""
+
+	if device.UserID == 0 {
+		err += "DEVICE: The user is mandatory."
+	}
+
+	var items []Device
+	DB.Where(Device{UserID:device.UserID}).Not(Device{ID:device.ID}).Find(&items)
+	if len(items) > 0 {
+		err += "DEVICE: This device already exist."
+	}
 
 	return buildError(err)
 }
@@ -80,22 +87,23 @@ func (device Device) IsValid(forCreation bool) error {
 // Account
 //
 
-func (account Account) IsValid(forCreation bool) error {
+func (account Account) IsValid() error {
 	err := ""
 
 	if account.Email == "" {
 		err += "ACCOUNT: The email is mandatory."
 	}
 	if account.Password == "" {
-		err += "ACCOUNT: The password is mandatory"
+		err += "ACCOUNT: The password is mandatory."
+	}
+	if account.Scope == 0 {
+		err += "ACCOUNT: The scope is mandatory."
 	}
 
-	if forCreation {
-		var other Account
-		DB.Where(&Account{Email:account.Email}).Find(&other)
-		if other.ID != 0 {
-			err += "ACCOUNT: This email is already used."
-		}
+	var items []Account
+	DB.Where(Account{Email:account.Email}).Not(Account{ID:account.ID}) .Find(&items)
+	if len(items) > 0 {
+		err += "ACCOUNT: This email is already used."
 	}
 
 	return buildError(err)
@@ -105,7 +113,7 @@ func (account Account) IsValid(forCreation bool) error {
 // User
 //
 
-func (user User) IsValid(forCreation bool) error {
+func (user User) IsValid() error {
 	err := ""
 
 	if user.FirstName == "" {
@@ -114,16 +122,17 @@ func (user User) IsValid(forCreation bool) error {
 	if user.LastName == "" {
 		err += "USER: The last name is mandatory."
 	}
-
-	if user.Account.ID == 0 {
+	if user.AccountID == 0 {
 		err += "USER: The account is mandatory."
-	} else if er := user.Account.IsValid(false); er != nil {
-		err += er.Error()
 	}
-	if user.Company.ID == 0 {
+	if user.CompanyID == 0 {
 		err += "USER: The company is mandatory."
-	} else if er := user.Company.IsValid(false); er != nil {
-		err += er.Error()
+	}
+
+	var items []User
+	DB.Where(User{AccountID:user.AccountID}).Not(User{ID:user.ID}).Find(&items)
+	if len(items) > 0 {
+		err += "USER: This user already exist."
 	}
 
 	return buildError(err)
@@ -133,7 +142,7 @@ func (user User) IsValid(forCreation bool) error {
 // Station
 //
 
-func (station Station) IsValid(forCreation bool) error {
+func (station Station) IsValid() error {
 	err := ""
 
 	if station.Name == "" {
@@ -143,6 +152,12 @@ func (station Station) IsValid(forCreation bool) error {
 		err += "STATION: The type is mandatory."
 	}
 
+	var items []Station
+	DB.Where(Station{Name:station.Name, Type:station.Type}).Not(User{ID:station.ID}).Find(&items)
+	if len(items) > 0 {
+		err += "STATION: This user already exist."
+	}
+
 	return buildError(err)
 }
 
@@ -150,7 +165,7 @@ func (station Station) IsValid(forCreation bool) error {
 // TransportHistory
 //
 
-func (transportHistory TransportHistory) IsValid(forCreation bool) error {
+func (transportHistory TransportHistory) IsValid() error {
 	err := ""
 
 	if transportHistory.Date.IsZero() {
@@ -162,16 +177,21 @@ func (transportHistory TransportHistory) IsValid(forCreation bool) error {
 	if transportHistory.Stock <= 0 {
 		err += "TRANSPORT-HISTORY: The stock is mandatory."
 	}
-
-	if transportHistory.Entrance.ID == 0 {
+	if transportHistory.EntranceID == 0 {
 		err += "TRANSPORT-HISTORY: The entrance is mandatory."
-	} else if er := transportHistory.Entrance.IsValid(false); er != nil {
-		err += er.Error()
 	}
-	if transportHistory.Exit.ID == 0 {
+	if transportHistory.ExitID == 0 {
 		err += "TRANSPORT-HISTORY: The exit is mandatory."
-	} else if er := transportHistory.Exit.IsValid(false); er != nil {
-		err += er.Error()
+	}
+	if transportHistory.UserID == 0 {
+		err += "TRANSPORT-HISTORY: The user is mandatory."
+	}
+
+	var items []TransportHistory
+	DB.Where(TransportHistory{Date:transportHistory.Date, UserID:transportHistory.UserID}).
+		Not(TransportHistory{ID:transportHistory.ID}).Find(&items)
+	if len(items) > 0 {
+		err += "TransportHistory: This history already exist."
 	}
 
 	return buildError(err)
