@@ -59,14 +59,18 @@ func (s *addressesTestSuite) Test02GetAddressByValidID() {
 		Street:"千代田区神田神保町1丁目105番地",
 		City:"東京都", CompanyID:4, Company:expectedCompany}
 
-	address := common.GetAddressByID(expectedAddress.ID)
+	address, err := common.GetAddressByID(expectedAddress.ID)
+	s.NoError(err)
 	s.Equal(expectedAddress, address)
 }
 
 func (s *addressesTestSuite) Test03GetAddressByInvalidID() {
-	address := common.GetAddressByID(10)
+	address, err := common.GetAddressByID(10)
+	s.Error(err, "This address doesn't exist")
 	s.Equal(uint(0), address.ID)
-	address = common.GetAddressByID(0)
+
+	address, err = common.GetAddressByID(0)
+	s.Error(err, "This address doesn't exist")
 	s.Equal(uint(0), address.ID)
 }
 
@@ -121,8 +125,13 @@ func (s *addressesTestSuite) Test06UpdateValidAddressByValidID() {
 }
 
 func (s *addressesTestSuite) Test07UpdateValidAddressByInvalidID() {
-	expectedAddress := databases.Address{Street:"188 Ginza", Zip:"110-8320", City:"Nagazaki", CompanyID:2, ID:10}
+	expectedAddress := databases.Address{Street:"188 Ginza", Zip:"110-8320", City:"Nagazaki", CompanyID:2, ID:0}
 	_, err := common.UpdateAddress(expectedAddress.Street, expectedAddress.Zip,
+		expectedAddress.City, expectedAddress.CompanyID, expectedAddress.ID)
+	s.Error(err, "This address doesn't exist.")
+
+	expectedAddress = databases.Address{Street:"188 Ginza", Zip:"110-8320", City:"Nagazaki", CompanyID:2, ID:10}
+	_, err = common.UpdateAddress(expectedAddress.Street, expectedAddress.Zip,
 		expectedAddress.City, expectedAddress.CompanyID, expectedAddress.ID)
 	s.Error(err, "This address doesn't exist.")
 }

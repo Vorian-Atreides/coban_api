@@ -2,7 +2,7 @@ api:
   dockerfile: builds/test.docker
   ports:
     - 9000:5000
-  command: bash -c "sleep 5 && /go/bin/migrations && go test ./..."
+  command: bash -c "sleep 5 && /go/bin/migrations && go test ./... -v"
   environment:
     DB_ENV: test_unit
     PORT: 5000

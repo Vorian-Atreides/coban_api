@@ -1,8 +1,9 @@
 package common
 
 import (
-	"coban/api/src/databases"
 	"errors"
+
+	"coban/api/src/databases"
 )
 
 func GetAddresses() []databases.Address {
@@ -16,13 +17,16 @@ func GetAddresses() []databases.Address {
 	return addresses
 }
 
-func GetAddressByID(id uint) databases.Address {
+func GetAddressByID(id uint) (databases.Address, error) {
 	var address databases.Address
 
 	databases.DB.First(&address, id)
+	if address.ID == 0 {
+		return address, errors.New("This address doesn't exist.")
+	}
 	address.LoadRelated()
 
-	return address
+	return address, nil
 }
 
 func CreateAddress(street string, zip string, city string, companyID uint) (databases.Address, error) {
@@ -57,7 +61,7 @@ func DeleteAddressByID(id uint) error {
 
 	databases.DB.First(&address, id)
 	if address.ID == 0 {
-		return errors.New("This adress doesn't exist")
+		return errors.New("This address doesn't exist")
 	}
 	databases.DB.Delete(&address)
 

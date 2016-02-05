@@ -86,6 +86,12 @@ func (device Device) IsValid() error {
 		err += "DEVICE: This device already exist."
 	}
 
+	var user User
+	DB.First(&user, device.UserID)
+	if user.ID == 0 {
+		err += "DEVICE: This user doesn't exist."
+	}
+
 	return buildError(err)
 }
 

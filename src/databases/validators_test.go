@@ -69,6 +69,9 @@ func (s *validatorsTestSuite) Test06InvalidDevice() {
 
 	device = databases.Device{IsPaired:false, UserID:0}
 	s.Error(device.IsValid(), "DEVICE: The user is mandatory.")
+
+	device = databases.Device{IsPaired:false, UserID:10}
+	s.Error(device.IsValid(), "DEVICE: The user doesn't exist.")
 }
 
 func (s *validatorsTestSuite) Test07ValidAccount() {
