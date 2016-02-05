@@ -191,7 +191,7 @@ func (s *addressesTestSuite) Test09Delete_Address_ByValidID() {
 
 func (s *addressesTestSuite) Test09Delete_Address_ByInvalidID() {
 	err := common.DeleteAddressByID(0)
-	s.Error(err)
+	s.Error(err, "This address doesn't exist")
 	err = common.DeleteAddressByID(10)
-	s.Error(err)
+	s.Error(err, "This address doesn't exist")
 }

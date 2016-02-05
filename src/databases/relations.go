@@ -72,7 +72,7 @@ func (transportHistory *TransportHistory) LoadRelated() {
 	transportHistory.Exit = new(Station)
 	transportHistory.User = new(User)
 
-	DB.Model(transportHistory).Related(transportHistory.Entrance)
-	DB.Model(transportHistory).Related(transportHistory.Exit)
+	DB.Model(transportHistory).Related(transportHistory.Entrance, "EntranceID")
+	DB.Model(transportHistory).Related(transportHistory.Exit, "ExitID")
 	DB.Model(transportHistory).Related(transportHistory.User)
 }

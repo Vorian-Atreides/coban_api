@@ -16,7 +16,7 @@ func GetStations() []databases.Station {
 	return stations
 }
 
-func GetstationByID(id uint) (databases.Station, error) {
+func GetStationByID(id uint) (databases.Station, error) {
 	var station databases.Station
 
 	databases.DB.First(&station, id)

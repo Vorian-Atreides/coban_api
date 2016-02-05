@@ -2,11 +2,11 @@ package databases_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
 
 	"coban/api/src/databases"
-	"time"
 )
 
 type validatorsTestSuite struct {
@@ -139,33 +139,45 @@ func (s *validatorsTestSuite) Test13_Valid_TransportType() {
 }
 
 func (s *validatorsTestSuite) Test14_Invalid_TransportType() {
-	datetime, _ := time.Parse(time.RFC3339, "2016-01-10 06:30:00")
+	dateTime, _ := time.Parse(time.RFC3339, "2016-01-10T06:30:00+00:00")
 
-	transportHistory := databases.TransportHistory{Date:datetime,
+	transportHistory := databases.TransportHistory{Date:dateTime.UTC(),
 		Stock:500, Expense:100, EntranceID:1, ExitID:2, UserID:1}
-	s.Error(transportHistory.IsValid(), "TransportHistory: This history already exist.")
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: This history already exist.")
 
-	transportHistory = databases.TransportHistory{Date:datetime,
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
 		Stock:500, Expense:100, EntranceID:0, ExitID:2, UserID:4}
-	s.Error(transportHistory.IsValid(), "TransportHistory: The entrance is mandatory.")
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: The entrance is mandatory.")
 
-	transportHistory = databases.TransportHistory{Date:datetime,
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
 		Stock:500, Expense:100, EntranceID:1, ExitID:0, UserID:4}
-	s.Error(transportHistory.IsValid(), "TransportHistory: The exit is mandatory.")
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: The exit is mandatory.")
 
-	transportHistory = databases.TransportHistory{Date:datetime,
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
 		Stock:500, Expense:100, EntranceID:0, ExitID:2, UserID:3}
-	s.Error(transportHistory.IsValid(), "TransportHistory: This user dpesn't have a device.")
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: This user doesn't have a device.")
 
-	transportHistory = databases.TransportHistory{Date:datetime,
-		Stock:500, Expense:0, EntranceID:0, ExitID:2, UserID:4}
-	s.Error(transportHistory.IsValid(), "TransportHistory: The expense is mandatory.")
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
+		Stock:500, Expense:0, EntranceID:1, ExitID:2, UserID:4}
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: The expense is mandatory.")
 
-	transportHistory = databases.TransportHistory{Date:datetime,
-		Stock:0, Expense:100, EntranceID:0, ExitID:2, UserID:4}
-	s.Error(transportHistory.IsValid(), "TransportHistory: The stock is mandatory.")
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
+		Stock:0, Expense:100, EntranceID:1, ExitID:2, UserID:4}
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: The stock is mandatory.")
 
-	transportHistory = databases.TransportHistory{Date:time.Time{},
-		Stock:500, Expense:100, EntranceID:0, ExitID:2, UserID:4}
-	s.Error(transportHistory.IsValid(), "TransportHistory: The date is mandatory.")
+	transportHistory = databases.TransportHistory{Date:time.Time{}.UTC(),
+		Stock:500, Expense:100, EntranceID:1, ExitID:2, UserID:4}
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: The date is mandatory.")
+
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
+		Stock:500, Expense:100, EntranceID:10, ExitID:2, UserID:4}
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: This entrance doesn't exist.")
+
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
+		Stock:500, Expense:100, EntranceID:1, ExitID:10, UserID:4}
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: This exit doesn't exist.")
+
+	transportHistory = databases.TransportHistory{Date:dateTime.UTC(),
+		Stock:500, Expense:100, EntranceID:1, ExitID:2, UserID:10}
+	s.Error(transportHistory.IsValid(), "TRANSPORT-HISTORY: This user doesn't exist.")
 }

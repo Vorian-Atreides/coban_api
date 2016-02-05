@@ -36,17 +36,17 @@ func (s *stationsTestSuite) Test01Get_Stations() {
 func (s *stationsTestSuite) Test02Get_Station_ByValidID() {
 	expectedStation := databases.Station{ID:1, Name:"銀座線", Type:"metro"}
 
-	station, err := common.GetstationByID(expectedStation.ID)
+	station, err := common.GetStationByID(expectedStation.ID)
 	s.NoError(err)
 	s.Equal(expectedStation, station)
 }
 
 func (s *stationsTestSuite) Test03Get_Station_ByInvalidID() {
-	station, err := common.GetstationByID(0)
+	station, err := common.GetStationByID(0)
 	s.Error(err, "This station doesn't exist.")
 	s.Equal(uint(0), station.ID)
 
-	station, err = common.GetstationByID(10)
+	station, err = common.GetStationByID(10)
 	s.Error(err, "This station doesn't exist.")
 	s.Equal(uint(0), station.ID)
 }
@@ -63,7 +63,7 @@ func (s *stationsTestSuite) Test04Create_Station() {
 
 func (s *stationsTestSuite) Test05CreateInvalid_Station() {
 	station, err := common.CreateStation("Shinjuku", "train")
-	s.Error(err, "This station already exist.")
+	s.Error(err, "STATION:: This station already exist.")
 	s.Equal(uint(0), station.ID)
 
 	station, err = common.CreateStation("Mejiro", "")
@@ -87,10 +87,10 @@ func (s *stationsTestSuite) Test06UpdateValid_Station_ByValidID() {
 
 func (s *stationsTestSuite) Test07UpdateValid_Station_ByInvalidID() {
 	_, err := common.UpdateStation("Ikubekuro", "train", 0)
-	s.Error(err, "This station doesn't exist.")
+	s.Error(err, "STATION: This station doesn't exist.")
 
 	_, err = common.UpdateStation("Ikubekuro", "train", 10)
-	s.Error(err, "This station doesn't exist.")
+	s.Error(err, "STATION: This station doesn't exist.")
 }
 
 func (s *stationsTestSuite) Test08UpdateInvalid_Station_ByValidID() {
@@ -98,18 +98,11 @@ func (s *stationsTestSuite) Test08UpdateInvalid_Station_ByValidID() {
 	databases.DB.Where(databases.Station{Name:"Mejiro"}).First(&target)
 
 	_, err := common.UpdateStation("銀座線", "metro", target.ID)
-	s.Error(err, "This station already exist.")
+	s.Error(err, "STATION: This station already exist.")
 
 	_, err = common.UpdateStation("", "metro", target.ID)
-	s.Error(err, "The name is mandatory.")
+	s.Error(err, "STATION: The name is mandatory.")
 
 	_, err = common.UpdateStation("銀座線", "", target.ID)
-	s.Error(err, "The type is mandatory.")
-}
-
-func (s *stationsTestSuite) Test09Delete_Station_ByValidID() {
-}
-
-func (s *stationsTestSuite) Test09Delete_Station_ByInvalidID() {
-
+	s.Error(err, "STATION: The type is mandatory.")
 }

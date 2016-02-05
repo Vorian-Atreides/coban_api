@@ -44,7 +44,7 @@ func (s *relationsTestSuite) Test03Device_Relations() {
 	s.NotNil(device.User)
 }
 
-func (s *relationsTestSuite) Test04Accoun_tRelations() {
+func (s *relationsTestSuite) Test04Account_Relations() {
 	var account databases.Account
 
 	databases.DB.First(&account)

@@ -78,18 +78,18 @@ func (device Device) IsValid() error {
 
 	if device.UserID == 0 {
 		err += "DEVICE: The user is mandatory."
+	} else {
+		var user User
+		DB.First(&user, device.UserID)
+		if user.ID == 0 {
+			err += "DEVICE: This user doesn't exist."
+		}
 	}
 
 	var items []Device
 	DB.Where(Device{UserID:device.UserID}).Not(Device{ID:device.ID}).Find(&items)
 	if len(items) > 0 {
 		err += "DEVICE: This device already exist."
-	}
-
-	var user User
-	DB.First(&user, device.UserID)
-	if user.ID == 0 {
-		err += "DEVICE: This user doesn't exist."
 	}
 
 	return buildError(err)
@@ -134,11 +134,24 @@ func (user User) IsValid() error {
 	if user.LastName == "" {
 		err += "USER: The last name is mandatory."
 	}
+
 	if user.AccountID == 0 {
 		err += "USER: The account is mandatory."
+	} else {
+		var account Account
+		DB.First(&account, user.AccountID)
+		if account.ID == 0 {
+			err += "USER: This account doesn't exist."
+		}
 	}
 	if user.CompanyID == 0 {
 		err += "USER: The company is mandatory."
+	} else {
+		var company Company
+		DB.First(&company, user.CompanyID)
+		if company.ID == 0 {
+			err += "USER: This company doesn't exist."
+		}
 	}
 
 	var items []User
@@ -182,6 +195,13 @@ func (transportHistory TransportHistory) IsValid() error {
 
 	if transportHistory.Date.IsZero() {
 		err += "TRANSPORT-HISTORY: The date is mandatory."
+	} else {
+		var items []TransportHistory
+		DB.Where(TransportHistory{Date:transportHistory.Date, UserID:transportHistory.UserID}).
+		Not(TransportHistory{ID:transportHistory.ID}).Find(&items)
+		if len(items) > 0 {
+			err += "TRANSPORT-HISTORY: This history already exist."
+		}
 	}
 	if transportHistory.Expense <= 0 {
 		err += "TRANSPORT-HISTORY: The expense is mandatory."
@@ -189,22 +209,38 @@ func (transportHistory TransportHistory) IsValid() error {
 	if transportHistory.Stock <= 0 {
 		err += "TRANSPORT-HISTORY: The stock is mandatory."
 	}
+
 	if transportHistory.EntranceID == 0 {
 		err += "TRANSPORT-HISTORY: The entrance is mandatory."
+	} else {
+		var entrance Station
+		DB.First(&entrance, transportHistory.EntranceID)
+		if entrance.ID == 0 {
+			err += "TRANSPORT-HISTORY: This entrance doesn't exist."
+		}
 	}
 	if transportHistory.ExitID == 0 {
 		err += "TRANSPORT-HISTORY: The exit is mandatory."
+	} else {
+		var exit Station
+		DB.First(&exit, transportHistory.ExitID)
+		if exit.ID == 0 {
+			err += "TRANSPORT-HISTORY: This exit doesn't exist."
+		}
 	}
 	if transportHistory.UserID == 0 {
 		err += "TRANSPORT-HISTORY: The user is mandatory."
+	} else {
+		var user User
+		DB.First(&user, transportHistory.UserID)
+		if user.ID == 0 {
+			err += "TRANSPORT-HISTORY: This user doesn't exist."
+		} else {
+			user.LoadRelated()
+			if user.Device == nil {
+				err += "TRANSPORT-HISTORY: This user doesn't have a device."
+			}
+		}
 	}
-
-	var items []TransportHistory
-	DB.Where(TransportHistory{Date:transportHistory.Date, UserID:transportHistory.UserID}).
-		Not(TransportHistory{ID:transportHistory.ID}).Find(&items)
-	if len(items) > 0 {
-		err += "TransportHistory: This history already exist."
-	}
-
 	return buildError(err)
 }

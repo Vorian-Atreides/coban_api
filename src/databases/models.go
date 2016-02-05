@@ -21,14 +21,14 @@ type Model interface {
 //}
 
 type Address 			struct {
-	ID					uint			`gorm:"primary_key" json:"id"`
+	ID					uint			`gorm:"column:id;primary_key" json:"id"`
 
-	Zip					string			`sql:"not null" json:"zip"`
-	Street				string			`sql:"not null" json:"street"`
-	City				string			`sql:"not null" json:"city"`
+	Zip					string			`gorm:"column:zip;" sql:"not null" json:"zip"`
+	Street				string			`gorm:"column:street;" sql:"not null" json:"street"`
+	City				string			`gorm:"column:city;" sql:"not null" json:"city"`
 
 	Company				*Company		`json:"-"`
-	CompanyID			uint			`sql:"not null" json:"company-id"`
+	CompanyID			uint			`gorm:"column:company_id;" sql:"not null" json:"company-id"`
 }
 
 // JSON Company
@@ -46,9 +46,9 @@ type Address 			struct {
 //}
 
 type Company 			struct {
-	ID					uint			`gorm:"primary_key" json:"id"`
+	ID					uint			`gorm:"column:id; primary_key" json:"id"`
 
-	Name				string			`sql:"not null; unique" json:"name"`
+	Name				string			`gorm:"column:name;" sql:"not null; unique" json:"name"`
 
 	Addresses			[]Address		`json:"-"`
 	Employees			[]User			`json:"-"`
@@ -61,12 +61,12 @@ type Company 			struct {
 //}
 
 type Device 			struct {
-	ID					uint 			`gorm:"primary_key" json:"-"`
+	ID					uint 			`gorm:"column:id; primary_key" json:"-"`
 
-	IsPaired			bool			`sql:"not null;" json:"is-paired"`
+	IsPaired			bool			`gorm:"column:is_paired;" sql:"not null;" json:"is-paired"`
 
 	User				*User
-	UserID				uint			`sql:"not null" json:"-"`
+	UserID				uint			`gorm:"column:user_id;" sql:"not null" json:"-"`
 }
 
 // JSON Account
@@ -76,11 +76,11 @@ type Device 			struct {
 //}
 
 type Account 			struct {
-	ID					uint			`gorm:"primary_key" json:"-"`
+	ID					uint			`gorm:"column:id; primary_key" json:"-"`
 
-	Email				string			`sql:"not null; unique" json:"email"`
-	Password			string			`sql:"not null" json:"-"`
-	Scope				byte			`sql:"not null" json:"-"`
+	Email				string			`gorm:"column:email;" sql:"not null; unique" json:"email"`
+	Password			string			`gorm:"column:password;" sql:"not null" json:"-"`
+	Scope				byte			`gorm:"column:scope;" sql:"not null" json:"-"`
 
 	User				*User			`sql:"not null" json:"-"`
 }
@@ -107,16 +107,16 @@ type Account 			struct {
 //}
 
 type User 				struct {
-	ID					uint			`gorm:"primary_key" json:"id"`
+	ID					uint			`gorm:"column:id; primary_key" json:"id"`
 
-	FirstName			string			`sql:"not null;" json:"first-name"`
-	LastName			string			`sql:"not null;" json:"last-name"`
+	FirstName			string			`gorm:"column:first_name;" sql:"not null;" json:"first-name"`
+	LastName			string			`gorm:"column:last_name;" sql:"not null;" json:"last-name"`
 
 	Account				*Account		`json:"account"`
-	AccountID			uint			`sql:"not null;" json:"-"`
+	AccountID			uint			`gorm:"column:account_id;" sql:"not null;" json:"-"`
 
 	Company				*Company		`json:"company"`
-	CompanyID			uint			`sql:"not null;" json:"-"`
+	CompanyID			uint			`gorm:"column:company_id;" sql:"not null;" json:"-"`
 
 	Device				*Device			`json:"device"`
 }
@@ -129,10 +129,10 @@ type User 				struct {
 //}
 
 type Station 			struct {
-	ID					uint 			`gorm:"primary_key" json:"-"`
+	ID					uint 			`gorm:"column:id; primary_key" json:"-"`
 
-	Name				string			`sql:"not null;" json:"name"`
-	Type				string			`sql:"not null;" json:"type"`
+	Name				string			`gorm:"column:name;" sql:"not null;" json:"name"`
+	Type				string			`gorm:"column:type;" sql:"not null;" json:"type"`
 }
 
 // JSON TransportHistory
@@ -155,18 +155,18 @@ type Station 			struct {
 //}
 
 type TransportHistory	struct {
-	ID					uint 			`gorm:"primary_key" json:"id"`
+	ID					uint 			`gorm:"column:id; primary_key" json:"id"`
 
-	Date				time.Time		`sql:"not null;" json:"date"`
-	Stock				uint			`sql:"not null;" json:"stock"`
-	Expense				uint			`sql:"not null;" json:"expense"`
+	Date				time.Time		`gorm:"column:date;" sql:"not null;" json:"date"`
+	Stock				uint			`gorm:"column:stock;" sql:"not null;" json:"stock"`
+	Expense				uint			`gorm:"column:expense;" sql:"not null;" json:"expense"`
 
 	Entrance			*Station		`json:"entrance"`
-	EntranceID			uint			`sql:"not null;" json:"-"`
+	EntranceID			uint			`gorm:"column:entrance_id;" sql:"not null;" json:"-"`
 
 	Exit				*Station		`json:"exit"`
-	ExitID				uint			`sql:"not null;" json:"-"`
+	ExitID				uint			`gorm:"column:exit_id;" sql:"not null;" json:"-"`
 
 	User				*User			`json:"user"`
-	UserID				uint			`sql:"not null;" json:"-"`
+	UserID				uint			`gorm:"column:user_id;" sql:"not null;" json:"-"`
 }

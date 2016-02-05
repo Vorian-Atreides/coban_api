@@ -38,7 +38,7 @@ func ParseConfigurationFile() map[string]Database {
 }
 
 func ConnectionString(env Database) string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", env.User, env.Password, env.Host, env.Port, env.Name)
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?&parseTime=True", env.User, env.Password, env.Host, env.Port, env.Name)
 }
 
 func GetDBEnv() string {
