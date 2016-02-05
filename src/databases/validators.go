@@ -40,6 +40,12 @@ func (address Address) IsValid() error {
 		err += "ADDRESS: This address already exist."
 	}
 
+	var company Company
+	DB.First(&company, address.CompanyID)
+	if company.ID == 0 {
+		err += "ADDRESS: This company doesn't exist."
+	}
+
 	return buildError(err)
 }
 

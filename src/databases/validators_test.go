@@ -27,6 +27,9 @@ func (s *validatorsTestSuite) Test02InvalidAddress() {
 	address := databases.Address{City:"Tokyo", CompanyID:0, Street:"12 ginza", Zip:"1234567890"}
 	s.Error(address.IsValid(), "ADDRESS: The company is mandatory.")
 
+	address = databases.Address{City:"Tokyo", CompanyID:10, Street:"12 ginza", Zip:"1234567890"}
+	s.Error(address.IsValid(), "ADDRESS: This company doesn't exist.")
+
 	address = databases.Address{City:"", CompanyID:1, Street:"12 ginza", Zip:"1234567890"}
 	s.Error(address.IsValid(), "ADDRESS: The city is mandatory.")
 
