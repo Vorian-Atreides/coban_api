@@ -17,7 +17,7 @@ func TestCompanies(t *testing.T) {
 	suite.Run(t, new(companiesTestSuite))
 }
 
-func (s *companiesTestSuite) Test01GetCompanies() {
+func (s *companiesTestSuite) Test01Get_Companies() {
 	expectedCompanies := []databases.Company{
 		databases.Company{ID:1, Name:"アコム株式会社", Addresses:[]databases.Address{
 			databases.Address{ID:1, Zip:"100-8307", Street:"千代田区丸の内二丁目1番1号明治安田生命ビル",
@@ -51,7 +51,7 @@ func (s *companiesTestSuite) Test01GetCompanies() {
 	s.Equal(expectedCompanies, companies)
 }
 
-func (s *companiesTestSuite) Test02GetCompanyByValidID() {
+func (s *companiesTestSuite) Test02Get_Company_ByValidID() {
 	expectedCompany := databases.Company{ID:1, Name:"アコム株式会社", Addresses:[]databases.Address{
 		databases.Address{ID:1, Zip:"100-8307", Street:"千代田区丸の内二丁目1番1号明治安田生命ビル",
 			City:"東京都", CompanyID:1},
@@ -64,7 +64,7 @@ func (s *companiesTestSuite) Test02GetCompanyByValidID() {
 	s.Equal(expectedCompany, company)
 }
 
-func (s *companiesTestSuite) Test03GetCompanyByInvalidID() {
+func (s *companiesTestSuite) Test03Get_Company_ByInvalidID() {
 	company, err := common.GetCompanyByID(0)
 	s.Error(err, "This company doesn't exist.")
 	s.Equal(uint(0), company.ID)
@@ -74,7 +74,7 @@ func (s *companiesTestSuite) Test03GetCompanyByInvalidID() {
 	s.Equal(uint(0), company.ID)
 }
 
-func (s *companiesTestSuite) Test04CreateValidCompany() {
+func (s *companiesTestSuite) Test04CreateValid_Company() {
 	expectedCompany := databases.Company{Name:"Coban"}
 
 	company, err := common.CreateCompany(expectedCompany.Name)
@@ -83,7 +83,7 @@ func (s *companiesTestSuite) Test04CreateValidCompany() {
 	s.Equal(expectedCompany.Name, company.Name)
 }
 
-func (s *companiesTestSuite) Test05CreateInvalidCompany() {
+func (s *companiesTestSuite) Test05CreateInvalid_Company() {
 	company, err := common.CreateCompany("Coban")
 	s.Error(err, "This company already exist.")
 	s.Equal(uint(0), company.ID)
@@ -93,7 +93,7 @@ func (s *companiesTestSuite) Test05CreateInvalidCompany() {
 	s.Equal(uint(0), company.ID)
 }
 
-func (s *companiesTestSuite) Test06UpdateValidCompanyByValidID() {
+func (s *companiesTestSuite) Test06UpdateValid_Company_ByValidID() {
 	var target databases.Company
 	databases.DB.Where(databases.Company{Name:"Coban"}).First(&target)
 
@@ -104,7 +104,7 @@ func (s *companiesTestSuite) Test06UpdateValidCompanyByValidID() {
 	s.Equal(target.Name, company.Name)
 }
 
-func (s *companiesTestSuite) Test07UpdateByValidCompanyByInvalidID() {
+func (s *companiesTestSuite) Test07UpdateByValid_Company_ByInvalidID() {
 	_, err := common.UpdateCompany("Coban", 0)
 	s.Error(err, "This company doesn't exist.")
 
@@ -112,7 +112,7 @@ func (s *companiesTestSuite) Test07UpdateByValidCompanyByInvalidID() {
 	s.Error(err, "This company doesn't exist.")
 }
 
-func (s *companiesTestSuite) Test08UpdateByInvalidCompanyByValidID() {
+func (s *companiesTestSuite) Test08UpdateByInvalid_Company_ByValidID() {
 	var target databases.Company
 	databases.DB.Where(databases.Company{Name:"Coban, corp."}).First(&target)
 
@@ -123,7 +123,7 @@ func (s *companiesTestSuite) Test08UpdateByInvalidCompanyByValidID() {
 	s.Error(err, "COMPANY: The name is mandatory.")
 }
 
-func (s *companiesTestSuite) Test09DeleteByValidID() {
+func (s *companiesTestSuite) Test09Delete_Company_ByValidID() {
 	var target databases.Company
 	databases.DB.Where(databases.Company{Name:"Coban, corp."}).First(&target)
 
@@ -135,7 +135,7 @@ func (s *companiesTestSuite) Test09DeleteByValidID() {
 	s.Equal(uint(0), company.ID)
 }
 
-func (s *companiesTestSuite) Test10DeleteByInvalidID() {
+func (s *companiesTestSuite) Test10Delete_Company_ByInvalidID() {
 	err := common.DeleteCompany(0)
 	s.Error(err, "This company doesn't exist.")
 

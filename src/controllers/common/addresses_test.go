@@ -17,7 +17,7 @@ func TestAddresses(t *testing.T) {
 	suite.Run(t, new(addressesTestSuite))
 }
 
-func (s *addressesTestSuite) Test01GetAddresses() {
+func (s *addressesTestSuite) Test01Get_Addresses() {
 	companies := []*databases.Company {
 		&databases.Company{ID:1, Name:"アコム株式会社"},
 		&databases.Company{ID:2, Name:"株式会社愛知銀行"},
@@ -51,7 +51,7 @@ func (s *addressesTestSuite) Test01GetAddresses() {
 	s.Equal(expectedAddresses, addresses)
 }
 
-func (s *addressesTestSuite) Test02GetAddressByValidID() {
+func (s *addressesTestSuite) Test02Get_Address_ByValidID() {
 	expectedCompany := new(databases.Company)
 	expectedCompany.ID = 4
 	expectedCompany.Name = "旭化成株式会社"
@@ -64,7 +64,7 @@ func (s *addressesTestSuite) Test02GetAddressByValidID() {
 	s.Equal(expectedAddress, address)
 }
 
-func (s *addressesTestSuite) Test03GetAddressByInvalidID() {
+func (s *addressesTestSuite) Test03Get_Address_ByInvalidID() {
 	address, err := common.GetAddressByID(10)
 	s.Error(err, "This address doesn't exist")
 	s.Equal(uint(0), address.ID)
@@ -74,7 +74,7 @@ func (s *addressesTestSuite) Test03GetAddressByInvalidID() {
 	s.Equal(uint(0), address.ID)
 }
 
-func (s *addressesTestSuite) Test04CreateAddress() {
+func (s *addressesTestSuite) Test04Create_Address() {
 	expectedAddress := databases.Address{Street:"123 Ginza", Zip:"109-8320", City:"Tokyo", CompanyID:1}
 
 	address, err := common.CreateAddress(expectedAddress.Street, expectedAddress.Zip,
@@ -87,7 +87,7 @@ func (s *addressesTestSuite) Test04CreateAddress() {
 	s.Equal(expectedAddress.CompanyID, address.CompanyID)
 }
 
-func (s *addressesTestSuite) Test05CreateInvalidAddress() {
+func (s *addressesTestSuite) Test05CreateInvalid_Address() {
 	address, err := common.CreateAddress("123 Ginza", "109-8320", "Tokyo", 1)
 	s.Error(err, "ADDRESS: This address already exist.")
 	s.Equal(uint(0), address.ID)
@@ -113,7 +113,7 @@ func (s *addressesTestSuite) Test05CreateInvalidAddress() {
 	s.Equal(uint(0), address.ID)
 }
 
-func (s *addressesTestSuite) Test06UpdateValidAddressByValidID() {
+func (s *addressesTestSuite) Test06UpdateValid_Address_ByValidID() {
 	var target databases.Address
 	databases.DB.Where(databases.Address{Street:"123 Ginza"}).First(&target)
 
@@ -124,7 +124,7 @@ func (s *addressesTestSuite) Test06UpdateValidAddressByValidID() {
 	s.Equal(expectedAddress, address)
 }
 
-func (s *addressesTestSuite) Test07UpdateValidAddressByInvalidID() {
+func (s *addressesTestSuite) Test07UpdateValid_Address_ByInvalidID() {
 	expectedAddress := databases.Address{Street:"188 Ginza", Zip:"110-8320", City:"Nagazaki", CompanyID:2, ID:0}
 	_, err := common.UpdateAddress(expectedAddress.Street, expectedAddress.Zip,
 		expectedAddress.City, expectedAddress.CompanyID, expectedAddress.ID)
@@ -136,7 +136,7 @@ func (s *addressesTestSuite) Test07UpdateValidAddressByInvalidID() {
 	s.Error(err, "This address doesn't exist.")
 }
 
-func (s *addressesTestSuite) Test08UpdateInvalidAddressByValidID() {
+func (s *addressesTestSuite) Test08UpdateInvalid_Address_ByValidID() {
 	var target databases.Address
 	databases.DB.Where(databases.Address{Street:"155 Ginza"}).First(&target)
 
@@ -177,7 +177,7 @@ func (s *addressesTestSuite) Test08UpdateInvalidAddressByValidID() {
 	s.Error(err, "ADDRESS: This company doesn't exist.")
 }
 
-func (s *addressesTestSuite) Test09DeleteValidAddress() {
+func (s *addressesTestSuite) Test09Delete_Address_ByValidID() {
 	var target databases.Address
 	databases.DB.Where(databases.Address{Street:"155 Ginza"}).First(&target)
 
@@ -189,7 +189,7 @@ func (s *addressesTestSuite) Test09DeleteValidAddress() {
 	s.Equal(uint(0), target.ID)
 }
 
-func (s *addressesTestSuite) Test09DeleteInvalidValidAddress() {
+func (s *addressesTestSuite) Test09Delete_Address_ByInvalidID() {
 	err := common.DeleteAddressByID(0)
 	s.Error(err)
 	err = common.DeleteAddressByID(10)
