@@ -16,7 +16,7 @@ func TestRelations(t *testing.T) {
 	suite.Run(t, new(relationsTestSuite))
 }
 
-func (s *relationsTestSuite) Test01AddressRelations() {
+func (s *relationsTestSuite) Test01Address_Relations() {
 	var address databases.Address
 
 	databases.DB.First(&address)
@@ -25,7 +25,7 @@ func (s *relationsTestSuite) Test01AddressRelations() {
 	s.NotNil(address.Company)
 }
 
-func (s *relationsTestSuite) Test02CompanyRelations() {
+func (s *relationsTestSuite) Test02Company_Relations() {
 	var company databases.Company
 
 	databases.DB.First(&company)
@@ -35,7 +35,7 @@ func (s *relationsTestSuite) Test02CompanyRelations() {
 	s.NotNil(company.Addresses)
 }
 
-func (s *relationsTestSuite) Test03DeviceRelations() {
+func (s *relationsTestSuite) Test03Device_Relations() {
 	var device databases.Device
 
 	databases.DB.First(&device)
@@ -44,7 +44,7 @@ func (s *relationsTestSuite) Test03DeviceRelations() {
 	s.NotNil(device.User)
 }
 
-func (s *relationsTestSuite) Test04AccountRelations() {
+func (s *relationsTestSuite) Test04Accoun_tRelations() {
 	var account databases.Account
 
 	databases.DB.First(&account)
@@ -53,7 +53,7 @@ func (s *relationsTestSuite) Test04AccountRelations() {
 	s.NotNil(account.User)
 }
 
-func (s *relationsTestSuite) Test05UserRelations() {
+func (s *relationsTestSuite) Test05User_Relations() {
 	var user databases.User
 
 	databases.DB.First(&user)
@@ -64,7 +64,7 @@ func (s *relationsTestSuite) Test05UserRelations() {
 	s.NotNil(user.Device)
 }
 
-func (s *relationsTestSuite) Test06StationRelations() {
+func (s *relationsTestSuite) Test06Station_Relations() {
 	var station databases.Station
 
 	databases.DB.First(&station)
@@ -73,7 +73,7 @@ func (s *relationsTestSuite) Test06StationRelations() {
 	s.True(true)
 }
 
-func (s *relationsTestSuite) Test07TransportHistoryRelations() {
+func (s *relationsTestSuite) Test07TransportHistory_Relations() {
 	var transportHistory databases.TransportHistory
 
 	databases.DB.First(&transportHistory)

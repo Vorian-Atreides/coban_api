@@ -17,13 +17,13 @@ func TestValidators(t *testing.T) {
 	suite.Run(t, new(validatorsTestSuite))
 }
 
-func (s *validatorsTestSuite) Test01ValidAddress() {
+func (s *validatorsTestSuite) Test01_Valid_Address() {
 	address := databases.Address{City:"Tokyo", CompanyID:1, Street:"12 ginza", Zip:"1234567890"}
 
 	s.NoError(address.IsValid())
 }
 
-func (s *validatorsTestSuite) Test02InvalidAddress() {
+func (s *validatorsTestSuite) Test02_Invalid_Address() {
 	address := databases.Address{City:"Tokyo", CompanyID:0, Street:"12 ginza", Zip:"1234567890"}
 	s.Error(address.IsValid(), "ADDRESS: The company is mandatory.")
 
@@ -44,13 +44,13 @@ func (s *validatorsTestSuite) Test02InvalidAddress() {
 	s.Error(address.IsValid(), "ADDRESS: This address already exist.")
 }
 
-func (s *validatorsTestSuite) Test03ValidCompany() {
+func (s *validatorsTestSuite) Test03_Valid_Company() {
 	company := databases.Company{Name:"Coban"}
 
 	s.NoError(company.IsValid())
 }
 
-func (s *validatorsTestSuite) Test04InvalidCompany() {
+func (s *validatorsTestSuite) Test04_Invalid_Company() {
 	company := databases.Company{Name: "アコム株式会社"}
 	s.Error(company.IsValid(), "COMPANY: This company already exist.")
 
@@ -58,12 +58,12 @@ func (s *validatorsTestSuite) Test04InvalidCompany() {
 	s.Error(company.IsValid(), "COMPANY: The name is mandatory.")
 }
 
-func (s *validatorsTestSuite) Test05ValidDevice() {
+func (s *validatorsTestSuite) Test05_Valid_Device() {
 	device := databases.Device{IsPaired:false, UserID:2}
 	s.NoError(device.IsValid())
 }
 
-func (s *validatorsTestSuite) Test06InvalidDevice() {
+func (s *validatorsTestSuite) Test06_Invalid_Device() {
 	device := databases.Device{IsPaired:false, UserID:1}
 	s.Error(device.IsValid(), "DEVICE: This device already exist.")
 
@@ -74,12 +74,12 @@ func (s *validatorsTestSuite) Test06InvalidDevice() {
 	s.Error(device.IsValid(), "DEVICE: The user doesn't exist.")
 }
 
-func (s *validatorsTestSuite) Test07ValidAccount() {
+func (s *validatorsTestSuite) Test07_Valid_Account() {
 	account := databases.Account{Email:"gaston@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
 	s.NoError(account.IsValid())
 }
 
-func (s *validatorsTestSuite) Test08InvalidAccount() {
+func (s *validatorsTestSuite) Test08_Invalid_Account() {
 	account := databases.Account{Email:"user@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
 	s.Error(account.IsValid(), "ACCOUNT: This email is already used.")
 
@@ -93,14 +93,14 @@ func (s *validatorsTestSuite) Test08InvalidAccount() {
 	s.Error(account.IsValid(), "ACCOUNT: The scope is mandatory.")
 }
 
-func (s *validatorsTestSuite) Test09ValidUser() {
+func (s *validatorsTestSuite) Test09_Valid_User() {
 	account := databases.Account{Email:"gaston@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
 	databases.DB.Save(&account)
 	user := databases.User{FirstName:"Gaston", LastName:"Siffert", AccountID:account.ID, CompanyID:1}
 	s.NoError(user.IsValid())
 }
 
-func (s *validatorsTestSuite) Test10InvalidUser() {
+func (s *validatorsTestSuite) Test10_Invalid_User() {
 	user := databases.User{FirstName:"青木", LastName:"真琳", AccountID:1, CompanyID:1}
 	s.Error(user.IsValid(), "USER: This user already exist.")
 
@@ -116,12 +116,12 @@ func (s *validatorsTestSuite) Test10InvalidUser() {
 	s.Error(user.IsValid(), "USER: The last name is mandatory.")
 }
 
-func (s *validatorsTestSuite) Test11ValidStation() {
+func (s *validatorsTestSuite) Test11_Valid_Station() {
 	station := databases.Station{Name:"Ginza", Type:"Metro"}
 	s.NoError(station.IsValid())
 }
 
-func (s *validatorsTestSuite) Test12InvalidStation() {
+func (s *validatorsTestSuite) Test12_Invalid_Station() {
 	station := databases.Station{Name:"銀座線", Type:"Metro"}
 	s.Error(station.IsValid(), "STATION: This station already exist.")
 
@@ -132,13 +132,13 @@ func (s *validatorsTestSuite) Test12InvalidStation() {
 	s.Error(station.IsValid(), "STATION: The type is mandatory.")
 }
 
-func (s *validatorsTestSuite) Test13ValidTransportType() {
+func (s *validatorsTestSuite) Test13_Valid_TransportType() {
 	transportHistory := databases.TransportHistory{Date:time.Now(),
 		Stock:500, Expense:100, EntranceID:1, ExitID:2, UserID:1}
 	s.NoError(transportHistory.IsValid())
 }
 
-func (s *validatorsTestSuite) Test14InvalidTransportType() {
+func (s *validatorsTestSuite) Test14_Invalid_TransportType() {
 	datetime, _ := time.Parse(time.RFC3339, "2016-01-10 06:30:00")
 
 	transportHistory := databases.TransportHistory{Date:datetime,

@@ -18,7 +18,7 @@ func TestDefault(t *testing.T) {
 	suite.Run(t, new(defaultTestSuite))
 }
 
-func (s *defaultTestSuite) Test01CheckValidTokenAndScope() {
+func (s *defaultTestSuite) Test01CheckValid_TokenAndScope() {
 	var account databases.Account
 
 	databases.DB.Where(databases.Account{Scope:databases.ClientScope}).First(&account)
@@ -33,7 +33,7 @@ func (s *defaultTestSuite) Test01CheckValidTokenAndScope() {
 	s.Equal(account.User.ID, user.ID)
 }
 
-func (s *defaultTestSuite) Test02CheckUnauthorisedTokenAndScope() {
+func (s *defaultTestSuite) Test02CheckUnauthorised_TokenAndScope() {
 	var account databases.Account
 
 	databases.DB.Where(databases.Account{Scope:databases.ClientScope}).First(&account)
@@ -47,7 +47,7 @@ func (s *defaultTestSuite) Test02CheckUnauthorisedTokenAndScope() {
 	s.Error(err, "Unauthorised user.")
 }
 
-func (s *defaultTestSuite) Test03CheckUserNotFoundTokenAndScope() {
+func (s *defaultTestSuite) Test03CheckUserNotFound_TokenAndScope() {
 	tokenStr, _ := utils.GenerateToken(10, databases.ClientScope)
 	request, _ := http.NewRequest("GET", "www.google.com", nil)
 	request.Header.Add("Authorization", "Bearer " + tokenStr)

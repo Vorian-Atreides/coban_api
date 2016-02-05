@@ -58,7 +58,7 @@ INSERT INTO stations(name, type) VALUES
     ("日比谷線", "metro"),
     ("千代田線", "metro"),
     ("南北線", "metro"),
-    ("横須賀駅 ", "train"),
+    ("横須賀駅", "train"),
     ("大宮", "train");
 
 --
