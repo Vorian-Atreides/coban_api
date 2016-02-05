@@ -16,13 +16,16 @@ func GetCompanies() []databases.Company {
 	return companies
 }
 
-func GetCompanyByID(id uint) databases.Company {
+func GetCompanyByID(id uint) (databases.Company, error) {
 	var company databases.Company
 
 	databases.DB.First(&company, id)
+	if company.ID == 0 {
+		return company, errors.New("This company doesn't exist.")
+	}
 	company.LoadRelated()
 
-	return company
+	return company, nil
 }
 
 func CreateCompany(name string) (databases.Company, error) {
@@ -33,30 +36,33 @@ func CreateCompany(name string) (databases.Company, error) {
 	}
 	databases.DB.Save(&company)
 
-	return company, nil
+	return company, databases.DB.Error
 }
 
 func UpdateCompany(name string, id uint) (databases.Company, error) {
 	company := databases.Company{Name:name, ID:id}
 
+	var existingCompany databases.Company
+	databases.DB.First(&existingCompany, id)
+	if existingCompany.ID == 0 {
+		return company, errors.New("This company doesn't exist.")
+	}
 	if err := company.IsValid(); err != nil {
 		return company, err
 	}
 	databases.DB.Save(&company)
 
-	return company, nil
+	return company, databases.DB.Error
 }
 
 func DeleteCompany(id uint) error {
 	var company databases.Company
 
-	databases.DB.Where(databases.Address{CompanyID:id}).Delete(databases.Address{})
 	databases.DB.First(&company, id)
+	if company.ID == 0 {
+		return errors.New("This company doesn't exist.")
+	}
 	databases.DB.Delete(&company)
 
-	if company.ID != 0 {
-		return errors.New("This company can't be deleted.")
-	}
-
-	return nil
+	return databases.DB.Error
 }

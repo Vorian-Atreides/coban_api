@@ -77,8 +77,8 @@ func (s *devicesTestSuite) Test05CreateInvalidDevice() {
 func (s *devicesTestSuite) Test06UpdateValidDeviceByValidID() {
 	var expectedDevice databases.Device
 
-	databases.DB.Where(databases.Device{UserID:4}).First(&expectedDevice)
-	expectedDevice.IsPaired = false
+	databases.DB.Where(databases.Device{UserID:3}).First(&expectedDevice)
+	expectedDevice.IsPaired = true
 	device, err := common.UpdateDevice(expectedDevice.IsPaired, expectedDevice.UserID, expectedDevice.ID)
 
 	s.NoError(err)
@@ -104,12 +104,12 @@ func (s *devicesTestSuite) Test08UpdateInvalidDeviceByValidID() {
 func (s *devicesTestSuite) Test09DeleteByValidID() {
 	var target databases.Device
 
-	databases.DB.Where(databases.Device{UserID:4}).First(&target)
+	databases.DB.Where(databases.Device{UserID:3}).First(&target)
 	err := common.DeleteDevice(target.ID)
 	s.NoError(err)
 
 	target = databases.Device{}
-	databases.DB.Where(databases.Device{UserID:4}).First(&target)
+	databases.DB.Where(databases.Device{UserID:3}).First(&target)
 	s.Equal(uint(0), target.ID)
 }
 

@@ -115,7 +115,7 @@ func (s *addressesTestSuite) Test05CreateInvalidAddress() {
 
 func (s *addressesTestSuite) Test06UpdateValidAddressByValidID() {
 	var target databases.Address
-	databases.DB.Where(databases.Address{Street:"東京都台東区駒形2-5-4"}).First(&target)
+	databases.DB.Where(databases.Address{Street:"123 Ginza"}).First(&target)
 
 	expectedAddress := databases.Address{Street:"155 Ginza", Zip:"109-8320", City:"Nagoya", CompanyID:2, ID:target.ID}
 	address, err := common.UpdateAddress(expectedAddress.Street, expectedAddress.Zip,
@@ -138,7 +138,7 @@ func (s *addressesTestSuite) Test07UpdateValidAddressByInvalidID() {
 
 func (s *addressesTestSuite) Test08UpdateInvalidAddressByValidID() {
 	var target databases.Address
-	databases.DB.Where(databases.Address{Street:"千代田区神田神保町1丁目105番地"}).First(&target)
+	databases.DB.Where(databases.Address{Street:"155 Ginza"}).First(&target)
 
 	expectedAddress := databases.Address{Street:"品川区東品川二丁目5番8号", Zip:"140-0002",
 		City:"東京都", CompanyID:3, ID:target.ID}
@@ -179,13 +179,13 @@ func (s *addressesTestSuite) Test08UpdateInvalidAddressByValidID() {
 
 func (s *addressesTestSuite) Test09DeleteValidAddress() {
 	var target databases.Address
-	databases.DB.Where(databases.Address{Street:"中区栄3-14-12"}).First(&target)
+	databases.DB.Where(databases.Address{Street:"155 Ginza"}).First(&target)
 
 	err := common.DeleteAddressByID(target.ID)
 	s.NoError(err)
 
 	target = databases.Address{}
-	databases.DB.Where(databases.Address{Street:"中区栄3-14-12"}).First(&target)
+	databases.DB.Where(databases.Address{Street:"155 Ginza"}).First(&target)
 	s.Equal(uint(0), target.ID)
 }
 
