@@ -99,7 +99,7 @@ func (device Device) IsValid() error {
 // Account
 //
 
-func (account Account) IsValid() error {
+func (account Account) IsValid(onlyPassword bool) error {
 	err := ""
 
 	if account.Email == "" {
@@ -112,10 +112,12 @@ func (account Account) IsValid() error {
 		err += "ACCOUNT: The scope is mandatory."
 	}
 
-	var items []Account
-	DB.Where(Account{Email:account.Email}).Not(Account{ID:account.ID}) .Find(&items)
-	if len(items) > 0 {
-		err += "ACCOUNT: This email is already used."
+	if !onlyPassword {
+		var items []Account
+		DB.Where(Account{Email:account.Email}).Not(Account{ID:account.ID}) .Find(&items)
+		if len(items) > 0 {
+			err += "ACCOUNT: This email is already used."
+		}
 	}
 
 	return buildError(err)

@@ -75,28 +75,26 @@ func (s *validatorsTestSuite) Test06_Invalid_Device() {
 }
 
 func (s *validatorsTestSuite) Test07_Valid_Account() {
-	account := databases.Account{Email:"gaston@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
-	s.NoError(account.IsValid())
+	account := databases.Account{Email:"siffer_g@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
+	s.NoError(account.IsValid(false))
 }
 
 func (s *validatorsTestSuite) Test08_Invalid_Account() {
 	account := databases.Account{Email:"user@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
-	s.Error(account.IsValid(), "ACCOUNT: This email is already used.")
+	s.Error(account.IsValid(false), "ACCOUNT: This email is already used.")
 
 	account = databases.Account{Email:"", Password:"Toto42", Scope:databases.ClientScope}
-	s.Error(account.IsValid(), "ACCOUNT: The email is mandatory.")
+	s.Error(account.IsValid(false), "ACCOUNT: The email is mandatory.")
 
 	account = databases.Account{Email:"user@coban.jp", Password:"", Scope:databases.ClientScope}
-	s.Error(account.IsValid(), "ACCOUNT: The password is mandatory.")
+	s.Error(account.IsValid(false), "ACCOUNT: The password is mandatory.")
 
 	account = databases.Account{Email:"user@coban.jp", Password:"Toto42", Scope:0}
-	s.Error(account.IsValid(), "ACCOUNT: The scope is mandatory.")
+	s.Error(account.IsValid(false), "ACCOUNT: The scope is mandatory.")
 }
 
 func (s *validatorsTestSuite) Test09_Valid_User() {
-	account := databases.Account{Email:"gaston@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
-	databases.DB.Save(&account)
-	user := databases.User{FirstName:"Gaston", LastName:"Siffert", AccountID:account.ID, CompanyID:1}
+	user := databases.User{FirstName:"Gaston", LastName:"Siffert", AccountID:5, CompanyID:1}
 	s.NoError(user.IsValid())
 }
 
@@ -104,15 +102,13 @@ func (s *validatorsTestSuite) Test10_Invalid_User() {
 	user := databases.User{FirstName:"青木", LastName:"真琳", AccountID:1, CompanyID:1}
 	s.Error(user.IsValid(), "USER: This user already exist.")
 
-	account := databases.Account{Email:"gaston.siffert@coban.jp", Password:"Toto42", Scope:databases.ClientScope}
-	databases.DB.Save(&account)
-	user = databases.User{FirstName:"青木", LastName:"真琳", AccountID:account.ID, CompanyID:0}
+	user = databases.User{FirstName:"青木", LastName:"真琳", AccountID:6, CompanyID:0}
 	s.Error(user.IsValid(), "USER: The company is mandatory.")
 
-	user = databases.User{FirstName:"", LastName:"真琳", AccountID:account.ID, CompanyID:1}
+	user = databases.User{FirstName:"", LastName:"真琳", AccountID:6, CompanyID:1}
 	s.Error(user.IsValid(), "USER: The first name is mandatory.")
 
-	user = databases.User{FirstName:"青木", LastName:"", AccountID:account.ID, CompanyID:1}
+	user = databases.User{FirstName:"青木", LastName:"", AccountID:6, CompanyID:1}
 	s.Error(user.IsValid(), "USER: The last name is mandatory.")
 }
 

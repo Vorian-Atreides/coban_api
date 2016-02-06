@@ -52,7 +52,7 @@ func UpdateDevice(isPaired bool, userID uint, id uint) (databases.Device, error)
 	if err := device.IsValid(); err != nil {
 		return device, err
 	}
-	databases.DB.Update(&device)
+	databases.DB.Save(&device)
 
 	return device, databases.DB.Error
 }

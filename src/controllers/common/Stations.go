@@ -50,7 +50,7 @@ func UpdateStation(name string, transporType string, id uint) (databases.Station
 	if err := station.IsValid(); err != nil {
 		return station, err
 	}
-	databases.DB.Update(&station)
+	databases.DB.Save(&station)
 
 	return station, databases.DB.Error
 }

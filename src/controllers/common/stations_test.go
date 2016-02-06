@@ -5,8 +5,6 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-//	"coban/api/src/controllers/common"
-//	"coban/api/src/databases"
 	"coban/api/src/databases"
 	"coban/api/src/controllers/common"
 )
@@ -83,6 +81,12 @@ func (s *stationsTestSuite) Test06UpdateValid_Station_ByValidID() {
 	station, err := common.UpdateStation(expectedStation.Name, expectedStation.Type, expectedStation.ID)
 	s.NoError(err)
 	s.Equal(expectedStation, station)
+
+	station = databases.Station{}
+	databases.DB.Where(databases.Station{Name:"Mejiro"}).First(&station)
+	if station.ID == 0 {
+		s.Fail("The update failed")
+	}
 }
 
 func (s *stationsTestSuite) Test07UpdateValid_Station_ByInvalidID() {
