@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func readBody(r *http.Request, model interface{}) error {
+func ReadBody(r *http.Request, model interface{}) error {
 	decoder := json.NewDecoder(r.Body)
 
 	err := decoder.Decode(model)
@@ -18,7 +18,7 @@ func readBody(r *http.Request, model interface{}) error {
 //
 
 func (address *Address) FromBody(r *http.Request) error {
-	if err := readBody(r, address); err != nil {
+	if err := ReadBody(r, address); err != nil {
 		return err
 	}
 	return nil
@@ -29,7 +29,7 @@ func (address *Address) FromBody(r *http.Request) error {
 //
 
 func (company *Company) FromBody(r *http.Request) error {
-	if err := readBody(r, company); err != nil {
+	if err := ReadBody(r, company); err != nil {
 		return err
 	}
 	return nil
@@ -40,7 +40,7 @@ func (company *Company) FromBody(r *http.Request) error {
 //
 
 func (device *Device) FromBody(r *http.Request) error {
-	if err := readBody(r, device); err != nil {
+	if err := ReadBody(r, device); err != nil {
 		return err
 	}
 	return nil
@@ -51,7 +51,7 @@ func (device *Device) FromBody(r *http.Request) error {
 //
 
 func (account *Account) FromBody(r *http.Request) error {
-	if err :=  readBody(r, account); err != nil {
+	if err :=  ReadBody(r, account); err != nil {
 		return err
 	}
 	return nil
@@ -62,7 +62,7 @@ func (account *Account) FromBody(r *http.Request) error {
 //
 
 func (user *User) FromBody(r *http.Request) error {
-	if err := readBody(r, user); err != nil {
+	if err := ReadBody(r, user); err != nil {
 		return err
 	}
 	user.AccountID = user.Account.ID
@@ -75,7 +75,7 @@ func (user *User) FromBody(r *http.Request) error {
 //
 
 func (station *Station) FromBody(r *http.Request) error {
-	if err := readBody(r, station); err != nil {
+	if err := ReadBody(r, station); err != nil {
 		return err
 	}
 	return nil
@@ -86,7 +86,7 @@ func (station *Station) FromBody(r *http.Request) error {
 //
 
 func (transportHistory *TransportHistory) FromBody(r *http.Request) error {
-	if err := readBody(r, transportHistory); err != nil {
+	if err := ReadBody(r, transportHistory); err != nil {
 		return err
 	}
 	transportHistory.EntranceID = transportHistory.Entrance.ID

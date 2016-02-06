@@ -8,13 +8,13 @@ import (
 	"coban/api/src/utils"
 )
 
-func GetAddresses(w http.ResponseWriter, r *http.Request) {
+func GetUsers(w http.ResponseWriter, r *http.Request) {
 	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
 		utils.Error(w, err)
 		return
 	}
 
-	addresses := common.GetAddresses()
-	utils.WriteBody(w, addresses)
+	users := common.GetUsers()
+	utils.WriteBody(w, users)
 }

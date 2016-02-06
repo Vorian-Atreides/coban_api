@@ -7,6 +7,11 @@ import (
 	"coban/api/src/utils"
 )
 
+type Authentication struct {
+	Login		string	`json:"login"`
+	Password	string	`json:"password"`
+}
+
 func Authenticate(email string, password string) (string, error) {
 	var account databases.Account
 	databases.DB.Where(&databases.Account{Email:email}).First(&account)

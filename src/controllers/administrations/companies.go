@@ -1,31 +1,20 @@
 package administrations
 
 import (
-	"io/ioutil"
 	"net/http"
 
 	"coban/api/src/controllers/common"
+	"coban/api/src/databases"
 	"coban/api/src/utils"
 )
 
 func GetCompanies(w http.ResponseWriter, r *http.Request) {
-	addresses := common.GetCompanies()
-
-	utils.WriteBody(w, addresses)
-}
-
-func CreateCompany(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-
+	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
 		utils.Error(w, err)
 		return
 	}
 
-	company, err := common.CreateCompany(string(body))
-	if err != nil {
-		utils.Error(w, err)
-		return
-	}
-	utils.WriteBody(w, company)
+	companies := common.GetCompanies()
+	utils.WriteBody(w, companies)
 }

@@ -20,6 +20,6 @@ RUN go-wrapper install
 
 WORKDIR /go/src/coban/api/src
 
-#RUN go get github.com/codegangsta/gin
+RUN go get github.com/codegangsta/gin
 RUN go-wrapper download
 RUN go-wrapper install

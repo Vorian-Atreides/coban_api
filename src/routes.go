@@ -5,6 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"net/http"
+	"coban/api/src/controllers/common"
 )
 
 type Route struct {
@@ -34,7 +35,24 @@ var routes = Routes {
 	//	Common
 	//
 
-
+	Route {
+		Name: "Authenticate",
+		Method: "POST",
+		Path: "/users/authenticate",
+		Handler: common.AuthenticateRequest,
+	},
+	Route {
+		Name: "Authenticate",
+		Method: "POST",
+		Path: "/offices/authenticate",
+		Handler: common.AuthenticateRequest,
+	},
+	Route {
+		Name: "Authenticate",
+		Method: "POST",
+		Path: "/administrations/authenticate",
+		Handler: common.AuthenticateRequest,
+	},
 
 	//
 	//	Administrations
@@ -47,45 +65,33 @@ var routes = Routes {
 		Handler: administrations.GetAddresses,
 	},
 	Route {
-		Name: "CreateAddress",
-		Method: "POST",
-		Path: "/administrations/addresses",
-		Handler: administrations.CreateAddress,
-	},
-	Route {
 		Name: "GetCompanies",
 		Method: "GET",
 		Path: "/administrations/companies",
 		Handler: administrations.GetCompanies,
 	},
 	Route {
-		Name: "CreateCompany",
-		Method: "POST",
-		Path: "/administrations/companies",
-		Handler: administrations.CreateCompany,
+		Name: "GetUsers",
+		Method: "GET",
+		Path: "/administrations/users",
+		Handler: administrations.GetUsers,
 	},
-//	Route {
-//		Name: "GetAddresses",
-//		Method: "GET",
-//		Path: "/administrations/addresses",
-//		Handler: common.GetAddresses,
-//	},
-//	Route {
-//		Name: "CreateAddress",
-//		Method: "POST",
-//		Path: "/administrations/addresses",
-//		Handler: common.CreateAddress,
-//	},
-//	Route {
-//		Name: "GetCompanies",
-//		Method: "GET",
-//		Path: "/administrations/companies",
-//		Handler: common.GetCompanies,
-//	},
-//	Route {
-//		Name: "CreateCompanies",
-//		Method: "POST",
-//		Path: "/administrations/companies",
-//		Handler: common.CreateCompany,
-//	},
+	Route {
+		Name: "GetStations",
+		Method: "GET",
+		Path: "/administrations/stations",
+		Handler: administrations.GetStations,
+	},
+	Route {
+		Name: "GetAccounts",
+		Method: "GET",
+		Path: "/administrations/accounts",
+		Handler: administrations.GetAccounts,
+	},
+	Route {
+		Name: "GetTransportHistories",
+		Method: "GET",
+		Path: "/administrations/transport-histories",
+		Handler: administrations.GetTransportHistories,
+	},
 }

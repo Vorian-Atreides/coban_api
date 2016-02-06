@@ -65,7 +65,7 @@ type Device 			struct {
 
 	IsPaired			bool			`gorm:"column:is_paired;" sql:"not null;" json:"is-paired"`
 
-	User				*User
+	User				*User			`json:"-"`
 	UserID				uint			`gorm:"column:user_id;" sql:"not null" json:"-"`
 }
 
@@ -112,13 +112,13 @@ type User 				struct {
 	FirstName			string			`gorm:"column:first_name;" sql:"not null;" json:"first-name"`
 	LastName			string			`gorm:"column:last_name;" sql:"not null;" json:"last-name"`
 
-	Account				*Account		`json:"account"`
+	Account				*Account		`json:"account; omitempty"`
 	AccountID			uint			`gorm:"column:account_id;" sql:"not null;" json:"-"`
 
-	Company				*Company		`json:"company"`
+	Company				*Company		`json:"company; omitempty"`
 	CompanyID			uint			`gorm:"column:company_id;" sql:"not null;" json:"-"`
 
-	Device				*Device			`json:"device"`
+	Device				*Device			`json:"device; omitempty"`
 }
 
 // JSON Station
@@ -161,12 +161,12 @@ type TransportHistory	struct {
 	Stock				uint			`gorm:"column:stock;" sql:"not null;" json:"stock"`
 	Expense				uint			`gorm:"column:expense;" sql:"not null;" json:"expense"`
 
-	Entrance			*Station		`json:"entrance"`
+	Entrance			*Station		`json:"entrance; omitempty"`
 	EntranceID			uint			`gorm:"column:entrance_id;" sql:"not null;" json:"-"`
 
-	Exit				*Station		`json:"exit"`
+	Exit				*Station		`json:"exit; omitempty"`
 	ExitID				uint			`gorm:"column:exit_id;" sql:"not null;" json:"-"`
 
-	User				*User			`json:"user"`
+	User				*User			`json:"user; omitempty"`
 	UserID				uint			`gorm:"column:user_id;" sql:"not null;" json:"-"`
 }

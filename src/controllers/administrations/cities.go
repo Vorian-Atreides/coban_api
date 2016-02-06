@@ -1,4 +1,0 @@
-package administrations
-
-import (
-)
