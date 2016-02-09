@@ -1,8 +1,5 @@
 package administrations
 
-// @SubApi Users  [/administrations/users]
-// @SubApi Allows you access to different features of the users [/administrations/users]
-
 import (
 	"net/http"
 

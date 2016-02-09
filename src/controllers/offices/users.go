@@ -1,8 +1,5 @@
 package offices
 
-// @SubApi Users  [/offices/users]
-// @SubApi Allows you access to different features of the users [/offices/users]
-
 import (
 	"errors"
 	"math/rand"
@@ -14,22 +11,14 @@ import (
 	"log"
 )
 
-type creationUser 	struct {
-	FirstName	string	`json:"first-name"`
-	LastName	string	`json:"last-name"`
-	Email		string	`json:"email"`
-	Scope		string  `json:"scope"`
+type bodyUser struct {
+	FirstName string `json:"first-name"`
+	LastName  string `json:"last-name"`
+	Email     string `json:"email"`
+	Scope     string `json:"scope"`
 }
 
-type updateUser 	struct {
-	UserID		uint	`json:"user-id"`
-	FirstName	string	`json:"first-name"`
-	LastName	string	`json:"last-name"`
-	Email		string	`json:"email"`
-	Scope		string  `json:"scope"`
-}
-
-var scopes = map[string]byte {
+var scopes = map[string]byte{
 	"Office": databases.OfficeScope,
 	"Client": databases.ClientScope,
 }
@@ -76,7 +65,7 @@ func sendPasswordEmail(password string, to string) {
 //
 
 func AddEmployee(w http.ResponseWriter, r *http.Request) {
-	var creation creationUser
+	var creation bodyUser
 	databases.ReadBody(r, &creation)
 
 	company, err := GetCurrentCompany(r)
@@ -111,7 +100,6 @@ func AddEmployee(w http.ResponseWriter, r *http.Request) {
 // Scope: "Office", "Client"
 //
 //{
-//	"user-id":5
 //	"first-name":"Gaston",
 //	"last-name":"Siffert",
 //	"email":"gs060292@live.fr",
@@ -120,8 +108,14 @@ func AddEmployee(w http.ResponseWriter, r *http.Request) {
 //
 
 func UpdateEmployee(w http.ResponseWriter, r *http.Request) {
-	var update updateUser
+	var update bodyUser
 	databases.ReadBody(r, &update)
+
+	id, err := utils.GetUINT64Parameter(r, "id")
+	if err != nil {
+		utils.Error(w, err)
+		return
+	}
 
 	officer, err := utils.CheckTokenAndScope(r, databases.IsOffice)
 	if err != nil {
@@ -129,7 +123,7 @@ func UpdateEmployee(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	target, err := common.GetUserByID(update.UserID)
+	target, err := common.GetUserByID(uint(id))
 	if err != nil {
 		utils.Error(w, err)
 		return

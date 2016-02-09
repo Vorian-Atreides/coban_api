@@ -1,8 +1,5 @@
 package administrations
 
-// @SubApi Stations  [/administrations/stations]
-// @SubApi Allows you access to different features of the stations [/administrations/stations]
-
 import (
 	"net/http"
 

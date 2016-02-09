@@ -1,8 +1,5 @@
 package clients
 
-// @SubApi users  [/clients/users]
-// @SubApi Allows you access to different features of the users [/clients/users]
-
 import (
 	"errors"
 	"net/http"
@@ -12,11 +9,10 @@ import (
 	"coban/api/src/utils"
 )
 
-
 type updatePassword struct {
-	OldPassword	string	`json:"old-password"`
-	Password1	string	`json:"password-1"`
-	Password2	string	`json:"password-2"`
+	OldPassword string `json:"old-password"`
+	Password1   string `json:"password-1"`
+	Password2   string `json:"password-2"`
 }
 
 //{

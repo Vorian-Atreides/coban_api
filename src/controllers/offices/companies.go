@@ -1,24 +1,21 @@
 package offices
 
-// @SubApi Companies  [/offices/companies]
-// @SubApi Allows you access to different features of the companies [/offices/companies]
-
 import (
-	"net/http"
+	"coban/api/src/controllers/common"
 	"coban/api/src/databases"
 	"coban/api/src/utils"
-	"coban/api/src/controllers/common"
+	"net/http"
 )
 
 type creationCompany struct {
-	Name			string	`json:"name"`
+	Name string `json:"name"`
 
-	Administrator	struct {
-		FirstName	string	`json:"first-name"`
-		LastName	string	`json:"last-name"`
-		Email		string	`json:"email"`
-		Password	string	`json:"password"`
- 	} 						`json:"administrator"`
+	Administrator struct {
+		FirstName string `json:"first-name"`
+		LastName  string `json:"last-name"`
+		Email     string `json:"email"`
+		Password  string `json:"password"`
+	} `json:"administrator"`
 }
 
 func GetCurrentCompany(r *http.Request) (databases.Company, error) {

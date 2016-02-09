@@ -8,15 +8,20 @@ import (
 	"coban/api/src/utils"
 )
 
-func AuthenticateRequest(w http.ResponseWriter, r *http.Request) {
-	var authentication Authentication
+type authentication struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
 
-	err := databases.ReadBody(r, &authentication)
+func AuthenticateRequest(w http.ResponseWriter, r *http.Request) {
+	var auth authentication
+
+	err := databases.ReadBody(r, &auth)
 	if err != nil {
 		utils.Error(w, err)
 		return
 	}
-	token, err := Authenticate(authentication.Login, authentication.Password)
+	token, err := Authenticate(auth.Email, auth.Password)
 	if err != nil {
 		utils.Error(w, err)
 		return

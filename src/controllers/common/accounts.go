@@ -7,14 +7,9 @@ import (
 	"coban/api/src/utils"
 )
 
-type Authentication struct {
-	Login		string	`json:"login"`
-	Password	string	`json:"password"`
-}
-
 func Authenticate(email string, password string) (string, error) {
 	var account databases.Account
-	databases.DB.Where(&databases.Account{Email:email}).First(&account)
+	databases.DB.Where(&databases.Account{Email: email}).First(&account)
 
 	if account.ID == 0 {
 		return "", errors.New("This account doesn't exist.")
@@ -49,7 +44,7 @@ func GetAccountByID(id uint) (databases.Account, error) {
 }
 
 func CreateAccount(email string, scope byte, password string) (databases.Account, error) {
-	account := databases.Account{Email:email, Scope:scope, Password: utils.HashPassword(password)}
+	account := databases.Account{Email: email, Scope: scope, Password: utils.HashPassword(password)}
 
 	if err := account.IsValid(false); err != nil {
 		return account, err

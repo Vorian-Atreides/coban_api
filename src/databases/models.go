@@ -20,15 +20,15 @@ type Model interface {
 //	"city":"ときょ"
 //}
 
-type Address 			struct {
-	ID					uint			`gorm:"column:id;primary_key" json:"id"`
+type Address struct {
+	ID uint `gorm:"column:id;primary_key" json:"id"`
 
-	Zip					string			`gorm:"column:zip;" sql:"not null" json:"zip"`
-	Street				string			`gorm:"column:street;" sql:"not null" json:"street"`
-	City				string			`gorm:"column:city;" sql:"not null" json:"city"`
+	Zip    string `gorm:"column:zip;" sql:"not null" json:"zip"`
+	Street string `gorm:"column:street;" sql:"not null" json:"street"`
+	City   string `gorm:"column:city;" sql:"not null" json:"city"`
 
-	Company				*Company		`json:"-"`
-	CompanyID			uint			`gorm:"column:company_id;" sql:"not null" json:"company-id"`
+	Company   *Company `json:"-"`
+	CompanyID uint     `gorm:"column:company_id;" sql:"not null" json:"company-id"`
 }
 
 // JSON Company
@@ -45,13 +45,13 @@ type Address 			struct {
 //	}
 //}
 
-type Company 			struct {
-	ID					uint			`gorm:"column:id; primary_key" json:"id"`
+type Company struct {
+	ID uint `gorm:"column:id; primary_key" json:"id"`
 
-	Name				string			`gorm:"column:name;" sql:"not null; unique" json:"name"`
+	Name string `gorm:"column:name;" sql:"not null; unique" json:"name"`
 
-	Addresses			[]Address		`json:"-"`
-	Employees			[]User			`json:"-"`
+	Addresses []Address `json:"-"`
+	Employees []User    `json:"-"`
 }
 
 // JSON Device
@@ -60,13 +60,13 @@ type Company 			struct {
 //	"is-paired":"false"
 //}
 
-type Device 			struct {
-	ID					uint 			`gorm:"column:id; primary_key" json:"-"`
+type Device struct {
+	ID uint `gorm:"column:id; primary_key" json:"-"`
 
-	IsPaired			bool			`gorm:"column:is_paired;" sql:"not null;" json:"is-paired"`
+	IsPaired bool `gorm:"column:is_paired;" sql:"not null;" json:"is-paired"`
 
-	User				*User			`json:"-"`
-	UserID				uint			`gorm:"column:user_id;" sql:"not null" json:"-"`
+	User   *User `json:"-"`
+	UserID uint  `gorm:"column:user_id;" sql:"not null" json:"-"`
 }
 
 // JSON Account
@@ -75,14 +75,14 @@ type Device 			struct {
 //	"email":"tatsuya@coban.jp"
 //}
 
-type Account 			struct {
-	ID					uint			`gorm:"column:id; primary_key" json:"-"`
+type Account struct {
+	ID uint `gorm:"column:id; primary_key" json:"-"`
 
-	Email				string			`gorm:"column:email;" sql:"not null; unique" json:"email"`
-	Password			string			`gorm:"column:password;" sql:"not null" json:"-"`
-	Scope				byte			`gorm:"column:scope;" sql:"not null" json:"-"`
+	Email    string `gorm:"column:email;" sql:"not null; unique" json:"email"`
+	Password string `gorm:"column:password;" sql:"not null" json:"-"`
+	Scope    byte   `gorm:"column:scope;" sql:"not null" json:"-"`
 
-	User				*User			`sql:"not null" json:"-"`
+	User *User `sql:"not null" json:"-"`
 }
 
 // JSON User
@@ -106,19 +106,19 @@ type Account 			struct {
 //	}
 //}
 
-type User 				struct {
-	ID					uint			`gorm:"column:id; primary_key" json:"id"`
+type User struct {
+	ID uint `gorm:"column:id; primary_key" json:"id"`
 
-	FirstName			string			`gorm:"column:first_name;" sql:"not null;" json:"first-name"`
-	LastName			string			`gorm:"column:last_name;" sql:"not null;" json:"last-name"`
+	FirstName string `gorm:"column:first_name;" sql:"not null;" json:"first-name"`
+	LastName  string `gorm:"column:last_name;" sql:"not null;" json:"last-name"`
 
-	Account				*Account		`json:"account; omitempty"`
-	AccountID			uint			`gorm:"column:account_id;" sql:"not null;" json:"-"`
+	Account   *Account `json:"account; omitempty"`
+	AccountID uint     `gorm:"column:account_id;" sql:"not null;" json:"-"`
 
-	Company				*Company		`json:"company; omitempty"`
-	CompanyID			uint			`gorm:"column:company_id;" sql:"not null;" json:"-"`
+	Company   *Company `json:"company; omitempty"`
+	CompanyID uint     `gorm:"column:company_id;" sql:"not null;" json:"-"`
 
-	Device				*Device			`json:"device; omitempty"`
+	Device *Device `json:"device; omitempty"`
 }
 
 // JSON Station
@@ -128,11 +128,11 @@ type User 				struct {
 //	"type":"Metro"
 //}
 
-type Station 			struct {
-	ID					uint 			`gorm:"column:id; primary_key" json:"-"`
+type Station struct {
+	ID uint `gorm:"column:id; primary_key" json:"-"`
 
-	Name				string			`gorm:"column:name;" sql:"not null;" json:"name"`
-	Type				string			`gorm:"column:type;" sql:"not null;" json:"type"`
+	Name string `gorm:"column:name;" sql:"not null;" json:"name"`
+	Type string `gorm:"column:type;" sql:"not null;" json:"type"`
 }
 
 // JSON TransportHistory
@@ -154,19 +154,19 @@ type Station 			struct {
 //	}
 //}
 
-type TransportHistory	struct {
-	ID					uint 			`gorm:"column:id; primary_key" json:"id"`
+type TransportHistory struct {
+	ID uint `gorm:"column:id; primary_key" json:"id"`
 
-	Date				time.Time		`gorm:"column:date;" sql:"not null;" json:"date"`
-	Stock				uint			`gorm:"column:stock;" sql:"not null;" json:"stock"`
-	Expense				uint			`gorm:"column:expense;" sql:"not null;" json:"expense"`
+	Date    time.Time `gorm:"column:date;" sql:"not null;" json:"date"`
+	Stock   uint      `gorm:"column:stock;" sql:"not null;" json:"stock"`
+	Expense uint      `gorm:"column:expense;" sql:"not null;" json:"expense"`
 
-	Entrance			*Station		`json:"entrance; omitempty"`
-	EntranceID			uint			`gorm:"column:entrance_id;" sql:"not null;" json:"-"`
+	Entrance   *Station `json:"entrance; omitempty"`
+	EntranceID uint     `gorm:"column:entrance_id;" sql:"not null;" json:"-"`
 
-	Exit				*Station		`json:"exit; omitempty"`
-	ExitID				uint			`gorm:"column:exit_id;" sql:"not null;" json:"-"`
+	Exit   *Station `json:"exit; omitempty"`
+	ExitID uint     `gorm:"column:exit_id;" sql:"not null;" json:"-"`
 
-	User				*User			`json:"user; omitempty"`
-	UserID				uint			`gorm:"column:user_id;" sql:"not null;" json:"-"`
+	User   *User `json:"user; omitempty"`
+	UserID uint  `gorm:"column:user_id;" sql:"not null;" json:"-"`
 }
