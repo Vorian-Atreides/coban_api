@@ -1,5 +1,8 @@
 package administrations
 
+// @SubApi Companies  [/administrations/companies]
+// @SubApi Allows you access to different features of the companies [/administrations/companies]
+
 import (
 	"net/http"
 

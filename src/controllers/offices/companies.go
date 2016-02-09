@@ -1,5 +1,8 @@
 package offices
 
+// @SubApi Companies  [/offices/companies]
+// @SubApi Allows you access to different features of the companies [/offices/companies]
+
 import (
 	"net/http"
 	"coban/api/src/databases"

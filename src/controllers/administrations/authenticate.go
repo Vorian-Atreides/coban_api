@@ -1,5 +1,8 @@
 package administrations
 
+// @SubApi Authentication  [/administrations/authenticate] [/offices/authenticate] [/clients/authenticate]
+// @SubApi Allows you to authenticate [/administrations/authenticate] [/offices/authenticate] [/clients/authenticate]
+
 import (
 	"fmt"
 	"net/http"

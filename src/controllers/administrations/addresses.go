@@ -1,5 +1,8 @@
 package administrations
 
+// @SubApi Addresses  [/administrations/addresses]
+// @SubApi Allows you access to different features of the addresses [/administrations/addresses]
+
 import (
 	"net/http"
 

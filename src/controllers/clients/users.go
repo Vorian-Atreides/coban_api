@@ -1,5 +1,8 @@
 package clients
 
+// @SubApi users  [/clients/users]
+// @SubApi Allows you access to different features of the users [/clients/users]
+
 import (
 	"errors"
 	"net/http"

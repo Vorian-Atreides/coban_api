@@ -1,5 +1,8 @@
 package administrations
 
+// @SubApi Transport Histories  [/administrations/transport-histories]
+// @SubApi Allows you access to different features of the transport histories [/administrations/transport-histories]
+
 import (
 	"net/http"
 

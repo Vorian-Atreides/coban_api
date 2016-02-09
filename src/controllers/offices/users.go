@@ -1,5 +1,8 @@
 package offices
 
+// @SubApi Users  [/offices/users]
+// @SubApi Allows you access to different features of the users [/offices/users]
+
 import (
 	"errors"
 	"math/rand"
