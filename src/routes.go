@@ -1,11 +1,14 @@
 package main
 
 import (
-	"coban/api/src/controllers/administrations"
 
 	"github.com/gorilla/mux"
 	"net/http"
+
+	"coban/api/src/controllers/administrations"
+	"coban/api/src/controllers/clients"
 	"coban/api/src/controllers/common"
+	"coban/api/src/controllers/offices"
 )
 
 type Route struct {
@@ -93,5 +96,52 @@ var routes = Routes {
 		Method: "GET",
 		Path: "/administrations/transport-histories",
 		Handler: administrations.GetTransportHistories,
+	},
+
+	//
+	// Offices
+	//
+
+	Route {
+		Name: "CreateCompany",
+		Method: "POST",
+		Path: "/offices/companies",
+		Handler: offices.CreateCompany,
+	},
+	Route {
+		Name: "GetCurrentCompany",
+		Method: "GET",
+		Path: "/offices/companies",
+		Handler: offices.GetCompany,
+	},
+
+	Route {
+		Name: "GetEmployees",
+		Method: "GET",
+		Path: "/offices/users",
+		Handler: offices.GetEmployees,
+	},
+	Route {
+		Name: "AddEmployee",
+		Method: "POST",
+		Path: "/offices/users",
+		Handler: offices.AddEmployee,
+	},
+	Route {
+		Name: "UpdateEmployee",
+		Method: "PUT",
+		Path: "/offices/users",
+		Handler: offices.UpdateEmployee,
+	},
+
+	//
+	// Clients
+	//
+
+	Route {
+		Name: "UpdatePassword",
+		Method: "PUT",
+		Path: "/clients/users",
+		Handler: clients.UpdatePassword,
 	},
 }

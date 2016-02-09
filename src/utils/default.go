@@ -47,7 +47,7 @@ func CheckTokenAndScope(r *http.Request, scopeChecker databases.IsScope) (databa
 	if !found {
 		return user, errors.New("There aren't any user in the token.")
 	}
-	databases.DB.First(&user, id)
+	databases.DB.First(&user, uint(id))
 	if user.ID == 0 {
 		return user, errors.New("User not found.")
 	}
