@@ -1,3 +1,3 @@
 #!/bin/sh
 
-aglio -i api.md -o index.html.md
+aglio -i api.md -o index.html
