@@ -75,7 +75,8 @@ Resources related to the accounts.
 
 + Request
 
-        +Headers
+    + Headers
+
             Authorization: Bearer <token>
 
 + Response 200 (application/json)
@@ -109,7 +110,8 @@ Resources related to the users.
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
 + Response 200 (application/json)
@@ -187,7 +189,8 @@ Resources related to the users.
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
 + Response 200
@@ -213,17 +216,18 @@ Resources related to the users.
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
-        + Body
+    + Body
 
-        {
-            "first-name":"Gaston",
-            "last-name":"Siffert",
-            "email":"gs060292@live.fr",
-            "scope":"Office"
-        }
+            {
+                "first-name":"Gaston",
+                "last-name":"Siffert",
+                "email":"gs060292@live.fr",
+                "scope":"Office"
+            }
 
 + Response 201
 
@@ -249,17 +253,18 @@ Resources related to the users.
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
-  + Body
+    + Body
 
-        {
-            "first-name":"Gaston",
-            "last-name":"Siffert",
-            "email":"gs060292@live.fr",
-            "scope":"Office"
-        }
+            {
+                "first-name":"Gaston",
+                "last-name":"Siffert",
+                "email":"gs060292@live.fr",
+                "scope":"Office"
+            }
 
 + Response 200
 
@@ -281,16 +286,17 @@ Resources related to the users.
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
-  + Body
+    + Body
 
-        {
-            "old-password":"previous_password",
-            "password-1":"new_password",
-            "password-2":"new_password"
-        }
+            {
+                "old-password":"previous_password",
+                "password-1":"new_password",
+                "password-2":"new_password"
+            }
 
 + Response 400
 
@@ -306,7 +312,8 @@ Resources related to the companies
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
 + Response 200
@@ -344,7 +351,8 @@ Resources related to the companies
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
 + Response 200
@@ -389,7 +397,8 @@ Resources related to the stations
 
 + Request
 
-        + Headers
+    + Headers
+
             Authorization: Bearer <token>
 
 + Response 200
@@ -435,7 +444,8 @@ Resources related to the transport histories
 
 + Request
 
-        + Headers
+    + Headers
+    
             Authorization: Bearer <token>
 
 + Response 200
