@@ -130,7 +130,7 @@ var routes = Routes {
 	Route {
 		Name: "UpdateEmployee",
 		Method: "PUT",
-		Path: "/offices/users",
+		Path: "/offices/users/{id}",
 		Handler: offices.UpdateEmployee,
 	},
 
