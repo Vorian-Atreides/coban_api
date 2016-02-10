@@ -67,30 +67,35 @@ var routes = Routes{
 		Path:    "/administrations/addresses",
 		Handler: administrations.GetAddresses,
 	},
+
 	Route{
 		Name:    "GetCompanies",
 		Method:  "GET",
 		Path:    "/administrations/companies",
 		Handler: administrations.GetCompanies,
 	},
+
 	Route{
 		Name:    "GetUsers",
 		Method:  "GET",
 		Path:    "/administrations/users",
 		Handler: administrations.GetUsers,
 	},
+
 	Route{
 		Name:    "GetStations",
 		Method:  "GET",
 		Path:    "/administrations/stations",
 		Handler: administrations.GetStations,
 	},
+
 	Route{
 		Name:    "GetAccounts",
 		Method:  "GET",
 		Path:    "/administrations/accounts",
 		Handler: administrations.GetAccounts,
 	},
+
 	Route{
 		Name:    "GetTransportHistories",
 		Method:  "GET",
@@ -133,6 +138,7 @@ var routes = Routes{
 		Path:    "/offices/users/{id}",
 		Handler: offices.UpdateEmployee,
 	},
+
 	Route{
 		Name:    "GetTransportHistories",
 		Method:  "GET",
@@ -146,16 +152,23 @@ var routes = Routes{
 		Handler: offices.GetTransportHistoryByUser,
 	},
 
+	Route{
+		Name:    "GetAddresses",
+		Method:  "GET",
+		Path:    "/offices/addresses",
+		Handler: offices.GetAddresses,
+	},
+	Route{
+		Name:    "AddAddress",
+		Method:  "POST",
+		Path:    "/offices/addresses",
+		Handler: offices.AddAddress,
+	},
+
 	//
 	// Clients
 	//
 
-	Route{
-		Name:    "UpdatePassword",
-		Method:  "PUT",
-		Path:    "/clients/users",
-		Handler: clients.UpdatePassword,
-	},
 	Route{
 		Name:    "GetCurrentUser",
 		Method:  "GET",
@@ -163,11 +176,19 @@ var routes = Routes{
 		Handler: clients.GetCurrentUser,
 	},
 	Route{
+		Name:    "UpdatePassword",
+		Method:  "PUT",
+		Path:    "/clients/users",
+		Handler: clients.UpdatePassword,
+	},
+
+	Route{
 		Name:    "GetCurrentCompany",
 		Method:  "GET",
 		Path:    "/clients/companies",
 		Handler: clients.GetCurrentCompany,
 	},
+
 	Route{
 		Name:    "GetTransportHistories",
 		Method:  "GET",

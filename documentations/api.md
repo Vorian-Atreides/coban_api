@@ -65,6 +65,134 @@ Actions related to the authentication
 
         The credentials are invalid.
 
+# Group Addresses
+
+Resources related to the addresses.
+
+## Administration Addresses [/administrations/addresses]
+
+### Every addresses [GET]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id":1,
+                "zip":"100-8307",
+                "street":"千代田区丸の内二丁目1番1号明治安田生命ビル",
+                "city":"東京都",
+                "company-id":1
+            },
+            {
+                "id":2,
+                "zip":"23106-1",
+                "street":"中区栄3-14-12",
+                "city":"名古屋市",
+                "company-id":2
+            },
+            {
+                "id":3,
+                "zip":"140-0002",
+                "street":"品川区東品川二丁目5番8号",
+                "city":"東京都",
+                "company-id":3
+            },
+            {
+                "id":4,
+                "zip":"101-8101",
+                "street":"千代田区神田神保町1丁目105番地",
+                "city":"東京都",
+                "company-id":4
+            },
+            {
+                "id":5,
+                "zip":"111-8081",
+                "street":"台東区駒形1丁目4-8",
+                "city":"東京都",
+                "company-id":5
+            },
+            {
+                "id":6,
+                "zip":"111-8081",
+                "street":"東京都台東区駒形2-5-4",
+                "city":"東京都",
+                "company-id":5
+            }
+        ]
+
++ Response 400
+
+        The credentials are invalid.
+
+## Office Addresses [/offices/addresses]
+
+### Company's addresses [GET]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id":5,
+                "zip":"111-8081",
+                "street":"台東区駒形1丁目4-8",
+                "city":"東京都",
+                "company-id":5
+            },
+            {
+                "id":6,
+                "zip":"111-8081",
+                "street":"東京都台東区駒形2-5-4",
+                "city":"東京都",
+                "company-id":5
+            }
+        ]
+
++ Response 400
+
+        The credentials are invalid.
+
+### Add an addresses [POST]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            {
+                "zip":"222-222",
+                "street":"25 Ginza",
+                "city":"Tokyo"
+            }
+
++ Response 201 (application/json)
+
+        {
+            "id":7,
+            "zip":"222-222",
+            "street":"25 Ginza",
+            "city":"Tokyo",
+            "company-id":4
+        }
+
++ Response 400
+
+        The credentials are invalid.
+
 # Group Accounts
 
 Resources related to the accounts.
