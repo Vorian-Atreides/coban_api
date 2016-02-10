@@ -15,6 +15,17 @@ type updatePassword struct {
 	Password2   string `json:"password-2"`
 }
 
+func GetCurrentUser(w http.ResponseWriter, r *http.Request) {
+	user, err := utils.CheckTokenAndScope(r, databases.IsClient)
+	if err != nil {
+		utils.Error(w, err)
+		return
+	}
+	user.LoadRelated()
+
+	utils.WriteBody(w, user)
+}
+
 //{
 //	"old-password":"password",
 //	"password-1":"new_password",
@@ -25,7 +36,7 @@ func UpdatePassword(w http.ResponseWriter, r *http.Request) {
 	var update updatePassword
 	databases.ReadBody(r, &update)
 
-	user, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+	user, err := utils.CheckTokenAndScope(r, databases.IsClient)
 	if err != nil {
 		utils.Error(w, err)
 		return

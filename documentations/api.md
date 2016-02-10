@@ -282,6 +282,28 @@ Resources related to the users.
 
 ## Client Users [/clients/users]
 
+### Get the current user [GET]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200
+
+            {
+                "first-name":"Gaston",
+                "last-name":"Siffert",
+                "account":null,
+                "company":null,
+                "device":null
+            }
+
++ Response 400
+
+        The credentials are invalid.
+
 ### Update the password [PUT]
 
 + Request
@@ -296,6 +318,16 @@ Resources related to the users.
                 "old-password":"previous_password",
                 "password-1":"new_password",
                 "password-2":"new_password"
+            }
+
++ Response 200
+
+            {
+                "first-name":"Gaston",
+                "last-name":"Siffert",
+                "account":null,
+                "company":null,
+                "device":null
             }
 
 + Response 400
@@ -387,6 +419,23 @@ Resources related to the companies
             "name":"Coban"
         }
 
+## Client Companies [/clients/companies]
+
+### Get the current company [GET]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200
+
+        {
+            "id":5,
+            "name":"Coban"
+        }
+
 # Group Stations
 
 Resources related to the stations
@@ -445,7 +494,7 @@ Resources related to the transport histories
 + Request
 
     + Headers
-    
+
             Authorization: Bearer <token>
 
 + Response 200
@@ -588,3 +637,60 @@ Resources related to the transport histories
 + Response 400
 
         The credentials are invalid.
+
+## Clients Transport Histories [/clients/transport-histories]
+
+### Get the transport histories of the current user [GET]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200
+
+        [
+            {
+                "id":1,
+                "date":"2016-01-10T06:30:00Z",
+                "stock":850,
+                "expense":150,
+                "Entrance":{
+                    "name":"銀座線",
+                    "type":"metro"
+                },
+                "Exit":{
+                    "name":"日比谷線",
+                    "type":"metro"
+                }
+            },
+            {
+                "id":2,
+                "date":"2016-01-10T14:10:00Z",
+                "stock":800,
+                "expense":50,
+                "Entrance":{
+                    "name":"日比谷線",
+                    "type":"metro"
+                },
+                "Exit":{
+                    "name":"千代田線",
+                    "type":"metro"
+                }
+            },
+            {
+                "id":3,
+                "date":"2016-01-10T22:45:00Z",
+                "stock":600,
+                "expense":200,
+                "Entrance":{
+                    "name":"千代田線",
+                    "type":"metro"
+                },
+                "Exit":{
+                    "name":"大宮",
+                    "type":"train"
+                }
+            }
+        ]
