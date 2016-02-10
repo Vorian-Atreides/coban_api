@@ -7,7 +7,7 @@ This API is allowing the consumers to interact with the data related to the Coba
 
 Actions related to the authentication
 
-## Administration Authentication [/administrations/authenticate]
+## Administration's authentication [/administrations/authenticate]
 
 ### Authenticate [POST]
 
@@ -26,7 +26,7 @@ Actions related to the authentication
 
         The credentials are invalid.
 
-## Office Authentication [/offices/authenticate]
+## Office's authentication [/offices/authenticate]
 
 ### Authenticate [POST]
 
@@ -46,7 +46,7 @@ Actions related to the authentication
 
         The credentials are invalid.
 
-## Client Authentication [/clients/authenticate]
+## Client's authentication [/clients/authenticate]
 
 ### Authenticate [POST]
 
@@ -71,7 +71,7 @@ Resources related to the accounts.
 
 ## Administration Accounts [/administrations/accounts]
 
-### List every accounts [GET]
+### Every accounts [GET]
 
 + Request
 
@@ -106,7 +106,7 @@ Resources related to the users.
 
 ## Administration Users [/administrations/users]
 
-### List every users [GET]
+### Every users [GET]
 
 + Request
 
@@ -185,7 +185,7 @@ Resources related to the users.
 
 ## Office Users [/offices/users]
 
-### List every users belonging to a company [GET]
+### Company's employees [GET]
 
 + Request
 
@@ -210,7 +210,7 @@ Resources related to the users.
 
         The credentials are invalid.
 
-### Create a new employee for a company [POST]
+### Create an employee [POST]
 
 + scope (string) - Can be "Office" or "Client"
 
@@ -245,7 +245,7 @@ Resources related to the users.
 
 ## Office Users [/offices/users/{id}]
 
-### Update an employee from the company [PUT]
+### Update an employee [PUT]
 
 + scope (string) - Can be "Office" or "Client"
 
@@ -283,7 +283,7 @@ Resources related to the users.
 
 ## Client Users [/clients/users]
 
-### Get the current user [GET]
+### Get the user [GET]
 
 + Request
 
@@ -305,7 +305,7 @@ Resources related to the users.
 
         The credentials are invalid.
 
-### Update the password [PUT]
+### Update its password [PUT]
 
 + Request
 
@@ -341,7 +341,7 @@ Resources related to the companies
 
 ## Administration Companies [/administrations/companies]
 
-### List every companies [GET]
+### Every companies [GET]
 
 + Request
 
@@ -380,7 +380,7 @@ Resources related to the companies
 
 ## Office Companies [/offices/companies]
 
-### Get current company [GET]
+### Current company [GET]
 
 + Request
 
@@ -422,7 +422,7 @@ Resources related to the companies
 
 ## Client Companies [/clients/companies]
 
-### Get the current company [GET]
+### Current company [GET]
 
 + Request
 
@@ -443,7 +443,7 @@ Resources related to the stations
 
 ## Administration Stations [/administrations/stations]
 
-### List every stations [GET]
+### Every stations [GET]
 
 + Request
 
@@ -490,7 +490,7 @@ Resources related to the transport histories
 
 ## Administration Transport Histories [/administrations/transport-histories]
 
-### List every transport histories [GET]
+### Every transport histories [GET]
 
 + Request
 
@@ -641,7 +641,7 @@ Resources related to the transport histories
 
 ## Office Transport Histories [/offices/transport-histories]
 
-### List every transport histories [GET]
+### Employees' transport histories [GET]
 
 + Request
 
@@ -726,7 +726,7 @@ Resources related to the transport histories
 
 ## Office Transport Histories by user [/offices/transport-histories/{id}]
 
-### List every transport histories for an employee [GET]
+### Employee's transport histories [GET]
 
 + Parameters
     + id (number) - ID of the user to gather
@@ -814,7 +814,7 @@ Resources related to the transport histories
 
 ## Clients Transport Histories [/clients/transport-histories]
 
-### Get the transport histories of the current user [GET]
+### Current user's transport histories [GET]
 
 + Request
 
