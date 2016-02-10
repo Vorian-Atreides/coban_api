@@ -2,24 +2,25 @@ package databases
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 
-	"github.com/jinzhu/gorm"
+	"gopkg.in/yaml.v2"
+
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 )
 
 var DB gorm.DB
 
 type Database struct {
-	User 		string
-	Password 	string
-	Name 		string
-	Host		string
-	Port		int
-	Migration	string
+	User      string
+	Password  string
+	Name      string
+	Host      string
+	Port      int
+	Migration string
 }
 
 const filePath = "/etc/configurations/environments.yml"
@@ -70,5 +71,5 @@ func init() {
 		log.Fatal("Gorm open: ", err)
 	}
 
-	DB.LogMode(false)
+	DB.LogMode(true)
 }

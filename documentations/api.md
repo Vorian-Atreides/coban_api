@@ -244,6 +244,7 @@ Resources related to the users.
         The credentials are invalid.
 
 ## Office Users [/offices/users/{id}]
+
 ### Update an employee from the company [PUT]
 
 + scope (string) - Can be "Office" or "Client"
@@ -340,7 +341,7 @@ Resources related to the companies
 
 ## Administration Companies [/administrations/companies]
 
-### Get every companies [GET]
+### List every companies [GET]
 
 + Request
 
@@ -442,7 +443,7 @@ Resources related to the stations
 
 ## Administration Stations [/administrations/stations]
 
-### Get every stations [GET]
+### List every stations [GET]
 
 + Request
 
@@ -489,7 +490,7 @@ Resources related to the transport histories
 
 ## Administration Transport Histories [/administrations/transport-histories]
 
-### Get every transport histories [GET]
+### List every transport histories [GET]
 
 + Request
 
@@ -638,6 +639,179 @@ Resources related to the transport histories
 
         The credentials are invalid.
 
+## Office Transport Histories [/offices/transport-histories]
+
+### List every transport histories [GET]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200
+
+        [
+            {
+                "id":4,
+                "date":"2016-02-06T04:30:00Z",
+                "stock":10000,
+                "expense":500,
+                "Entrance":{
+                    "name":"横須賀駅",
+                    "type":"train"
+                },
+                "Exit":{
+                    "name":"大宮",
+                    "type":"train"
+                },
+                "User":{
+                    "id":4,
+                    "first-name":"徳川",
+                    "last-name":"家康",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            },
+            {
+                "id":5,
+                "date":"2016-02-06T12:25:00Z",
+                "stock":8000,
+                "expense":2000,
+                "Entrance":{
+                    "name":"大宮",
+                    "type":"train"
+                },
+                "Exit":{
+                    "name":"銀座線",
+                    "type":"metro"
+                },
+                "User":{
+                    "id":4,
+                    "first-name":"徳川",
+                    "last-name":"家康",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            },
+            {
+                "id":6,
+                "date":"2016-02-06T18:55:00Z",
+                "stock":7500,
+                "expense":500,
+                "Entrance":{
+                    "name":"銀座線",
+                    "type":"metro"
+                },
+                "Exit":{
+                    "name":"千代田線",
+                    "type":"metro"
+                },
+                "User":{
+                    "id":4,
+                    "first-name":"徳川",
+                    "last-name":"家康",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            }
+        ]
+
++ Response 400
+
+        The credentials are invalid.
+
+## Office Transport Histories by user [/offices/transport-histories/{id}]
+
+### List every transport histories for an employee [GET]
+
++ Parameters
+    + id (number) - ID of the user to gather
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200
+
+        [
+            {
+                "id":4,
+                "date":"2016-02-06T04:30:00Z",
+                "stock":10000,
+                "expense":500,
+                "Entrance":{
+                    "name":"横須賀駅",
+                    "type":"train"
+                },
+                "Exit":{
+                    "name":"大宮",
+                    "type":"train"
+                },
+                "User":{
+                    "id":4,
+                    "first-name":"徳川",
+                    "last-name":"家康",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            },
+            {
+                "id":5,
+                "date":"2016-02-06T12:25:00Z",
+                "stock":8000,
+                "expense":2000,
+                "Entrance":{
+                    "name":"大宮",
+                    "type":"train"
+                },
+                "Exit":{
+                    "name":"銀座線",
+                    "type":"metro"
+                },
+                "User":{
+                    "id":4,
+                    "first-name":"徳川",
+                    "last-name":"家康",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            },
+            {
+                "id":6,
+                "date":"2016-02-06T18:55:00Z",
+                "stock":7500,
+                "expense":500,
+                "Entrance":{
+                    "name":"銀座線",
+                    "type":"metro"
+                },
+                "Exit":{
+                    "name":"千代田線",
+                    "type":"metro"
+                },
+                "User":{
+                    "id":4,
+                    "first-name":"徳川",
+                    "last-name":"家康",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            }
+        ]
+
++ Response 400
+
+        The credentials are invalid.
+
 ## Clients Transport Histories [/clients/transport-histories]
 
 ### Get the transport histories of the current user [GET]
@@ -694,3 +868,7 @@ Resources related to the transport histories
                 }
             }
         ]
+
++ Response 400
+
+        The credentials are invalid.

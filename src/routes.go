@@ -133,6 +133,18 @@ var routes = Routes{
 		Path:    "/offices/users/{id}",
 		Handler: offices.UpdateEmployee,
 	},
+	Route{
+		Name:    "GetTransportHistories",
+		Method:  "GET",
+		Path:    "/offices/transport-histories",
+		Handler: offices.GetTransportHistories,
+	},
+	Route{
+		Name:    "GetTransportHistoriesByUser",
+		Method:  "GET",
+		Path:    "/offices/transport-histories/{id}",
+		Handler: offices.GetTransportHistoryByUser,
+	},
 
 	//
 	// Clients
