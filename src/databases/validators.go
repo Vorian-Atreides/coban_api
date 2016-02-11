@@ -157,15 +157,15 @@ func (station Station) IsValid() error {
 	if station.Name == "" {
 		err += "STATION: The name is mandatory."
 	}
-	if station.Type == "" {
-		err += "STATION: The type is mandatory."
-	}
+	// if station.Type == "" {
+	// 	err += "STATION: The type is mandatory."
+	// }
 
-	var items []Station
-	DB.Where(Station{Name: station.Name, Type: station.Type}).Not(User{ID: station.ID}).Find(&items)
-	if len(items) > 0 {
-		err += "STATION: This user already exist."
-	}
+	// var items []Station
+	// DB.Where(Station{Name: station.Name, Type: station.Type}).Not(User{ID: station.ID}).Find(&items)
+	// if len(items) > 0 {
+	// 	err += "STATION: This user already exist."
+	// }
 
 	return buildError(err)
 }
@@ -179,15 +179,19 @@ func (transportHistory TransportHistory) IsValid() error {
 		err += "TRANSPORT-HISTORY: The date is mandatory."
 	} else {
 		var items []TransportHistory
-		DB.Where(TransportHistory{Date: transportHistory.Date, UserID: transportHistory.UserID}).
+		DB.Where(TransportHistory{Date: transportHistory.Date,
+			Stock:      transportHistory.Stock,
+			EntranceID: transportHistory.EntranceID,
+			ExitID:     transportHistory.ExitID,
+			UserID:     transportHistory.UserID}).
 			Not(TransportHistory{ID: transportHistory.ID}).Find(&items)
 		if len(items) > 0 {
 			err += "TRANSPORT-HISTORY: This history already exist."
 		}
 	}
-	if transportHistory.Expense <= 0 {
-		err += "TRANSPORT-HISTORY: The expense is mandatory."
-	}
+	// if transportHistory.Expense <= 0 {
+	// 	err += "TRANSPORT-HISTORY: The expense is mandatory."
+	// }
 	if transportHistory.Stock <= 0 {
 		err += "TRANSPORT-HISTORY: The stock is mandatory."
 	}

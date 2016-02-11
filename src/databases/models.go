@@ -118,8 +118,14 @@ type User struct {
 type Station struct {
 	ID uint `gorm:"column:id; primary_key" json:"-"`
 
-	Name string `gorm:"column:name;" sql:"not null;" json:"name"`
-	Type string `gorm:"column:type;" sql:"not null;" json:"type"`
+	// Name string `gorm:"column:name;" sql:"not null;" json:"name"`
+	// Type string `gorm:"column:type;" sql:"not null;" json:"type"`
+
+	LineCode    uint   `gorm:"column:line_code;" sql:"not null;" json:"-"`
+	StationCode uint   `gorm:"column:station_code;" sql:"not null;" json:"-"`
+	Company     string `gorm:"column:company;" sql:"not null;" json:"company"`
+	Line        string `gorm:"column:line;" sql:"not null;" json:"line"`
+	Name        string `gorm:"column:name;" sql:"not null;" json:"station"`
 }
 
 // TransportHistory {

@@ -33,10 +33,10 @@ func GetTransportHistoryByID(id uint) (databases.TransportHistory, error) {
 }
 
 // CreateTransportHistory try to create a new transport history
-func CreateTransportHistory(date time.Time, stock uint, expense uint,
-	entranceID uint, exitID uint, userID uint) (databases.TransportHistory, error) {
+func CreateTransportHistory(date time.Time, stock uint, entranceID uint,
+	exitID uint, userID uint) (databases.TransportHistory, error) {
 
-	transportHistory := databases.TransportHistory{Date: date, Stock: stock, Expense: expense,
+	transportHistory := databases.TransportHistory{Date: date, Stock: stock,
 		EntranceID: entranceID, ExitID: exitID, UserID: userID}
 
 	if err := transportHistory.IsValid(); err != nil {

@@ -1012,3 +1012,111 @@ Resources related to the transport histories
 + Response 400
 
         The credentials are invalid.
+
+### Add new transport histories for the current user [POST]
+
+    FgEAAiBK5SvOIScPAAq6AA== is a base64 string of the data:[0x16, 0x01, 0x00, 0x02, 0x20, 0x4A, 0xE5, 0x2B, 0xCE, 0x21, 0x27, 0x0F, 0x00, 0x0A, 0xBA, 0x00]
+
+    FgEAAiBK4z7jMIsHAAqzAA== is a base64 string of the data: [0x16, 0x01, 0x00, 0x02, 0x20, 0x4A, 0xE3, 0x3E, 0xE3, 0x30, 0x8B, 0x07, 0x00, 0x0A, 0xB3, 0x00]
+
+    FgEAAiBKziHSAk4IAAqxAA== is a base64 string of the data:[0x16, 0x01, 0x00, 0x02, 0x20, 0x4A, 0xCE, 0x21, 0xD2, 0x02, 0x4E, 0x08, 0x00, 0x0A, 0xB1, 0x00]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            [
+                "FgEAAiBK5SvOIScPAAq6AA==",
+                "FgEAAiBK4z7jMIsHAAqzAA==",
+                "FgEAAiBKziHSAk4IAAqxAA=="
+            ]
+        
++ Response 201
+
+        [
+            {
+                "id":11,
+                "date":"2016-02-10T00:00:00Z",
+                "stock":3879,
+                "expense":0,
+                "Entrance":
+                {
+                    "company":"東京地下鉄",
+                    "line":"4号線丸ノ内",
+                    "station":"東京"
+                },
+                "Exit":
+                {
+                    "company":"東京急行電鉄",
+                    "line":"東急東横",
+                    "station":"祐天寺"
+                },
+                "User":
+                {
+                    "id":1,
+                    "first-name":"青木",
+                    "last-name":"真琳",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            },
+            {
+                "id":12,
+                "date":"2016-02-10T00:00:00Z",
+                "stock":1931,
+                "expense":0,
+                "Entrance":
+                {
+                    "company":"東京地下鉄",
+                    "line":"3号線銀座",
+                    "station":"渋谷"
+                },
+                "Exit":
+                {
+                    "company":"東京地下鉄",
+                    "line":"3号線銀座",
+                    "station":"上野広小路"
+                },
+                "User":
+                {
+                    "id":1,
+                    "first-name":"青木",
+                    "last-name":"真琳",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            },
+            {
+                "id":13,
+                "date":"2016-02-10T00:00:00Z",
+                "stock":2126,
+                "expense":0,
+                "Entrance":
+                {
+                    "company":"東京急行電鉄",
+                    "line":"東急東横",
+                    "station":"祐天寺"
+                },
+                "Exit":
+                {
+                    "company":"東京急行電鉄",
+                    "line":"東急田園都市",
+                    "station":"渋谷"
+                },
+                "User":
+                {
+                    "id":1,
+                    "first-name":"青木",
+                    "last-name":"真琳",
+                    "Account":null,
+                    "Company":null,
+                    "Device":null
+                }
+            }
+        ]
