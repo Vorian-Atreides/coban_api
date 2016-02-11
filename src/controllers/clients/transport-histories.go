@@ -19,10 +19,11 @@ type lightTransportHistory struct {
 	Exit     *databases.Station `json:"exit; omitempty"`
 }
 
+// GetTransportHistories get the transport histories for the current user
 func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
-	user, err := utils.CheckTokenAndScope(r, databases.IsClient)
+	user, status, err := utils.CheckTokenAndScope(r, databases.IsClient)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
@@ -42,15 +43,16 @@ func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
 		lightTransportHistories = append(lightTransportHistories, light)
 	}
 
-	utils.WriteBody(w, lightTransportHistories)
+	utils.WriteBody(w, lightTransportHistories, http.StatusOK)
 }
 
+// AddTransportHistory Create a new transport history for the current user
 func AddTransportHistory(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsClient)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsClient)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
-	utils.WriteBody(w, "Unimplemented exception !")
+	utils.WriteBody(w, "Unimplemented exception !", http.StatusBadRequest)
 }

@@ -4,54 +4,88 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 
 	"coban/api/src/databases"
 )
 
-func WriteBody(w http.ResponseWriter, content interface {}) error {
+// WriteBody serialise an object in JSON and write it
+// into the http.ResponseWriter's body
+func WriteBody(w http.ResponseWriter, content interface{},
+	statusHTTP int) error {
 	data, err := json.Marshal(content)
 	if err != nil {
 		return err
 	}
 
+	log.Println(string(data))
 	if _, err = fmt.Fprint(w, string(data)); err != nil {
 		return err
 	}
+	w.WriteHeader(statusHTTP)
 	return nil
 }
 
-func Error(w http.ResponseWriter, err error) {
-	w.WriteHeader(http.StatusBadRequest)
+// ReadBody unserialise an object fromt the http.Request's body
+func ReadBody(r *http.Request, model interface{}) error {
+	decoder := json.NewDecoder(r.Body)
+
+	err := decoder.Decode(model)
+
+	return err
+}
+
+// Error Write the go's error into the http.ResponseWriter's body
+func Error(w http.ResponseWriter, err error, statusHTTP int) {
+	w.WriteHeader(statusHTTP)
+	log.Println(err)
 	fmt.Fprint(w, err)
 }
 
-func CheckTokenAndScope(r *http.Request, scopeChecker databases.IsScope) (databases.User, error) {
+// CheckTokenAndScope Ensure that the current token is:
+// 		- signed with the server's private key
+//		- isn't expired
+//		- has a scope
+//		- the scope is valid for the user
+//		- the user exist and is valid
+func CheckTokenAndScope(r *http.Request,
+	scopeChecker databases.IsScope) (databases.User, int, error) {
 	var user databases.User
 
 	token, err := ParseTokenFromRequest(r)
 	if err != nil {
-		return user, err
+		return user, http.StatusBadRequest, err
 	}
 	if !token.Valid {
-		return user, errors.New("This token isn't valid.")
+		return user,
+			http.StatusUnauthorized,
+			errors.New("This token isn't valid.")
 	}
 	scope, found := token.Claims["scope"].(float64)
 	if !found {
-		return user, errors.New("There aren't any scope in the token.")
+		return user,
+			http.StatusBadRequest,
+			errors.New("There aren't any scope in the token.")
 	}
 	if !scopeChecker(byte(scope)) {
-		return user, errors.New("Unauthorised user.")
+		return user,
+			http.StatusUnauthorized,
+			errors.New("Unauthorised user.")
 	}
 	id, found := token.Claims["user"].(float64)
 	if !found {
-		return user, errors.New("There aren't any user in the token.")
+		return user,
+			http.StatusBadRequest,
+			errors.New("There aren't any user in the token.")
 	}
 	databases.DB.First(&user, uint(id))
 	if user.ID == 0 {
-		return user, errors.New("User not found.")
+		return user,
+			http.StatusBadRequest,
+			errors.New("User not found.")
 	}
 	user.LoadRelated()
 
-	return user, nil
+	return user, 0, nil
 }

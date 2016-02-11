@@ -11,10 +11,7 @@ func buildError(err string) error {
 	return errors.New(err)
 }
 
-//
-// Address
-//
-
+// IsValid (Address) ensure the address is valid and can be serialised
 func (address Address) IsValid() error {
 	err := ""
 
@@ -33,9 +30,9 @@ func (address Address) IsValid() error {
 
 	var items []Address
 	DB.Where(Address{
-		City:address.City, Zip:address.Zip,
-		Street:address.Street, CompanyID:address.CompanyID,
-	}).Not(Address{ID:address.ID}).Find(&items)
+		City: address.City, Zip: address.Zip,
+		Street: address.Street, CompanyID: address.CompanyID,
+	}).Not(Address{ID: address.ID}).Find(&items)
 	if len(items) > 0 {
 		err += "ADDRESS: This address already exist."
 	}
@@ -49,10 +46,7 @@ func (address Address) IsValid() error {
 	return buildError(err)
 }
 
-//
-// Company
-//
-
+// IsValid (Company) ensure the company is valid and can be serialised
 func (company Company) IsValid() error {
 	err := ""
 
@@ -61,7 +55,7 @@ func (company Company) IsValid() error {
 	}
 
 	var items []Company
-	DB.Where(Company{Name:company.Name}).Not(Company{ID:company.ID}).Find(&items)
+	DB.Where(Company{Name: company.Name}).Not(Company{ID: company.ID}).Find(&items)
 	if len(items) > 0 {
 		err += "COMPANY: This company already exist."
 	}
@@ -69,10 +63,7 @@ func (company Company) IsValid() error {
 	return buildError(err)
 }
 
-//
-// Device
-//
-
+// IsValid (Device) ensure the device is valid and can be serialised
 func (device Device) IsValid() error {
 	err := ""
 
@@ -87,7 +78,7 @@ func (device Device) IsValid() error {
 	}
 
 	var items []Device
-	DB.Where(Device{UserID:device.UserID}).Not(Device{ID:device.ID}).Find(&items)
+	DB.Where(Device{UserID: device.UserID}).Not(Device{ID: device.ID}).Find(&items)
 	if len(items) > 0 {
 		err += "DEVICE: This device already exist."
 	}
@@ -95,10 +86,7 @@ func (device Device) IsValid() error {
 	return buildError(err)
 }
 
-//
-// Account
-//
-
+// IsValid (Account) ensure the account is valid and can be serialised
 func (account Account) IsValid(onlyPassword bool) error {
 	err := ""
 
@@ -114,7 +102,7 @@ func (account Account) IsValid(onlyPassword bool) error {
 
 	if !onlyPassword {
 		var items []Account
-		DB.Where(Account{Email:account.Email}).Not(Account{ID:account.ID}) .Find(&items)
+		DB.Where(Account{Email: account.Email}).Not(Account{ID: account.ID}).Find(&items)
 		if len(items) > 0 {
 			err += "ACCOUNT: This email is already used."
 		}
@@ -123,10 +111,7 @@ func (account Account) IsValid(onlyPassword bool) error {
 	return buildError(err)
 }
 
-//
-// User
-//
-
+// IsValid (User) ensure the user is valid and can be serialised
 func (user User) IsValid() error {
 	err := ""
 
@@ -157,7 +142,7 @@ func (user User) IsValid() error {
 	}
 
 	var items []User
-	DB.Where(User{AccountID:user.AccountID}).Not(User{ID:user.ID}).Find(&items)
+	DB.Where(User{AccountID: user.AccountID}).Not(User{ID: user.ID}).Find(&items)
 	if len(items) > 0 {
 		err += "USER: This user already exist."
 	}
@@ -165,10 +150,7 @@ func (user User) IsValid() error {
 	return buildError(err)
 }
 
-//
-// Station
-//
-
+// IsValid (Station) ensure the station is valid and can be serialised
 func (station Station) IsValid() error {
 	err := ""
 
@@ -180,7 +162,7 @@ func (station Station) IsValid() error {
 	}
 
 	var items []Station
-	DB.Where(Station{Name:station.Name, Type:station.Type}).Not(User{ID:station.ID}).Find(&items)
+	DB.Where(Station{Name: station.Name, Type: station.Type}).Not(User{ID: station.ID}).Find(&items)
 	if len(items) > 0 {
 		err += "STATION: This user already exist."
 	}
@@ -188,10 +170,8 @@ func (station Station) IsValid() error {
 	return buildError(err)
 }
 
-//
-// TransportHistory
-//
-
+// IsValid (TansportHistory) ensure the transport history is valid
+// and can be serialised
 func (transportHistory TransportHistory) IsValid() error {
 	err := ""
 
@@ -199,8 +179,8 @@ func (transportHistory TransportHistory) IsValid() error {
 		err += "TRANSPORT-HISTORY: The date is mandatory."
 	} else {
 		var items []TransportHistory
-		DB.Where(TransportHistory{Date:transportHistory.Date, UserID:transportHistory.UserID}).
-		Not(TransportHistory{ID:transportHistory.ID}).Find(&items)
+		DB.Where(TransportHistory{Date: transportHistory.Date, UserID: transportHistory.UserID}).
+			Not(TransportHistory{ID: transportHistory.ID}).Find(&items)
 		if len(items) > 0 {
 			err += "TRANSPORT-HISTORY: This history already exist."
 		}

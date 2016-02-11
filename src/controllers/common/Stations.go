@@ -1,21 +1,24 @@
 package common
 
 import (
-	"coban/api/src/databases"
 	"errors"
+
+	"coban/api/src/databases"
 )
 
+// GetStations get every stations in the databases
 func GetStations() []databases.Station {
 	var stations []databases.Station
 
 	databases.DB.Find(&stations)
-	for i, _ := range stations {
+	for i := range stations {
 		stations[i].LoadRelated()
 	}
 
 	return stations
 }
 
+// GetStationByID get a station by its ID
 func GetStationByID(id uint) (databases.Station, error) {
 	var station databases.Station
 
@@ -28,8 +31,9 @@ func GetStationByID(id uint) (databases.Station, error) {
 	return station, nil
 }
 
+// CreateStation try to create a new station
 func CreateStation(name string, transportType string) (databases.Station, error) {
-	station := databases.Station{Name:name, Type:transportType}
+	station := databases.Station{Name: name, Type: transportType}
 
 	if err := station.IsValid(); err != nil {
 		return station, err
@@ -39,8 +43,9 @@ func CreateStation(name string, transportType string) (databases.Station, error)
 	return station, databases.DB.Error
 }
 
+// UpdateStation try to update a station
 func UpdateStation(name string, transporType string, id uint) (databases.Station, error) {
-	station := databases.Station{Name:name, Type:transporType, ID:id}
+	station := databases.Station{Name: name, Type: transporType, ID: id}
 
 	var target databases.Station
 	databases.DB.First(&target, id)

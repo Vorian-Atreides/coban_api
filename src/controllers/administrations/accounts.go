@@ -8,13 +8,14 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetAccounts get every accounts in the database
 func GetAccounts(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	accounts := common.GetAccounts()
-	utils.WriteBody(w, accounts)
+	utils.WriteBody(w, accounts, http.StatusOK)
 }

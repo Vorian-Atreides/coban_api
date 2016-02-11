@@ -8,13 +8,14 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetStations get every stations in the database
 func GetStations(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	stations := common.GetStations()
-	utils.WriteBody(w, stations)
+	utils.WriteBody(w, stations, http.StatusOK)
 }

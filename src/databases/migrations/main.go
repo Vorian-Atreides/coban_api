@@ -20,7 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	migrator, err := gomigrate.NewMigrator(db, gomigrate.Mysql{}, path + env[dbEnv].Migration)
+	migrator, err := gomigrate.NewMigrator(db, gomigrate.Mysql{}, path+env[dbEnv].Migration)
 	if err != nil {
 		log.Fatal(err)
 	}

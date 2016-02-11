@@ -1,23 +1,25 @@
 package common
 
 import (
+	"errors"
 	"time"
 
 	"coban/api/src/databases"
-	"errors"
 )
 
+// GetTransportHistories get every transport histories from the database
 func GetTransportHistories() []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 
 	databases.DB.Find(&transportHistories)
-	for i, _ := range transportHistories {
+	for i := range transportHistories {
 		transportHistories[i].LoadRelated()
 	}
 
 	return transportHistories
 }
 
+// GetTransportHistoryByID get a station by its ID
 func GetTransportHistoryByID(id uint) (databases.TransportHistory, error) {
 	var transportHistory databases.TransportHistory
 
@@ -30,11 +32,12 @@ func GetTransportHistoryByID(id uint) (databases.TransportHistory, error) {
 	return transportHistory, databases.DB.Error
 }
 
+// CreateTransportHistory try to create a new transport history
 func CreateTransportHistory(date time.Time, stock uint, expense uint,
 	entranceID uint, exitID uint, userID uint) (databases.TransportHistory, error) {
 
-	transportHistory := databases.TransportHistory{Date:date, Stock:stock, Expense:expense,
-		EntranceID:entranceID, ExitID:exitID, UserID:userID}
+	transportHistory := databases.TransportHistory{Date: date, Stock: stock, Expense: expense,
+		EntranceID: entranceID, ExitID: exitID, UserID: userID}
 
 	if err := transportHistory.IsValid(); err != nil {
 		return transportHistory, err

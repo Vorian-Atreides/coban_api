@@ -8,13 +8,14 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetAddresses get every addresses in the database
 func GetAddresses(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	addresses := common.GetAddresses()
-	utils.WriteBody(w, addresses)
+	utils.WriteBody(w, addresses, http.StatusOK)
 }

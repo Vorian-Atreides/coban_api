@@ -2,13 +2,13 @@ package offices
 
 import (
 	"errors"
+	"log"
 	"math/rand"
 	"net/http"
 
 	"coban/api/src/controllers/common"
 	"coban/api/src/databases"
 	"coban/api/src/utils"
-	"log"
 )
 
 type bodyUser struct {
@@ -21,16 +21,18 @@ type bodyUser struct {
 var scopes = map[string]byte{
 	"Office": databases.OfficeScope,
 	"Client": databases.ClientScope,
+	"Both":   databases.ClientScope | databases.OfficeScope,
 }
 
+// GetEmployees Get every employees belonging to the same company than the user
 func GetEmployees(w http.ResponseWriter, r *http.Request) {
-	company, err := GetCurrentCompany(r)
+	company, status, err := GetCurrentCompany(r)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
-	utils.WriteBody(w, company.Employees)
+	utils.WriteBody(w, company.Employees, http.StatusOK)
 }
 
 func getScope(scope string) (byte, error) {
@@ -54,7 +56,7 @@ func sendPasswordEmail(password string, to string) {
 	log.Println("Password: ", password, " to: ", to)
 }
 
-// Scope: "Office", "Client"
+// AddEmployee Scope: "Office", "Client"
 //
 //{
 //	"first-name":"Gaston",
@@ -63,41 +65,40 @@ func sendPasswordEmail(password string, to string) {
 //	"scope":"Office"
 //}
 //
-
 func AddEmployee(w http.ResponseWriter, r *http.Request) {
 	var creation bodyUser
-	databases.ReadBody(r, &creation)
+	utils.ReadBody(r, &creation)
 
-	company, err := GetCurrentCompany(r)
+	company, status, err := GetCurrentCompany(r)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 	scope, err := getScope(creation.Scope)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
 	password := generateRandomPassword(20)
 	account, err := common.CreateAccount(creation.Email, scope, password)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
 	user, err := common.CreateUser(creation.FirstName, creation.LastName, account.ID, company.ID)
 	if err != nil {
 		common.DeleteAccount(account.ID)
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 	sendPasswordEmail(password, account.Email)
 
-	utils.WriteBody(w, user)
+	utils.WriteBody(w, user, http.StatusCreated)
 }
 
-// Scope: "Office", "Client"
+// UpdateEmployee Scope: "Office", "Client"
 //
 //{
 //	"first-name":"Gaston",
@@ -106,48 +107,49 @@ func AddEmployee(w http.ResponseWriter, r *http.Request) {
 //	"scope":"Office"
 //}
 //
-
 func UpdateEmployee(w http.ResponseWriter, r *http.Request) {
 	var update bodyUser
-	databases.ReadBody(r, &update)
+	utils.ReadBody(r, &update)
 
 	id, err := utils.GetUINT64Parameter(r, "id")
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
-	officer, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+	officer, status, err := utils.CheckTokenAndScope(r, databases.IsOffice)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	target, err := common.GetUserByID(uint(id))
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 	if target.CompanyID != officer.CompanyID {
-		utils.Error(w, errors.New("You don't have the right to modify this user."))
+		utils.Error(w,
+			errors.New("You don't have the right to modify this user."),
+			http.StatusUnauthorized)
 		return
 	}
 
 	scope, err := getScope(update.Scope)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 	_, err = common.UpdateAccount(update.Email, scope, target.AccountID)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 	user, err := common.UpdateUserByID(update.FirstName, update.LastName, target.CompanyID, target.ID)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
-	utils.WriteBody(w, user)
+	utils.WriteBody(w, user, http.StatusOK)
 }

@@ -8,19 +8,20 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetCurrentCompany Get the company to whom belong the current user
 func GetCurrentCompany(w http.ResponseWriter, r *http.Request) {
-	user, err := utils.CheckTokenAndScope(r, databases.IsClient)
+	user, status, err := utils.CheckTokenAndScope(r, databases.IsClient)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	company, err := common.GetCompanyByID(user.CompanyID)
 	if err != nil {
 		// Should not be possible.
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
-	utils.WriteBody(w, company)
+	utils.WriteBody(w, company, http.StatusOK)
 }

@@ -8,13 +8,14 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetCompanies get every companies in the database
 func GetCompanies(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	companies := common.GetCompanies()
-	utils.WriteBody(w, companies)
+	utils.WriteBody(w, companies, http.StatusOK)
 }

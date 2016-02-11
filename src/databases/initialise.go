@@ -6,14 +6,15 @@ import (
 	"log"
 	"os"
 
-	"gopkg.in/yaml.v2"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"gopkg.in/yaml.v2"
 )
 
+// DB is an instance of the database used for the queries
 var DB gorm.DB
 
+// Database is a structure describing the database environment
 type Database struct {
 	User      string
 	Password  string
@@ -25,6 +26,7 @@ type Database struct {
 
 const filePath = "/etc/configurations/environments.yml"
 
+// ParseConfigurationFile get the database environment from the unix environment
 func ParseConfigurationFile() map[string]Database {
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -38,10 +40,12 @@ func ParseConfigurationFile() map[string]Database {
 	return env
 }
 
+// ConnectionString build a connection string with the environment configuration
 func ConnectionString(env Database) string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?&parseTime=True", env.User, env.Password, env.Host, env.Port, env.Name)
 }
 
+// GetDBEnv parse the unix environment for finding the DB_ENV
 func GetDBEnv() string {
 	dbEnv := os.Getenv("DB_ENV")
 	if dbEnv == "" {
@@ -57,9 +61,8 @@ func configuration() string {
 	environments := ParseConfigurationFile()
 	if env, ok := environments[arg]; ok {
 		return ConnectionString(env)
-	} else {
-		log.Fatal("Undefined environment: ", arg)
 	}
+	log.Fatal("Undefined environment: ", arg)
 	return ""
 }
 

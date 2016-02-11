@@ -11,18 +11,19 @@ import (
 	"coban/api/src/controllers/offices"
 )
 
-type Route struct {
+type route struct {
 	Name    string
 	Method  string
 	Path    string
 	Handler http.HandlerFunc
 }
-type Routes []Route
+type routes []route
 
+// NewRouter generate the routes for the API
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
-	for _, route := range routes {
+	for _, route := range items {
 		router.
 			Methods(route.Method).
 			Name(route.Name).
@@ -32,25 +33,25 @@ func NewRouter() *mux.Router {
 	return router
 }
 
-var routes = Routes{
+var items = routes{
 
 	//
 	//	Common
 	//
 
-	Route{
+	route{
 		Name:    "Authenticate",
 		Method:  "POST",
 		Path:    "/users/authenticate",
 		Handler: common.AuthenticateRequest,
 	},
-	Route{
+	route{
 		Name:    "Authenticate",
 		Method:  "POST",
 		Path:    "/offices/authenticate",
 		Handler: common.AuthenticateRequest,
 	},
-	Route{
+	route{
 		Name:    "Authenticate",
 		Method:  "POST",
 		Path:    "/administrations/authenticate",
@@ -61,42 +62,42 @@ var routes = Routes{
 	//	Administrations
 	//
 
-	Route{
+	route{
 		Name:    "GetAddresses",
 		Method:  "GET",
 		Path:    "/administrations/addresses",
 		Handler: administrations.GetAddresses,
 	},
 
-	Route{
+	route{
 		Name:    "GetCompanies",
 		Method:  "GET",
 		Path:    "/administrations/companies",
 		Handler: administrations.GetCompanies,
 	},
 
-	Route{
+	route{
 		Name:    "GetUsers",
 		Method:  "GET",
 		Path:    "/administrations/users",
 		Handler: administrations.GetUsers,
 	},
 
-	Route{
+	route{
 		Name:    "GetStations",
 		Method:  "GET",
 		Path:    "/administrations/stations",
 		Handler: administrations.GetStations,
 	},
 
-	Route{
+	route{
 		Name:    "GetAccounts",
 		Method:  "GET",
 		Path:    "/administrations/accounts",
 		Handler: administrations.GetAccounts,
 	},
 
-	Route{
+	route{
 		Name:    "GetTransportHistories",
 		Method:  "GET",
 		Path:    "/administrations/transport-histories",
@@ -107,58 +108,58 @@ var routes = Routes{
 	// Offices
 	//
 
-	Route{
+	route{
 		Name:    "CreateCompany",
 		Method:  "POST",
 		Path:    "/offices/companies",
 		Handler: offices.CreateCompany,
 	},
-	Route{
+	route{
 		Name:    "GetCurrentCompany",
 		Method:  "GET",
 		Path:    "/offices/companies",
 		Handler: offices.GetCompany,
 	},
 
-	Route{
+	route{
 		Name:    "GetEmployees",
 		Method:  "GET",
 		Path:    "/offices/users",
 		Handler: offices.GetEmployees,
 	},
-	Route{
+	route{
 		Name:    "AddEmployee",
 		Method:  "POST",
 		Path:    "/offices/users",
 		Handler: offices.AddEmployee,
 	},
-	Route{
+	route{
 		Name:    "UpdateEmployee",
 		Method:  "PUT",
 		Path:    "/offices/users/{id}",
 		Handler: offices.UpdateEmployee,
 	},
 
-	Route{
+	route{
 		Name:    "GetTransportHistories",
 		Method:  "GET",
 		Path:    "/offices/transport-histories",
 		Handler: offices.GetTransportHistories,
 	},
-	Route{
+	route{
 		Name:    "GetTransportHistoriesByUser",
 		Method:  "GET",
 		Path:    "/offices/transport-histories/{id}",
 		Handler: offices.GetTransportHistoryByUser,
 	},
 
-	Route{
+	route{
 		Name:    "GetAddresses",
 		Method:  "GET",
 		Path:    "/offices/addresses",
 		Handler: offices.GetAddresses,
 	},
-	Route{
+	route{
 		Name:    "AddAddress",
 		Method:  "POST",
 		Path:    "/offices/addresses",
@@ -169,33 +170,33 @@ var routes = Routes{
 	// Clients
 	//
 
-	Route{
+	route{
 		Name:    "GetCurrentUser",
 		Method:  "GET",
 		Path:    "/clients/users",
 		Handler: clients.GetCurrentUser,
 	},
-	Route{
+	route{
 		Name:    "UpdatePassword",
 		Method:  "PUT",
 		Path:    "/clients/users",
 		Handler: clients.UpdatePassword,
 	},
 
-	Route{
+	route{
 		Name:    "GetCurrentCompany",
 		Method:  "GET",
 		Path:    "/clients/companies",
 		Handler: clients.GetCurrentCompany,
 	},
 
-	Route{
+	route{
 		Name:    "GetTransportHistories",
 		Method:  "GET",
 		Path:    "/clients/transport-histories",
 		Handler: clients.GetTransportHistories,
 	},
-	Route{
+	route{
 		Name:    "AddTransportHistory",
 		Method:  "POST",
 		Path:    "/clients/transport-histories",

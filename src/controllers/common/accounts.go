@@ -7,6 +7,7 @@ import (
 	"coban/api/src/utils"
 )
 
+// Authenticate try to authenticate an user with its email and its password
 func Authenticate(email string, password string) (string, error) {
 	var account databases.Account
 	databases.DB.Where(&databases.Account{Email: email}).First(&account)
@@ -20,17 +21,19 @@ func Authenticate(email string, password string) (string, error) {
 	return utils.GenerateToken(account.ID, account.Scope)
 }
 
+// GetAccounts get every accounts in the database
 func GetAccounts() []databases.Account {
 	var accounts []databases.Account
 
 	databases.DB.Find(&accounts)
-	for i, _ := range accounts {
+	for i := range accounts {
 		accounts[i].LoadRelated()
 	}
 
 	return accounts
 }
 
+// GetAccountByID Get an account by its ID
 func GetAccountByID(id uint) (databases.Account, error) {
 	var account databases.Account
 
@@ -43,8 +46,11 @@ func GetAccountByID(id uint) (databases.Account, error) {
 	return account, databases.DB.Error
 }
 
-func CreateAccount(email string, scope byte, password string) (databases.Account, error) {
-	account := databases.Account{Email: email, Scope: scope, Password: utils.HashPassword(password)}
+// CreateAccount try to create a new account
+func CreateAccount(email string, scope byte,
+	password string) (databases.Account, error) {
+	account := databases.Account{Email: email, Scope: scope,
+		Password: utils.HashPassword(password)}
 
 	if err := account.IsValid(false); err != nil {
 		return account, err
@@ -54,7 +60,9 @@ func CreateAccount(email string, scope byte, password string) (databases.Account
 	return account, databases.DB.Error
 }
 
-func UpdateAccount(email string, scope byte, id uint) (databases.Account, error) {
+// UpdateAccount try to update an account
+func UpdateAccount(email string, scope byte,
+	id uint) (databases.Account, error) {
 	var account databases.Account
 
 	databases.DB.First(&account, id)
@@ -71,6 +79,7 @@ func UpdateAccount(email string, scope byte, id uint) (databases.Account, error)
 	return account, databases.DB.Error
 }
 
+// UpdateAccountPassword try to update th password from an account
 func UpdateAccountPassword(password string, id uint) (databases.Account, error) {
 	var account databases.Account
 
@@ -88,6 +97,7 @@ func UpdateAccountPassword(password string, id uint) (databases.Account, error) 
 	return account, databases.DB.Error
 }
 
+// DeleteAccount try to delete an account
 func DeleteAccount(id uint) error {
 	var account databases.Account
 

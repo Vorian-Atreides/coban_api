@@ -8,13 +8,14 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetUsers get every users in the database
 func GetUsers(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	users := common.GetUsers()
-	utils.WriteBody(w, users)
+	utils.WriteBody(w, users, http.StatusOK)
 }

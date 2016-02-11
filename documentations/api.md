@@ -24,6 +24,10 @@ Actions related to the authentication
 
 + Response 400
 
+        Invalid JSON.
+
++ Response 401
+
         The credentials are invalid.
 
 ## Office's authentication [/offices/authenticate]
@@ -44,6 +48,10 @@ Actions related to the authentication
 
 + Response 400
 
+        Invalid JSON.
+
++ Response 401
+
         The credentials are invalid.
 
 ## Client's authentication [/clients/authenticate]
@@ -62,6 +70,10 @@ Actions related to the authentication
         eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEuNDU1MDU0ODQ1ZSswOSwiaWF0IjoxLjQ1NTA0NzY0NWUrMDksImlzcyI6ImNvYmFuIiwibmJmIjoxLjQ1NTA0NzY0NWUrMDksInNjb3BlIjoxLCJ1c2VyIjoxfQ.HH2fAD0mpdA9WVv8c9mmkfuaHjkjGQ6S2GfUA07sLe9WhMZvS4nsjf_U8blfuXTM8FgJ3oQ6QwuGcHTePRGL6NR3Me9a9cNX6Ds-EIOWIWhYJiEfcCOi8Slm5MsvpAOTXmnRqfxg4WzGbr-2A8Rz9t_8UHsX3HRyTIZ7HzU-tMTCmaGNSIxQyxOBx0MmYGd7pWA8h8N7-ERlI5kvIBOvgQsRcYb6xNtrSkPdWlQtqgy4stzenBd0iPBsMOLEW3iw_8exnOwx_-BJVBVhSD51pws1D0rfqJ2xxcKWJWKYCeLwSriKGgylckGSdMevCZthqVMnGnrLTp94w3n7-wr-Fsj_AdnFl8JoV7qo6xO9BtAHuQcbFrSmLRAdLXaLBm7SU4SDhGBO3mSjDaoIJWgeiThakeaMSXLNW0E2cS1ifGfysy2Vh5Oa5Sf_geocpX9gF98vPQfbUY55V9PzXWektvm7vEfw93pfJ_gXPV0yrZMnjf5KILqbQdWpBjutsb_yXlybqs7f7V0kRo5qGJ8q0zee6pIBKzuOjUUqrwkujGS6KMBMp9M7eeYfVYpkwpvUYPNFhcdjEwO1TP_MT4E_4F3aqPNLLCCjjge-V-dD7nzNjlcDMdJIAsXohxgvdZj5dy5bzvU-ezP9lOrN091GmHIXpJoVtmxozcRb7g1tXKw
 
 + Response 400
+
+        Invalid JSON.
+
++ Response 401
 
         The credentials are invalid.
 

@@ -9,10 +9,12 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetTransportHistories get every transport histories from each employees
+// working for the same company than the current user
 func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
-	user, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+	user, status, err := utils.CheckTokenAndScope(r, databases.IsOffice)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
@@ -24,30 +26,33 @@ func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
 		transportHistories[i].LoadRelated()
 	}
 
-	utils.WriteBody(w, transportHistories)
+	utils.WriteBody(w, transportHistories, http.StatusOK)
 }
 
+// GetTransportHistoryByUser get every transport histories for an user working
+// for the same company than the current user
 func GetTransportHistoryByUser(w http.ResponseWriter, r *http.Request) {
-	current, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+	current, status, err := utils.CheckTokenAndScope(r, databases.IsOffice)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	id, err := utils.GetUINT64Parameter(r, "id")
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
 	user, err := common.GetUserByID(uint(id))
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 	if user.CompanyID != current.CompanyID {
 		utils.Error(w,
-			errors.New("You don't have the right to access this user."))
+			errors.New("You don't have the right to access this user."),
+			http.StatusUnauthorized)
 		return
 	}
 	var transportHistories []databases.TransportHistory
@@ -57,5 +62,5 @@ func GetTransportHistoryByUser(w http.ResponseWriter, r *http.Request) {
 		transportHistories[i].LoadRelated()
 	}
 
-	utils.WriteBody(w, transportHistories)
+	utils.WriteBody(w, transportHistories, http.StatusOK)
 }

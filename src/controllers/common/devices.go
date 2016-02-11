@@ -6,17 +6,19 @@ import (
 	"coban/api/src/databases"
 )
 
+// GetDevices get every devices in the database
 func GetDevices() []databases.Device {
 	var devices []databases.Device
 
 	databases.DB.Find(&devices)
-	for i, _ := range devices {
+	for i := range devices {
 		devices[i].LoadRelated()
 	}
 
 	return devices
 }
 
+// GetDeviceByID get a device by its ID
 func GetDeviceByID(id uint) (databases.Device, error) {
 	var device databases.Device
 
@@ -29,8 +31,9 @@ func GetDeviceByID(id uint) (databases.Device, error) {
 	return device, nil
 }
 
+// CreateDevice try to create a new device
 func CreateDevice(userID uint) (databases.Device, error) {
-	device := databases.Device{IsPaired:false, UserID:userID}
+	device := databases.Device{IsPaired: false, UserID: userID}
 
 	if err := device.IsValid(); err != nil {
 		return device, err
@@ -40,8 +43,9 @@ func CreateDevice(userID uint) (databases.Device, error) {
 	return device, databases.DB.Error
 }
 
+// UpdateDevice try to update a device
 func UpdateDevice(isPaired bool, userID uint, id uint) (databases.Device, error) {
-	device := databases.Device{IsPaired:isPaired, UserID:userID, ID:id}
+	device := databases.Device{IsPaired: isPaired, UserID: userID, ID: id}
 
 	var existingDevice databases.Device
 	databases.DB.First(&existingDevice, id)
@@ -57,6 +61,7 @@ func UpdateDevice(isPaired bool, userID uint, id uint) (databases.Device, error)
 	return device, databases.DB.Error
 }
 
+// DeleteDevice try to delete a device
 func DeleteDevice(id uint) error {
 	var device databases.Device
 

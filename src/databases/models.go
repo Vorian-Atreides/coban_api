@@ -1,25 +1,20 @@
 package databases
 
-import (
-	"net/http"
-	"time"
-)
+import "time"
 
+// Model is the interface for the items in the database
 type Model interface {
 	IsValid() error
 	LoadRelated()
-	FromBody(r *http.Request) error
 }
 
-// JSON Address
-//
-//{
+// Address {
 //	"id":"1",
 //	"zip":"1040061"
 //	"street":"ぎんざ",
 //	"city":"ときょ"
 //}
-
+//
 type Address struct {
 	ID uint `gorm:"column:id;primary_key" json:"id"`
 
@@ -31,9 +26,7 @@ type Address struct {
 	CompanyID uint     `gorm:"column:company_id;" sql:"not null" json:"company-id"`
 }
 
-// JSON Company
-//
-//{
+// Company {
 //	"id":"1",
 //	"name":"コバン",
 //	"address":
@@ -44,7 +37,7 @@ type Address struct {
 //		"city":"ときょ"
 //	}
 //}
-
+//
 type Company struct {
 	ID uint `gorm:"column:id; primary_key" json:"id"`
 
@@ -69,12 +62,10 @@ type Device struct {
 	UserID uint  `gorm:"column:user_id;" sql:"not null" json:"-"`
 }
 
-// JSON Account
-//
-//{
+// Account {
 //	"email":"tatsuya@coban.jp"
 //}
-
+//
 type Account struct {
 	ID uint `gorm:"column:id; primary_key" json:"-"`
 
@@ -85,9 +76,7 @@ type Account struct {
 	User *User `sql:"not null" json:"-"`
 }
 
-// JSON User
-//
-//{
+// User {
 //	"id":"1",
 //	"first-name":"たつや",
 //	"last-name":"ぜんぶつ",
@@ -105,7 +94,7 @@ type Account struct {
 //		"is-paired":"false"
 //	}
 //}
-
+//
 type User struct {
 	ID uint `gorm:"column:id; primary_key" json:"id"`
 
@@ -121,13 +110,11 @@ type User struct {
 	Device *Device `json:"device; omitempty"`
 }
 
-// JSON Station
-//
-//{
+// Station {
 //	"name":"ときょ"
 //	"type":"Metro"
 //}
-
+//
 type Station struct {
 	ID uint `gorm:"column:id; primary_key" json:"-"`
 
@@ -135,9 +122,7 @@ type Station struct {
 	Type string `gorm:"column:type;" sql:"not null;" json:"type"`
 }
 
-// JSON TransportHistory
-//
-//{
+// TransportHistory {
 //	"id":"1",
 //	"date":"2016-01-29T06:03:26+09:00",
 //	"stock":"3500",
@@ -153,7 +138,7 @@ type Station struct {
 //		"type":"Metro"
 //	}
 //}
-
+//
 type TransportHistory struct {
 	ID uint `gorm:"column:id; primary_key" json:"id"`
 

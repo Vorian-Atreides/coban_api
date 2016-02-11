@@ -19,33 +19,34 @@ type creationCompany struct {
 	} `json:"administrator"`
 }
 
-func GetCurrentCompany(r *http.Request) (databases.Company, error) {
-	user, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+// GetCurrentCompany Get the company to whom belong the current user
+func GetCurrentCompany(r *http.Request) (databases.Company, int, error) {
+	user, status, err := utils.CheckTokenAndScope(r, databases.IsOffice)
 	if err != nil {
-		return databases.Company{}, err
+		return databases.Company{}, status, err
 	}
 
 	company, err := common.GetCompanyByID(user.CompanyID)
 	if err != nil {
 		// Should not be possible.
-		return company, err
+		return company, http.StatusBadRequest, err
 	}
 
-	return company, nil
+	return company, 0, nil
 }
 
+// GetCompany Get the company belonging to the current user
 func GetCompany(w http.ResponseWriter, r *http.Request) {
-	company, err := GetCurrentCompany(r)
+	company, status, err := GetCurrentCompany(r)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
-	utils.WriteBody(w, company)
+	utils.WriteBody(w, company, http.StatusOK)
 }
 
-//
-//{
+// CreateCompany {
 //	"name":"Coban2",
 //	"administrator":
 //	{
@@ -56,14 +57,13 @@ func GetCompany(w http.ResponseWriter, r *http.Request) {
 //	}
 //}
 //
-
 func CreateCompany(w http.ResponseWriter, r *http.Request) {
 	var creation creationCompany
-	databases.ReadBody(r, &creation)
+	utils.ReadBody(r, &creation)
 
 	company, err := common.CreateCompany(creation.Name)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
@@ -71,7 +71,7 @@ func CreateCompany(w http.ResponseWriter, r *http.Request) {
 		creation.Administrator.Password)
 	if err != nil {
 		common.DeleteCompany(company.ID)
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
@@ -80,10 +80,10 @@ func CreateCompany(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		common.DeleteAccount(account.ID)
 		common.DeleteCompany(company.ID)
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 	company.LoadRelated()
 
-	utils.WriteBody(w, company)
+	utils.WriteBody(w, company, http.StatusCreated)
 }

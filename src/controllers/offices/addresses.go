@@ -8,32 +8,34 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetAddresses get the addresses belonging to the current user's company
 func GetAddresses(w http.ResponseWriter, r *http.Request) {
-	company, err := GetCurrentCompany(r)
+	company, status, err := GetCurrentCompany(r)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 	company.LoadRelated()
 
-	utils.WriteBody(w, company.Addresses)
+	utils.WriteBody(w, company.Addresses, http.StatusOK)
 }
 
+// AddAddress add an address to the current user's company
 func AddAddress(w http.ResponseWriter, r *http.Request) {
-	user, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+	user, status, err := utils.CheckTokenAndScope(r, databases.IsOffice)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 	var data databases.Address
-	data.FromBody(r)
+	utils.ReadBody(r, &data)
 
 	address, err := common.CreateAddress(data.Street, data.Zip,
 		data.City, user.CompanyID)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, http.StatusBadRequest)
 		return
 	}
 
-	utils.WriteBody(w, address)
+	utils.WriteBody(w, address, http.StatusCreated)
 }

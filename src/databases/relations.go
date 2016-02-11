@@ -1,51 +1,33 @@
 package databases
 
-import (
-)
-
-//
-// Address
-//
-
+// LoadRelated (Address) Instatiate the related objects
 func (address *Address) LoadRelated() {
 	address.Company = new(Company)
 
 	DB.Model(address).Related(address.Company)
 }
 
-//
-// Company
-//
-
+// LoadRelated (Company) Instatiate the related objects
 func (company *Company) LoadRelated() {
 	DB.Model(company).Related(&company.Addresses)
 	DB.Model(company).Related(&company.Employees)
 }
 
-//
-// Device
-//
-
+// LoadRelated (Device) Instatiate the related objects
 func (device *Device) LoadRelated() {
 	device.User = new(User)
 
 	DB.Model(device).Related(device.User)
 }
 
-//
-// Account
-//
-
+// LoadRelated (Account) Instatiate the related objects
 func (account *Account) LoadRelated() {
 	account.User = new(User)
 
 	DB.Model(account).Related(account.User)
 }
 
-//
-// User
-//
-
+// LoadRelated (User) Instatiate the related objects
 func (user *User) LoadRelated() {
 	user.Account = new(Account)
 	user.Company = new(Company)
@@ -56,17 +38,11 @@ func (user *User) LoadRelated() {
 	DB.Model(user).Related(user.Device)
 }
 
-//
-// Station
-//
-
+// LoadRelated (Station) Instatiate the related objects
 func (station *Station) LoadRelated() {
 }
 
-//
-// TransportType
-//
-
+// LoadRelated (TransportHistoy) Instatiate the related objects
 func (transportHistory *TransportHistory) LoadRelated() {
 	transportHistory.Entrance = new(Station)
 	transportHistory.Exit = new(Station)

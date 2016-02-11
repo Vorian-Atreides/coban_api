@@ -8,13 +8,14 @@ import (
 	"coban/api/src/utils"
 )
 
+// GetTransportHistories get every transport histories in the database
 func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
-	_, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
+	_, status, err := utils.CheckTokenAndScope(r, databases.IsAdmin)
 	if err != nil {
-		utils.Error(w, err)
+		utils.Error(w, err, status)
 		return
 	}
 
 	transportHistories := common.GetTransportHistories()
-	utils.WriteBody(w, transportHistories)
+	utils.WriteBody(w, transportHistories, http.StatusOK)
 }

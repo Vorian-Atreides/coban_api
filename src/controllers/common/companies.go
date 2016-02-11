@@ -1,21 +1,24 @@
 package common
 
 import (
-	"coban/api/src/databases"
 	"errors"
+
+	"coban/api/src/databases"
 )
 
+// GetCompanies get every companies in the database
 func GetCompanies() []databases.Company {
 	var companies []databases.Company
 
 	databases.DB.Find(&companies)
-	for i, _ := range companies {
+	for i := range companies {
 		companies[i].LoadRelated()
 	}
 
 	return companies
 }
 
+// GetCompanyByID get a company by its ID
 func GetCompanyByID(id uint) (databases.Company, error) {
 	var company databases.Company
 
@@ -28,8 +31,9 @@ func GetCompanyByID(id uint) (databases.Company, error) {
 	return company, nil
 }
 
+// CreateCompany try to create a new company
 func CreateCompany(name string) (databases.Company, error) {
-	company := databases.Company{Name:name}
+	company := databases.Company{Name: name}
 
 	if err := company.IsValid(); err != nil {
 		return company, err
@@ -39,8 +43,9 @@ func CreateCompany(name string) (databases.Company, error) {
 	return company, databases.DB.Error
 }
 
+// UpdateCompany try to update a company
 func UpdateCompany(name string, id uint) (databases.Company, error) {
-	company := databases.Company{Name:name, ID:id}
+	company := databases.Company{Name: name, ID: id}
 
 	var existingCompany databases.Company
 	databases.DB.First(&existingCompany, id)
@@ -55,6 +60,7 @@ func UpdateCompany(name string, id uint) (databases.Company, error) {
 	return company, databases.DB.Error
 }
 
+// DeleteCompany try to delete a company
 func DeleteCompany(id uint) error {
 	var company databases.Company
 
