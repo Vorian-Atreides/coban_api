@@ -20,11 +20,11 @@ func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
 	}
 
 	offset, err := utils.GetPageOffset(r)
-	var transportHistories []databases.TransportHistory
-	databases.DB.Where(databases.TransportHistory{UserID: user.ID}).
-		Offset(offset).
-		Limit(utils.PageSize).
-		Find(&transportHistories)
+	begin, _ := utils.GetDateParameter(r, "begin")
+	end, _ := utils.GetDateParameter(r, "end")
+
+	transportHistories := common.GetTransportHistoriesByUserID(offset,
+		begin, end, user.ID)
 	for i := range transportHistories {
 		transportHistories[i].LoadRelated()
 	}

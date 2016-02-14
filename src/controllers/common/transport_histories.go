@@ -2,17 +2,35 @@ package common
 
 import (
 	"errors"
+	"log"
 	"time"
+
+	"github.com/jinzhu/gorm"
 
 	"coban/api/src/databases"
 	"coban/api/src/utils"
 )
 
+func generalGetQuery(offset uint, begin time.Time, end time.Time) *gorm.DB {
+	query := databases.DB.Offset(offset).Limit(utils.PageSize)
+	log.Println(begin, end)
+	if !begin.IsZero() {
+		query = query.Where("date > ?", begin)
+	}
+	if !end.IsZero() {
+		query = query.Where("date < ?", end)
+	}
+
+	return query
+}
+
 // GetTransportHistories get every transport histories from the database
-func GetTransportHistories(offset uint) []databases.TransportHistory {
+func GetTransportHistories(offset uint, begin time.Time,
+	end time.Time) []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 
-	databases.DB.Offset(offset).Find(&transportHistories).Limit(utils.PageSize)
+	query := generalGetQuery(offset, begin, end)
+	query.Find(&transportHistories)
 	for i := range transportHistories {
 		transportHistories[i].LoadRelated()
 	}
@@ -20,16 +38,31 @@ func GetTransportHistories(offset uint) []databases.TransportHistory {
 	return transportHistories
 }
 
-// GetTransportHistoriesBetweenDates get the transport histories between two
-// range of date
-func GetTransportHistoriesBetweenDates(offset uint, begin time.Time,
-	end time.Time) []databases.TransportHistory {
+// GetTransportHistoriesByUserID get every transport histories
+// related to an user
+func GetTransportHistoriesByUserID(offset uint, begin time.Time,
+	end time.Time, id uint) []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 
-	databases.DB.Offset(offset).
-		Where("date BETWEEN ? and ?", begin, end).
-		Limit(utils.PageSize).
+	query := generalGetQuery(offset, begin, end)
+	query.Where(&databases.TransportHistory{UserID: id}).
 		Find(&transportHistories)
+	for i := range transportHistories {
+		transportHistories[i].LoadRelated()
+	}
+
+	return transportHistories
+}
+
+// GetTransportHistoriesByCompanyID get every transport histories
+// related to the company's employees
+func GetTransportHistoriesByCompanyID(offset uint, begin time.Time,
+	end time.Time, id uint) []databases.TransportHistory {
+	var transportHistories []databases.TransportHistory
+
+	query := generalGetQuery(offset, begin, end)
+	query.Joins("left join users on users.id = transport_histories.user_id").
+		Where(&databases.User{CompanyID: id}).Find(&transportHistories)
 	for i := range transportHistories {
 		transportHistories[i].LoadRelated()
 	}

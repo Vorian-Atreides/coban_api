@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -38,11 +39,9 @@ func GetStringParameter(r *http.Request, name string) (string, error) {
 
 // GetDateParameter read and parse the string as a GMT date
 func GetDateParameter(r *http.Request, name string) (time.Time, error) {
-	value, ok := mux.Vars(r)[name]
-	if !ok {
-		return time.Time{}, errors.New("Parameter not found")
-	}
-	return time.Parse(time.RFC3339, value)
+	value := r.FormValue(name)
+	log.Println(value)
+	return time.Parse("2006-01-02", value)
 }
 
 // GetPageOffset get the optional page argument and retrieve its offset

@@ -15,7 +15,10 @@ func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-	offset, err := utils.GetPageOffset(r)
-	transportHistories := common.GetTransportHistories(offset)
+	offset, _ := utils.GetPageOffset(r)
+	begin, _ := utils.GetDateParameter(r, "begin")
+	end, _ := utils.GetDateParameter(r, "end")
+
+	transportHistories := common.GetTransportHistories(offset, begin, end)
 	utils.WriteBody(w, transportHistories, http.StatusOK)
 }

@@ -649,12 +649,14 @@ Resources related to the stations
 
 Resources related to the transport histories
 
-## Administration Transport Histories [/administrations/transport-histories?{page}]
+## Administration Transport Histories [/administrations/transport-histories?{page}{begin}{end}]
 
 ### Every transport histories [GET]
 
 + Parameters
     + page (optional, number) - Number of the page to access
+    + begin (optional, date) - Minimum date of the selection (2016-01-01)
+    + end (optional, date) - Maximum date of the selection (2016-02-29)
 
 + Request
 
@@ -803,12 +805,14 @@ Resources related to the transport histories
 
         The credentials are invalid.
 
-## Office Transport Histories [/offices/transport-histories?{page}]
+## Office Transport Histories [/offices/transport-histories?{page}{begin}{end}]
 
 ### Employees' transport histories [GET]
 
 + Parameters
     + page (optional, number) - Number of the page to access
+    + begin (optional, date) - Minimum date of the selection (2016-01-01)
+    + end (optional, date) - Maximum date of the selection (2016-02-29)
 
 + Request
 
@@ -891,14 +895,15 @@ Resources related to the transport histories
 
         The credentials are invalid.
 
-## Office Transport Histories by user [/offices/transport-histories/{id}?{page}]
+## Office Transport Histories by user [/offices/transport-histories/{id}?{page}{begin}{end}]
 
 ### Employee's transport histories [GET]
 
 + Parameters
     + id (number) - ID of the user to gather
     + page (optional, number) - Number of the page to access
-
+    + begin (optional, date) - Minimum date of the selection (2016-01-01)
+    + end (optional, date) - Maximum date of the selection (2016-02-29)
 
 + Request
 
