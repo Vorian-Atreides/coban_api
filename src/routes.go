@@ -42,7 +42,7 @@ var items = routes{
 	route{
 		Name:    "Authenticate",
 		Method:  "POST",
-		Path:    "/users/authenticate",
+		Path:    "/clients/authenticate",
 		Handler: common.AuthenticateRequest,
 	},
 	route{
@@ -136,7 +136,7 @@ var items = routes{
 	route{
 		Name:    "UpdateEmployee",
 		Method:  "PUT",
-		Path:    "/offices/users/{id}",
+		Path:    "/offices/users/{id:[0-9]+}",
 		Handler: offices.UpdateEmployee,
 	},
 
@@ -149,7 +149,7 @@ var items = routes{
 	route{
 		Name:    "GetTransportHistoriesByUser",
 		Method:  "GET",
-		Path:    "/offices/transport-histories/{id}",
+		Path:    "/offices/transport-histories/{id:[0-9]+}",
 		Handler: offices.GetTransportHistoryByUser,
 	},
 

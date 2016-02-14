@@ -15,7 +15,7 @@ func GetStations(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-
-	stations := common.GetStations()
+	offset, err := utils.GetPageOffset(r)
+	stations := common.GetStations(offset)
 	utils.WriteBody(w, stations, http.StatusOK)
 }

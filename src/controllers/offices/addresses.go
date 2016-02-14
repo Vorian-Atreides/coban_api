@@ -15,9 +15,13 @@ func GetAddresses(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-	company.LoadRelated()
 
-	utils.WriteBody(w, company.Addresses, http.StatusOK)
+	offset, err := utils.GetPageOffset(r)
+	var addresses []databases.Address
+	databases.DB.Model(&company).Related(&addresses).
+		Offset(offset).Limit(utils.PageSize)
+
+	utils.WriteBody(w, addresses, http.StatusOK)
 }
 
 // AddAddress add an address to the current user's company

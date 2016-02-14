@@ -15,7 +15,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-
-	users := common.GetUsers()
+	offset, err := utils.GetPageOffset(r)
+	users := common.GetUsers(offset)
 	utils.WriteBody(w, users, http.StatusOK)
 }

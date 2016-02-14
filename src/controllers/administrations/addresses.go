@@ -15,7 +15,7 @@ func GetAddresses(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-
-	addresses := common.GetAddresses()
+	offset, err := utils.GetPageOffset(r)
+	addresses := common.GetAddresses(offset)
 	utils.WriteBody(w, addresses, http.StatusOK)
 }

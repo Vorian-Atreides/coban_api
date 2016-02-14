@@ -5,13 +5,31 @@ import (
 	"time"
 
 	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 // GetTransportHistories get every transport histories from the database
-func GetTransportHistories() []databases.TransportHistory {
+func GetTransportHistories(offset uint) []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 
-	databases.DB.Find(&transportHistories)
+	databases.DB.Offset(offset).Find(&transportHistories).Limit(utils.PageSize)
+	for i := range transportHistories {
+		transportHistories[i].LoadRelated()
+	}
+
+	return transportHistories
+}
+
+// GetTransportHistoriesBetweenDates get the transport histories between two
+// range of date
+func GetTransportHistoriesBetweenDates(offset uint, begin time.Time,
+	end time.Time) []databases.TransportHistory {
+	var transportHistories []databases.TransportHistory
+
+	databases.DB.Offset(offset).
+		Where("date BETWEEN ? and ?", begin, end).
+		Limit(utils.PageSize).
+		Find(&transportHistories)
 	for i := range transportHistories {
 		transportHistories[i].LoadRelated()
 	}

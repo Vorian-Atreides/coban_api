@@ -32,7 +32,12 @@ func GetEmployees(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.WriteBody(w, company.Employees, http.StatusOK)
+	offset, err := utils.GetPageOffset(r)
+	var employees []databases.User
+	databases.DB.Model(&company).Related(&employees).
+		Offset(offset).Limit(utils.PageSize)
+
+	utils.WriteBody(w, employees, http.StatusOK)
 }
 
 func getScope(scope string) (byte, error) {

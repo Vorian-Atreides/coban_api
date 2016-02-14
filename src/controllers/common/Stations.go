@@ -4,13 +4,14 @@ import (
 	"errors"
 
 	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 // GetStations get every stations in the databases
-func GetStations() []databases.Station {
+func GetStations(offset uint) []databases.Station {
 	var stations []databases.Station
 
-	databases.DB.Find(&stations)
+	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&stations)
 	for i := range stations {
 		stations[i].LoadRelated()
 	}

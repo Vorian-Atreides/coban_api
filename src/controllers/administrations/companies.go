@@ -15,7 +15,7 @@ func GetCompanies(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-
-	companies := common.GetCompanies()
+	offset, err := utils.GetPageOffset(r)
+	companies := common.GetCompanies(offset)
 	utils.WriteBody(w, companies, http.StatusOK)
 }

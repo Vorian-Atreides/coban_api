@@ -4,13 +4,14 @@ import (
 	"errors"
 
 	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 // GetCompanies get every companies in the database
-func GetCompanies() []databases.Company {
+func GetCompanies(offset uint) []databases.Company {
 	var companies []databases.Company
 
-	databases.DB.Find(&companies)
+	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&companies)
 	for i := range companies {
 		companies[i].LoadRelated()
 	}

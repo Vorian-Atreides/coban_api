@@ -18,8 +18,22 @@ func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// begin, err := utils.GetDateParameter(r, "begin")
+	// if err != nil {
+	// 	utils.Error(w, err, http.StatusBadRequest)
+	// 	return
+	// }
+	// end, err := utils.GetDateParameter(r, "end")
+	// if err != nil {
+	// 	utils.Error(w, err, http.StatusBadRequest)
+	// 	return
+	// }
+	offset, err := utils.GetPageOffset(r)
 	var transportHistories []databases.TransportHistory
 	databases.DB.Joins("left join users on users.id = transport_histories.user_id").
+		Offset(offset).
+		Limit(utils.PageSize).
+		// Where("date BETWEEN ? and ?", begin, end).
 		Where(&databases.User{CompanyID: user.CompanyID}).
 		Find(&transportHistories)
 	for i := range transportHistories {
@@ -55,8 +69,12 @@ func GetTransportHistoryByUser(w http.ResponseWriter, r *http.Request) {
 			http.StatusUnauthorized)
 		return
 	}
+
+	offset, err := utils.GetPageOffset(r)
 	var transportHistories []databases.TransportHistory
 	databases.DB.Where(databases.TransportHistory{UserID: user.ID}).
+		Offset(offset).
+		Limit(utils.PageSize).
 		Find(&transportHistories)
 	for i := range transportHistories {
 		transportHistories[i].LoadRelated()

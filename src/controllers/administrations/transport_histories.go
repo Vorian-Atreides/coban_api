@@ -15,7 +15,7 @@ func GetTransportHistories(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-
-	transportHistories := common.GetTransportHistories()
+	offset, err := utils.GetPageOffset(r)
+	transportHistories := common.GetTransportHistories(offset)
 	utils.WriteBody(w, transportHistories, http.StatusOK)
 }

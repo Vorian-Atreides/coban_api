@@ -4,13 +4,14 @@ import (
 	"errors"
 
 	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 // GetDevices get every devices in the database
-func GetDevices() []databases.Device {
+func GetDevices(offset uint) []databases.Device {
 	var devices []databases.Device
 
-	databases.DB.Find(&devices)
+	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&devices)
 	for i := range devices {
 		devices[i].LoadRelated()
 	}

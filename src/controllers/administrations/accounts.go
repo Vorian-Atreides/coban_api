@@ -15,7 +15,7 @@ func GetAccounts(w http.ResponseWriter, r *http.Request) {
 		utils.Error(w, err, status)
 		return
 	}
-
-	accounts := common.GetAccounts()
+	offset, err := utils.GetPageOffset(r)
+	accounts := common.GetAccounts(offset)
 	utils.WriteBody(w, accounts, http.StatusOK)
 }

@@ -81,9 +81,12 @@ Actions related to the authentication
 
 Resources related to the addresses.
 
-## Administration Addresses [/administrations/addresses]
+## Administration Addresses [/administrations/addresses?{?page}]
 
 ### Every addresses [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -142,9 +145,12 @@ Resources related to the addresses.
 
         The credentials are invalid.
 
-## Office Addresses [/offices/addresses]
+## Office Addresses [/offices/addresses?{page}]
 
 ### Company's addresses [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -209,9 +215,12 @@ Resources related to the addresses.
 
 Resources related to the accounts.
 
-## Administration Accounts [/administrations/accounts]
+## Administration Accounts [/administrations/accounts?{page}]
 
 ### Every accounts [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -244,9 +253,12 @@ Resources related to the accounts.
 
 Resources related to the users.
 
-## Administration Users [/administrations/users]
+## Administration Users [/administrations/users?{page}]
 
 ### Every users [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -323,9 +335,12 @@ Resources related to the users.
 
         The credentials are invalid.
 
-## Office Users [/offices/users]
+## Office Users [/offices/users?{page}]
 
 ### Company's employees [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -479,9 +494,12 @@ Resources related to the users.
 
 Resources related to the companies
 
-## Administration Companies [/administrations/companies]
+## Administration Companies [/administrations/companies?{page}]
 
 ### Every companies [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -581,9 +599,12 @@ Resources related to the companies
 
 Resources related to the stations
 
-## Administration Stations [/administrations/stations]
+## Administration Stations [/administrations/stations?{page}]
 
 ### Every stations [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -628,9 +649,12 @@ Resources related to the stations
 
 Resources related to the transport histories
 
-## Administration Transport Histories [/administrations/transport-histories]
+## Administration Transport Histories [/administrations/transport-histories?{page}]
 
 ### Every transport histories [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -779,9 +803,12 @@ Resources related to the transport histories
 
         The credentials are invalid.
 
-## Office Transport Histories [/offices/transport-histories]
+## Office Transport Histories [/offices/transport-histories?{page}]
 
 ### Employees' transport histories [GET]
+
++ Parameters
+    + page (optional, number) - Number of the page to access
 
 + Request
 
@@ -864,12 +891,14 @@ Resources related to the transport histories
 
         The credentials are invalid.
 
-## Office Transport Histories by user [/offices/transport-histories/{id}]
+## Office Transport Histories by user [/offices/transport-histories/{id}?{page}]
 
 ### Employee's transport histories [GET]
 
 + Parameters
     + id (number) - ID of the user to gather
+    + page (optional, number) - Number of the page to access
+
 
 + Request
 
@@ -1034,7 +1063,7 @@ Resources related to the transport histories
                 "FgEAAiBK4z7jMIsHAAqzAA==",
                 "FgEAAiBKziHSAk4IAAqxAA=="
             ]
-        
+
 + Response 201
 
         [

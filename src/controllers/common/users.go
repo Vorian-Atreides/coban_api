@@ -4,13 +4,14 @@ import (
 	"errors"
 
 	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 // GetUsers get every users in the database
-func GetUsers() []databases.User {
+func GetUsers(offset uint) []databases.User {
 	var users []databases.User
 
-	databases.DB.Find(&users)
+	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&users)
 	for i := range users {
 		users[i].LoadRelated()
 	}

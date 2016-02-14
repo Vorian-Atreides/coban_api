@@ -4,13 +4,14 @@ import (
 	"errors"
 
 	"coban/api/src/databases"
+	"coban/api/src/utils"
 )
 
 // GetAddresses get every addresses in the databases
-func GetAddresses() []databases.Address {
+func GetAddresses(offset uint) []databases.Address {
 	var addresses []databases.Address
 
-	databases.DB.Find(&addresses)
+	databases.DB.Offset(offset).Find(&addresses).Limit(utils.PageSize)
 	for i := range addresses {
 		addresses[i].LoadRelated()
 	}
