@@ -158,3 +158,37 @@ func UpdateEmployee(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteBody(w, user, http.StatusOK)
 }
+
+// DeleteEmployee offers the ability to delete an employee
+// belonging to the same company than the current user
+func DeleteEmployee(w http.ResponseWriter, r *http.Request) {
+	officer, status, err := utils.CheckTokenAndScope(r, databases.IsOffice)
+	if err != nil {
+		utils.Error(w, err, status)
+		return
+	}
+
+	id, err := utils.GetUINT64Parameter(r, "id")
+	if err != nil {
+		utils.Error(w, err, http.StatusBadRequest)
+		return
+	}
+	target, err := common.GetUserByID(id)
+	if err != nil {
+		utils.Error(w, err, http.StatusBadRequest)
+		return
+	}
+	if target.CompanyID != officer.CompanyID {
+		utils.Error(w,
+			errors.New("You don't have the right to delete this user."),
+			http.StatusUnauthorized)
+		return
+	}
+
+	if err := common.DeleteUser(target.ID); err != nil {
+		utils.Error(w, err, http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}

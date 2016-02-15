@@ -66,3 +66,19 @@ func UpdatePassword(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteBody(w, user, http.StatusOK)
 }
+
+// DeleteUser delete the current user from the database
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	user, status, err := utils.CheckTokenAndScope(r, databases.IsClient)
+	if err != nil {
+		utils.Error(w, err, status)
+		return
+	}
+
+	if err := common.DeleteUser(user.ID); err != nil {
+		utils.Error(w, err, http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}

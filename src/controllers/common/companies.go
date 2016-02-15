@@ -2,6 +2,7 @@ package common
 
 import (
 	"errors"
+	"log"
 
 	"coban/api/src/databases"
 	"coban/api/src/utils"
@@ -69,6 +70,18 @@ func DeleteCompany(id uint) error {
 	if company.ID == 0 {
 		return errors.New("This company doesn't exist.")
 	}
+	company.LoadRelated()
+
+	for i := range company.Employees {
+		err := DeleteUser(company.Employees[i].ID)
+		if err != nil {
+			log.Println(err)
+		}
+	}
+	for i := range company.Addresses {
+		company.Addresses[i].LoadRelated()
+	}
+
 	databases.DB.Delete(&company)
 
 	return databases.DB.Error

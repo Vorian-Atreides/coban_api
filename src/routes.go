@@ -120,6 +120,12 @@ var items = routes{
 		Path:    "/offices/companies",
 		Handler: offices.GetCompany,
 	},
+	route{
+	Name:    "DeleteCurrentCompany",
+	Method:  "DELETE",
+	Path:    "/offices/companies",
+	Handler: offices.DeleteCompany,
+	},
 
 	route{
 		Name:    "GetEmployees",
@@ -138,6 +144,12 @@ var items = routes{
 		Method:  "PUT",
 		Path:    "/offices/users/{id:[0-9]+}",
 		Handler: offices.UpdateEmployee,
+	},
+	route{
+		Name:    "DeleteEmployee",
+		Method:  "DELETE",
+		Path:    "/offices/users/{id:[0-9]+}",
+		Handler: offices.DeleteEmployee,
 	},
 
 	route{
@@ -181,6 +193,12 @@ var items = routes{
 		Method:  "PUT",
 		Path:    "/clients/users",
 		Handler: clients.UpdatePassword,
+	},
+	route{
+		Name:    "DeleteCurrentUser",
+		Method:  "DELETE",
+		Path:    "/clients/users",
+		Handler: clients.DeleteUser,
 	},
 
 	route{

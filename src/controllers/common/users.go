@@ -69,7 +69,6 @@ func UpdateUserByID(firstName string, lastName string,
 // DeleteUser try to delete an user
 func DeleteUser(id uint) error {
 	var user databases.User
-
 	databases.DB.First(&user, id)
 	if user.ID == 0 {
 		return errors.New("This user doesn't exist.")

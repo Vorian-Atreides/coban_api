@@ -436,6 +436,19 @@ Resources related to the users.
 
         The credentials are invalid.
 
+## Delete the employee [DELETE]
+
++ Parameters
+    + id (number) - ID of the user to modify
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 204
+
 ## Client Users [/clients/users]
 
 ### Get the user [GET]
@@ -489,6 +502,17 @@ Resources related to the users.
 + Response 400
 
         The credentials are invalid.
+
+## Delete the current user [DELETE]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 204
+
 
 # Group Companies
 
@@ -577,6 +601,17 @@ Resources related to the companies
             "id":5,
             "name":"Coban"
         }
+
+### Delete the user's company [DELETE]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 204
+
 
 ## Client Companies [/clients/companies]
 

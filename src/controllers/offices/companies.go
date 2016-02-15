@@ -87,3 +87,19 @@ func CreateCompany(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteBody(w, company, http.StatusCreated)
 }
+
+// DeleteCompany offers the ability to delete the current company
+func DeleteCompany(w http.ResponseWriter, r *http.Request) {
+	company, status, err := GetCurrentCompany(r)
+	if err != nil {
+		utils.Error(w, err, status)
+		return
+	}
+
+	if err := common.DeleteCompany(company.ID); err != nil {
+		utils.Error(w, err, http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
