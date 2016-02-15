@@ -11,7 +11,7 @@ import (
 func GetAddresses(offset uint) []databases.Address {
 	var addresses []databases.Address
 
-	databases.DB.Offset(offset).Find(&addresses).Limit(utils.PageSize)
+	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&addresses)
 	for i := range addresses {
 		addresses[i].LoadRelated()
 	}

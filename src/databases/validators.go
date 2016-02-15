@@ -14,7 +14,6 @@ func buildError(err string) error {
 // IsValid (Address) ensure the address is valid and can be serialised
 func (address Address) IsValid() error {
 	err := ""
-
 	if address.Street == "" {
 		err += "ADDRESS: The street is mandatory."
 	}

@@ -30,7 +30,6 @@ func WriteBody(w http.ResponseWriter, content interface{},
 // ReadBody unserialise an object fromt the http.Request's body
 func ReadBody(r *http.Request, model interface{}) error {
 	decoder := json.NewDecoder(r.Body)
-
 	err := decoder.Decode(model)
 
 	return err

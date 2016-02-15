@@ -19,21 +19,32 @@ func TestDevices(t *testing.T) {
 
 func (s *devicesTestSuite) Test01Get_Devices() {
 	expectedUsers := []*databases.User{
-		&databases.User{ID:1, FirstName:"青木", LastName:"真琳", AccountID:1, CompanyID:1},
-		&databases.User{ID:4, FirstName:"徳川", LastName:"家康", AccountID:4, CompanyID:4},
+		&databases.User{ID: 1, FirstName: "青木", LastName: "真琳",
+			AccountID: 1, CompanyID: 1},
+		&databases.User{ID: 4, FirstName: "徳川", LastName: "家康",
+			AccountID: 4, CompanyID: 4},
 	}
 	expectedDevices := []databases.Device{
-		databases.Device{ID:1, IsPaired:false, UserID:1, User:expectedUsers[0]},
-		databases.Device{ID:2, IsPaired:true, UserID:4, User:expectedUsers[1]},
+		databases.Device{ID: 1, IsPaired: false, UserID: 1,
+			User: expectedUsers[0]},
+		databases.Device{ID: 2, IsPaired: true, UserID: 4,
+			User: expectedUsers[1]},
 	}
 
-	devices := common.GetDevices()
+	devices := common.GetDevices(0)
 	s.Equal(expectedDevices, devices)
 }
 
+func (s *devicesTestSuite) Test11Get_Devices_Paginated() {
+	var expected []databases.Device
+
+	devices := common.GetDevices(50)
+	s.Equal(expected, devices)
+}
+
 func (s *devicesTestSuite) Test02Get_Device_ByValidID() {
-	expectedUser := &databases.User{ID:1, FirstName:"青木", LastName:"真琳", AccountID:1, CompanyID:1}
-	expectedDevice := databases.Device{ID:1, IsPaired:false, UserID:1, User:expectedUser}
+	expectedUser := &databases.User{ID: 1, FirstName: "青木", LastName: "真琳", AccountID: 1, CompanyID: 1}
+	expectedDevice := databases.Device{ID: 1, IsPaired: false, UserID: 1, User: expectedUser}
 
 	device, err := common.GetDeviceByID(expectedDevice.ID)
 	s.NoError(err)
@@ -51,7 +62,7 @@ func (s *devicesTestSuite) Test03Get_Device_ByInvalidID() {
 }
 
 func (s *devicesTestSuite) Test04CreateValid_Device() {
-	expectedDevice := databases.Device{IsPaired:false, UserID:3}
+	expectedDevice := databases.Device{IsPaired: false, UserID: 3}
 
 	device, err := common.CreateDevice(expectedDevice.UserID)
 	s.NoError(err)
@@ -77,7 +88,7 @@ func (s *devicesTestSuite) Test05CreateInvalid_Device() {
 func (s *devicesTestSuite) Test06UpdateValid_Device_ByValidID() {
 	var expectedDevice databases.Device
 
-	databases.DB.Where(databases.Device{UserID:3}).First(&expectedDevice)
+	databases.DB.Where(databases.Device{UserID: 3}).First(&expectedDevice)
 	expectedDevice.IsPaired = true
 	device, err := common.UpdateDevice(expectedDevice.IsPaired, expectedDevice.UserID, expectedDevice.ID)
 
@@ -104,12 +115,12 @@ func (s *devicesTestSuite) Test08UpdateInvalid_Device_ByValidID() {
 func (s *devicesTestSuite) Test09Delete_Device_ByValidID() {
 	var target databases.Device
 
-	databases.DB.Where(databases.Device{UserID:3}).First(&target)
+	databases.DB.Where(databases.Device{UserID: 3}).First(&target)
 	err := common.DeleteDevice(target.ID)
 	s.NoError(err)
 
 	target = databases.Device{}
-	databases.DB.Where(databases.Device{UserID:3}).First(&target)
+	databases.DB.Where(databases.Device{UserID: 3}).First(&target)
 	s.Equal(uint(0), target.ID)
 }
 

@@ -47,12 +47,10 @@ type Company struct {
 	Employees []User    `json:"-"`
 }
 
-// JSON Device
-//
-//{
+// Device {
 //	"is-paired":"false"
 //}
-
+//
 type Device struct {
 	ID uint `gorm:"column:id; primary_key" json:"-"`
 

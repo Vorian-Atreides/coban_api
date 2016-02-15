@@ -2,7 +2,6 @@ package common
 
 import (
 	"errors"
-	"log"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -13,7 +12,6 @@ import (
 
 func generalGetQuery(offset uint, begin time.Time, end time.Time) *gorm.DB {
 	query := databases.DB.Offset(offset).Limit(utils.PageSize)
-	log.Println(begin, end)
 	if !begin.IsZero() {
 		query = query.Where("date > ?", begin)
 	}
