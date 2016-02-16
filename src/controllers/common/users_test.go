@@ -62,7 +62,7 @@ func (s *usersTestSuite) Test01Get_Users() {
 }
 
 func (s *usersTestSuite) Test10Get_Users_Paginated() {
-	var expected []databases.User
+	var expected []databases.User{}
 
 	users := common.GetUsers(50)
 	s.Equal(expected, users)

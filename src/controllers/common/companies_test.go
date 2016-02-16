@@ -68,7 +68,7 @@ func (s *companiesTestSuite) Test01Get_Companies() {
 }
 
 func (s *companiesTestSuite) Test11Get_Companies_Paginated() {
-	var expected []databases.User
+	var expected []databases.Company{}
 
 	companies := common.GetCompanies(50)
 	s.Equal(expected, companies)

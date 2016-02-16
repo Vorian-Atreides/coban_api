@@ -75,7 +75,7 @@ func (s *transportHistoriesTestSuite) Test01Get_TransportHistories() {
 }
 
 func (s *transportHistoriesTestSuite) Test06Get_TransportHistories_Paginated() {
-	var expected []databases.TransportHistory
+	expected := []databases.TransportHistory{}
 
 	transportHistories := common.GetTransportHistories(50,
 		time.Time{}, time.Time{})
@@ -90,6 +90,12 @@ func (s *transportHistoriesTestSuite) Test07Get_TransportHistories_WithBefore() 
 	dateTime6, _ := time.Parse(time.RFC3339, "2016-02-06T18:55:00+00:00")
 
 	stations := []*databases.Station{
+		&databases.Station{ID: 1, LineCode: 0, StationCode: 0,
+			Company: "試験", Line: "試験", Name: "端末試験用 V1"},
+		&databases.Station{ID: 2, LineCode: 0, StationCode: 1,
+			Company: "試験", Line: "試験", Name: "端末試験用 V2"},
+		&databases.Station{ID: 3, LineCode: 0, StationCode: 2,
+			Company: "試験", Line: "試験", Name: "端末試験用 V2-01"},
 		&databases.Station{ID: 4, LineCode: 0, StationCode: 3,
 			Company: "試験", Line: "試験", Name: "端末試験用 V2-02"},
 		&databases.Station{ID: 5, LineCode: 0, StationCode: 4,
@@ -106,13 +112,13 @@ func (s *transportHistoriesTestSuite) Test07Get_TransportHistories_WithBefore() 
 	expectedTransportHistories := []databases.TransportHistory{
 		databases.TransportHistory{ID: 4, Date: dateTime4.UTC(), Stock: 10000,
 			Expense: 500, EntranceID: 5, ExitID: 6, UserID: 4,
-			Entrance: stations[4], Exit: stations[5], User: users[1]},
+			Entrance: stations[4], Exit: stations[5], User: users[0]},
 		databases.TransportHistory{ID: 5, Date: dateTime5.UTC(), Stock: 8000,
 			Expense: 2000, EntranceID: 6, ExitID: 1, UserID: 4,
-			Entrance: stations[5], Exit: stations[0], User: users[1]},
+			Entrance: stations[5], Exit: stations[0], User: users[0]},
 		databases.TransportHistory{ID: 6, Date: dateTime6.UTC(), Stock: 7500,
 			Expense: 500, EntranceID: 1, ExitID: 3, UserID: 4,
-			Entrance: stations[0], Exit: stations[2], User: users[1]},
+			Entrance: stations[0], Exit: stations[2], User: users[0]},
 	}
 
 	transportHistories := common.GetTransportHistories(0, dateTime, time.Time{})
@@ -133,6 +139,12 @@ func (s *transportHistoriesTestSuite) Test08Get_TransportHistories_WithAfter() {
 			Company: "試験", Line: "試験", Name: "端末試験用 V2"},
 		&databases.Station{ID: 3, LineCode: 0, StationCode: 2,
 			Company: "試験", Line: "試験", Name: "端末試験用 V2-01"},
+		&databases.Station{ID: 4, LineCode: 0, StationCode: 3,
+			Company: "試験", Line: "試験", Name: "端末試験用 V2-02"},
+		&databases.Station{ID: 5, LineCode: 0, StationCode: 4,
+			Company: "試験", Line: "試験", Name: "端末試験用 V3-01-1"},
+		&databases.Station{ID: 6, LineCode: 0, StationCode: 5,
+			Company: "試験", Line: "試験", Name: "端末試験用 V3-01-2"},
 	}
 
 	users := []*databases.User{

@@ -42,7 +42,7 @@ func (s *stationsTestSuite) Test01Get_Stations() {
 }
 
 func (s *stationsTestSuite) Test04Get_Stations_Paginated() {
-	var expected []databases.Station
+	var expected []databases.Station{}
 
 	stations := common.GetStations(50)
 	s.Equal(expected, stations)
