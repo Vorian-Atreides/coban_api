@@ -146,9 +146,9 @@ type Station struct {
 type TransportHistory struct {
 	ID uint `gorm:"column:id; primary_key" json:"id"`
 
-	Date    time.Time `gorm:"column:date;" sql:"not null;" json:"date"`
-	Stock   uint      `gorm:"column:stock;" sql:"not null;" json:"stock"`
-	Expense uint      `gorm:"column:expense;" sql:"not null;" json:"expense"`
+	Date  time.Time `gorm:"column:date;" sql:"not null;" json:"date"`
+	Stock uint      `gorm:"column:stock;" sql:"not null;" json:"stock"`
+	// Expense uint      `gorm:"column:expense;" sql:"not null;" json:"expense"`
 
 	Entrance   *Station `json:"entrance; omitempty"`
 	EntranceID uint     `gorm:"column:entrance_id;" sql:"not null;" json:"-"`

@@ -50,22 +50,22 @@ func (s *transportHistoriesTestSuite) Test01Get_TransportHistories() {
 
 	expectedTransportHistories := []databases.TransportHistory{
 		databases.TransportHistory{ID: 1, Date: dateTime1.UTC(), Stock: 850,
-			Expense: 150, EntranceID: 1, ExitID: 2, UserID: 1,
+			EntranceID: 1, ExitID: 2, UserID: 1,
 			Entrance: stations[0], Exit: stations[1], User: users[0]},
 		databases.TransportHistory{ID: 2, Date: dateTime2.UTC(), Stock: 800,
-			Expense: 50, EntranceID: 2, ExitID: 3, UserID: 1,
+			EntranceID: 2, ExitID: 3, UserID: 1,
 			Entrance: stations[1], Exit: stations[2], User: users[0]},
 		databases.TransportHistory{ID: 3, Date: dateTime3.UTC(), Stock: 600,
-			Expense: 200, EntranceID: 3, ExitID: 6, UserID: 1,
+			EntranceID: 3, ExitID: 6, UserID: 1,
 			Entrance: stations[2], Exit: stations[5], User: users[0]},
 		databases.TransportHistory{ID: 4, Date: dateTime4.UTC(), Stock: 10000,
-			Expense: 500, EntranceID: 5, ExitID: 6, UserID: 4,
+			EntranceID: 5, ExitID: 6, UserID: 4,
 			Entrance: stations[4], Exit: stations[5], User: users[1]},
 		databases.TransportHistory{ID: 5, Date: dateTime5.UTC(), Stock: 8000,
-			Expense: 2000, EntranceID: 6, ExitID: 1, UserID: 4,
+			EntranceID: 6, ExitID: 1, UserID: 4,
 			Entrance: stations[5], Exit: stations[0], User: users[1]},
 		databases.TransportHistory{ID: 6, Date: dateTime6.UTC(), Stock: 7500,
-			Expense: 500, EntranceID: 1, ExitID: 3, UserID: 4,
+			EntranceID: 1, ExitID: 3, UserID: 4,
 			Entrance: stations[0], Exit: stations[2], User: users[1]},
 	}
 
@@ -111,13 +111,13 @@ func (s *transportHistoriesTestSuite) Test07Get_TransportHistories_WithBefore() 
 
 	expectedTransportHistories := []databases.TransportHistory{
 		databases.TransportHistory{ID: 4, Date: dateTime4.UTC(), Stock: 10000,
-			Expense: 500, EntranceID: 5, ExitID: 6, UserID: 4,
+			EntranceID: 5, ExitID: 6, UserID: 4,
 			Entrance: stations[4], Exit: stations[5], User: users[0]},
 		databases.TransportHistory{ID: 5, Date: dateTime5.UTC(), Stock: 8000,
-			Expense: 2000, EntranceID: 6, ExitID: 1, UserID: 4,
+			EntranceID: 6, ExitID: 1, UserID: 4,
 			Entrance: stations[5], Exit: stations[0], User: users[0]},
 		databases.TransportHistory{ID: 6, Date: dateTime6.UTC(), Stock: 7500,
-			Expense: 500, EntranceID: 1, ExitID: 3, UserID: 4,
+			EntranceID: 1, ExitID: 3, UserID: 4,
 			Entrance: stations[0], Exit: stations[2], User: users[0]},
 	}
 
@@ -154,13 +154,13 @@ func (s *transportHistoriesTestSuite) Test08Get_TransportHistories_WithAfter() {
 
 	expectedTransportHistories := []databases.TransportHistory{
 		databases.TransportHistory{ID: 1, Date: dateTime1.UTC(), Stock: 850,
-			Expense: 150, EntranceID: 1, ExitID: 2, UserID: 1,
+			EntranceID: 1, ExitID: 2, UserID: 1,
 			Entrance: stations[0], Exit: stations[1], User: users[0]},
 		databases.TransportHistory{ID: 2, Date: dateTime2.UTC(), Stock: 800,
-			Expense: 50, EntranceID: 2, ExitID: 3, UserID: 1,
+			EntranceID: 2, ExitID: 3, UserID: 1,
 			Entrance: stations[1], Exit: stations[2], User: users[0]},
 		databases.TransportHistory{ID: 3, Date: dateTime3.UTC(), Stock: 600,
-			Expense: 200, EntranceID: 3, ExitID: 6, UserID: 1,
+			EntranceID: 3, ExitID: 6, UserID: 1,
 			Entrance: stations[2], Exit: stations[5], User: users[0]},
 	}
 
@@ -171,8 +171,7 @@ func (s *transportHistoriesTestSuite) Test08Get_TransportHistories_WithAfter() {
 func (s *transportHistoriesTestSuite) Test02Get_TransportHistory_ByValidID() {
 	dateTime, _ := time.Parse(time.RFC3339, "2016-01-10T06:30:00+00:00")
 	expected := databases.TransportHistory{ID: 1, Date: dateTime.UTC(),
-		Stock: 850, Expense: 150,
-		UserID: 1, EntranceID: 1, ExitID: 2,
+		Stock: 850, UserID: 1, EntranceID: 1, ExitID: 2,
 		User: &databases.User{ID: 1, FirstName: "青木", LastName: "真琳",
 			AccountID: 1, CompanyID: 1},
 		Entrance: &databases.Station{ID: 1, LineCode: 0, StationCode: 0,
@@ -197,21 +196,21 @@ func (s *transportHistoriesTestSuite) Test03Get_TransportHistory_ByInvalidID() {
 }
 
 func (s *transportHistoriesTestSuite) Test04Create_TransportHistory() {
-	// dateTime, _ := time.Parse(time.RFC3339, "2016-02-14T10:30:00+00:00")
-	// expected := databases.TransportHistory{Date: dateTime, UserID: 1,
-	// 	EntranceID: 1, ExitID: 2, Stock: 800, Expense: 100}
-	//
-	// transportHistory, err := common.CreateTransportHistory(expected.Date,
-	// 	expected.Stock, expected.Expense,
-	// 	expected.EntranceID, expected.ExitID, expected.UserID)
-	// s.NoError(err)
-	// s.NotEqual(uint(0), transportHistory.ID)
-	// s.Equal(expected.Date, transportHistory.Date)
-	// s.Equal(expected.Stock, transportHistory.Stock)
-	// s.Equal(expected.Expense, transportHistory.Expense)
-	// s.Equal(expected.EntranceID, transportHistory.EntranceID)
-	// s.Equal(expected.ExitID, transportHistory.ExitID)
-	// s.Equal(expected.UserID, transportHistory.UserID)
+	dateTime, _ := time.Parse(time.RFC3339, "2016-02-14T10:30:00+00:00")
+	expected := databases.TransportHistory{Date: dateTime, UserID: 1,
+		EntranceID: 1, ExitID: 2, Stock: 800}
+
+	transportHistory, err := common.CreateTransportHistory(expected.Date,
+		expected.Stock, expected.EntranceID, expected.ExitID, expected.UserID)
+	s.NoError(err)
+	s.NotEqual(uint(0), transportHistory.ID)
+	s.Equal(expected.Date, transportHistory.Date)
+	s.Equal(expected.Stock, transportHistory.Stock)
+	s.Equal(expected.EntranceID, transportHistory.EntranceID)
+	s.Equal(expected.ExitID, transportHistory.ExitID)
+	s.Equal(expected.UserID, transportHistory.UserID)
+
+	databases.DB.Delete(transportHistory)
 }
 
 func (s *transportHistoriesTestSuite) Test05CreateInvalid_TransportHistory() {

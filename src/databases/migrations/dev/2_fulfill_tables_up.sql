@@ -4391,10 +4391,10 @@ INSERT INTO stations(line_code, station_code, company, line, name) VALUES
 -- Fulfill transport histories
 --
 
-INSERT INTO transport_histories(date, stock, expense, entrance_id, exit_id, user_id) VALUES
-	(STR_TO_DATE('2016-01-10 06:30:00', '%Y-%m-%d %H:%i:%s'), 850, 150, 1, 2, 1),
-    (STR_TO_DATE('2016-01-10 14:10:00', '%Y-%m-%d %H:%i:%s'), 800, 50, 2, 3, 1),
-    (STR_TO_DATE('2016-01-10 22:45:00', '%Y-%m-%d %H:%i:%s'), 600, 200, 3, 6, 1),
-    (STR_TO_DATE('2016-02-06 04:30:00', '%Y-%m-%d %H:%i:%s'), 10000, 500, 5, 6, 4),
-    (STR_TO_DATE('2016-02-06 12:25:00', '%Y-%m-%d %H:%i:%s'), 8000, 2000, 6, 1, 4),
-    (STR_TO_DATE('2016-02-06 18:55:00', '%Y-%m-%d %H:%i:%s'), 7500, 500, 1, 3, 4);
+INSERT INTO transport_histories(date, stock, entrance_id, exit_id, user_id) VALUES
+	(STR_TO_DATE('2016-01-10 06:30:00', '%Y-%m-%d %H:%i:%s'), 850, 1, 2, 1),
+    (STR_TO_DATE('2016-01-10 14:10:00', '%Y-%m-%d %H:%i:%s'), 800, 2, 3, 1),
+    (STR_TO_DATE('2016-01-10 22:45:00', '%Y-%m-%d %H:%i:%s'), 600, 3, 6, 1),
+    (STR_TO_DATE('2016-02-06 04:30:00', '%Y-%m-%d %H:%i:%s'), 10000, 5, 6, 4),
+    (STR_TO_DATE('2016-02-06 12:25:00', '%Y-%m-%d %H:%i:%s'), 8000, 6, 1, 4),
+    (STR_TO_DATE('2016-02-06 18:55:00', '%Y-%m-%d %H:%i:%s'), 7500, 1, 3, 4);
