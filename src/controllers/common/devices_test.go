@@ -36,7 +36,7 @@ func (s *devicesTestSuite) Test01Get_Devices() {
 }
 
 func (s *devicesTestSuite) Test11Get_Devices_Paginated() {
-	var expected []databases.Device{}
+	expected := []databases.Device{}
 
 	devices := common.GetDevices(50)
 	s.Equal(expected, devices)

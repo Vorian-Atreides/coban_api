@@ -52,7 +52,7 @@ func (s *addressesTestSuite) Test01Get_Addresses() {
 }
 
 func (s *addressesTestSuite) Test10Get_Addresses_Paginated() {
-	var expected []databases.Address{}
+	expected := []databases.Address{}
 
 	addresses := common.GetAddresses(50)
 	s.Equal(expected, addresses)

@@ -64,7 +64,7 @@ func (s *accountsTestSuite) Test01Get_Accounts() {
 }
 
 func (s *accountsTestSuite) Test16Get_Accounts_Paginated() {
-	var expected []databases.Account{}
+	expected := []databases.Account{}
 
 	accounts := common.GetAccounts(50)
 	s.Equal(expected, accounts)
