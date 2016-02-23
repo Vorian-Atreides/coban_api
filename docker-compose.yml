@@ -1,12 +1,21 @@
-api:
-  build: src
-  volumes:
-    - ./configurations:/etc/configurations
-    - ./src:/go/src/coban/api/src
+version: '2'
+services:
+  api:
+    command: bash -c "sleep 5 && /go/bin/migrations && /go/bin/src"
+    build:
+     context: src
+     dockerfile: builds/dev.docker
+    ports:
+      - 9000:5000
+    volumes:
+      - ./configurations:/etc/configurations
+      - ./src:/go/src/coban/api/src
+    depends_on:
+      - db
 
-db:
-  build: mysql
-  ports:
-    - 3306:3306
-  environment:
-    MYSQL_ROOT_PASSWORD: root
+  db:
+    build: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root

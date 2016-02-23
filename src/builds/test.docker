@@ -2,27 +2,15 @@ FROM golang:1.4.2
 
 RUN mkdir -p /go/src/coban/api/
 COPY . /go/src/coban/api/src
-RUN mv /go/src/coban/api/src/databases/migrations /go/src/coban/migrations
+RUN rm -rf /go/src/coban/api/src/databases/migrations
 
 ENV GOPATH /go
 
-RUN go get github.com/stretchr/testify/suite
-
 #
-# Build the migrations
-#
-
-WORKDIR /go/src/coban/migrations
-RUN go get
-#RUN go-wrapper download
-#RUN go-wrapper install
-
-#
-# Build the API
+# Dependencies
 #
 
 WORKDIR /go/src/coban/api/src
 
-#RUN go get github.com/codegangsta/gin
-RUN go-wrapper download
-RUN go-wrapper install
+RUN go get github.com/stretchr/testify/suite
+RUN go get
