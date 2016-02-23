@@ -19,7 +19,7 @@ func WriteBody(w http.ResponseWriter, content interface{},
 		return err
 	}
 
-	log.Println(string(data))
+	log.Println(data)
 	if _, err = fmt.Fprint(w, string(data)); err != nil {
 		return err
 	}

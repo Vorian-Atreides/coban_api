@@ -1,6 +1,8 @@
 package databases
 
-import "time"
+import (
+	"time"
+)
 
 // Model is the interface for the items in the database
 type Model interface {
@@ -99,14 +101,16 @@ type User struct {
 	FirstName string `gorm:"column:first_name;" sql:"not null;" json:"first-name"`
 	LastName  string `gorm:"column:last_name;" sql:"not null;" json:"last-name"`
 
-	Account   *Account `json:"account; omitempty"`
+	Account   *Account `json:"account"`
 	AccountID uint     `gorm:"column:account_id;" sql:"not null;" json:"-"`
 
-	Company   *Company `json:"company; omitempty"`
+	Company   *Company `json:"company"`
 	CompanyID uint     `gorm:"column:company_id;" sql:"not null;" json:"-"`
 
-	Device *Device `json:"device; omitempty"`
+	Device *Device `json:"device,omitempty"`
 }
+
+//type *User `json:"eg"`
 
 // Station {
 //	"name":"ときょ"
@@ -150,12 +154,12 @@ type TransportHistory struct {
 	Stock uint      `gorm:"column:stock;" sql:"not null;" json:"stock"`
 	// Expense uint      `gorm:"column:expense;" sql:"not null;" json:"expense"`
 
-	Entrance   *Station `json:"entrance; omitempty"`
+	Entrance   *Station `json:"entrance,omitempty"`
 	EntranceID uint     `gorm:"column:entrance_id;" sql:"not null;" json:"-"`
 
-	Exit   *Station `json:"exit; omitempty"`
+	Exit   *Station `json:"exit,omitempty"`
 	ExitID uint     `gorm:"column:exit_id;" sql:"not null;" json:"-"`
 
-	User   *User `json:"user; omitempty"`
+	User   *User `json:"user,omitempty"`
 	UserID uint  `gorm:"column:user_id;" sql:"not null;" json:"-"`
 }
