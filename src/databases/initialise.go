@@ -74,5 +74,5 @@ func init() {
 		log.Fatal("Gorm open: ", err)
 	}
 
-	DB.LogMode(true)
+	DB.LogMode(false)
 }
