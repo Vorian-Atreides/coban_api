@@ -144,7 +144,7 @@ func (s *validatorsTestSuite) Test14_Invalid_TransportType() {
 	dateTime, _ := time.Parse(time.RFC3339, "2016-01-10T06:30:00+00:00")
 
 	transportHistory := databases.TransportHistory{Date: dateTime.UTC(),
-		Stock: 500, EntranceID: 1, ExitID: 2, UserID: 1}
+		Stock: 850, EntranceID: 1, ExitID: 2, UserID: 1}
 	s.Error(transportHistory.IsValid(),
 		"TRANSPORT-HISTORY: This history already exist.")
 

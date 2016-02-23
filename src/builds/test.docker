@@ -12,5 +12,6 @@ ENV GOPATH /go
 
 WORKDIR /go/src/coban/api/src
 
+RUN go get github.com/DavidHuie/gomigrate
 RUN go get github.com/stretchr/testify/suite
 RUN go get

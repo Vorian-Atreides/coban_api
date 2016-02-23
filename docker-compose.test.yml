@@ -6,6 +6,7 @@ services:
       context: src
       dockerfile: builds/test.docker
     volumes:
+      - ./src:/go/src/coban/api/src
       - ./configurations:/etc/configurations
     depends_on:
       - api
