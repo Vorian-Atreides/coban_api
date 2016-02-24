@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"coban/api/src/databases"
@@ -18,12 +17,11 @@ func WriteBody(w http.ResponseWriter, content interface{},
 	if err != nil {
 		return err
 	}
-
-	log.Println(data)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusHTTP)
 	if _, err = fmt.Fprint(w, string(data)); err != nil {
 		return err
 	}
-	w.WriteHeader(statusHTTP)
 	return nil
 }
 
@@ -38,7 +36,6 @@ func ReadBody(r *http.Request, model interface{}) error {
 // Error Write the go's error into the http.ResponseWriter's body
 func Error(w http.ResponseWriter, err error, statusHTTP int) {
 	w.WriteHeader(statusHTTP)
-	log.Println(err)
 	fmt.Fprint(w, err)
 }
 

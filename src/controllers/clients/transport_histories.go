@@ -2,8 +2,6 @@ package clients
 
 import (
 	"encoding/base64"
-	"errors"
-	"log"
 	"net/http"
 
 	"coban/api/src/controllers/common"
@@ -46,36 +44,31 @@ func AddTransportHistory(w http.ResponseWriter, r *http.Request) {
 
 	var transportHistories []databases.TransportHistory
 	var transports []string
+	status = http.StatusOK
+
 	utils.ReadBody(r, &transports)
 	for i := range transports {
 		data, err := base64.StdEncoding.DecodeString(transports[i])
-		log.Println(data)
 		if err != nil {
-			utils.Error(w,
-				errors.New("One of the history is badly encoded"),
-				http.StatusBadRequest)
-			return
+			status = http.StatusBadRequest
+			continue
 		}
 
 		transportHistory, err := common.ParseTransportHistory(data)
 		if err != nil {
-			utils.Error(w,
-				err,
-				http.StatusBadRequest)
-			return
+			status = http.StatusBadRequest
+			continue
 		}
 		transport, err := common.CreateTransportHistory(transportHistory.Date,
 			transportHistory.Stock, transportHistory.EntranceID,
 			transportHistory.ExitID, user.ID)
 		if err != nil {
-			utils.Error(w,
-				err,
-				http.StatusBadRequest)
-			return
+			status = http.StatusBadRequest
+			continue
 		}
 		transport.LoadRelated()
 		transportHistories = append(transportHistories, transport)
 	}
 
-	utils.WriteBody(w, transportHistories, http.StatusOK)
+	utils.WriteBody(w, transportHistories, status)
 }
