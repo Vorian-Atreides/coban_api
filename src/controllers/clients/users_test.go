@@ -25,15 +25,15 @@ func TestUsers(t *testing.T) {
 }
 
 func (s *usersTestSuite) Test01GetCurrentUser_ValidUser() {
-	expected := `{"id":1,"first-name":"青木","last-name":"真琳",`+
-		`"account":{"email":"user@coban.jp"},`+
-		`"company":{"id":1,"name":"アコム株式会社"},`+
+	expected := `{"id":1,"first-name":"青木","last-name":"真琳",` +
+		`"account":{"email":"user@coban.jp"},` +
+		`"company":{"id":1,"name":"アコム株式会社"},` +
 		`"device":{"is-paired":false}}`
 	token, _ := utils.GenerateToken(1, databases.ClientScope)
 
 	url := fmt.Sprintf("%s/clients/users", utils.Address)
 	request, _ := http.NewRequest("GET", url, nil)
-	request.Header.Set("Authorization", "Bearer" + " " + token)
+	request.Header.Set("Authorization", "Bearer"+" "+token)
 
 	client := &http.Client{}
 	result, _ := client.Do(request)
@@ -51,7 +51,7 @@ func (s *usersTestSuite) Test02GetCurrentUser_InvalidUser() {
 
 	url := fmt.Sprintf("%s/clients/users", utils.Address)
 	request, _ := http.NewRequest("GET", url, nil)
-	request.Header.Set("Authorization", "Bearer" + " " + token)
+	request.Header.Set("Authorization", "Bearer"+" "+token)
 
 	client := &http.Client{}
 	result, _ := client.Do(request)
@@ -66,7 +66,7 @@ func (s *usersTestSuite) Test03UpdatePassword_ValidUserValidPassword() {
 
 	url := fmt.Sprintf("%s/clients/users", utils.Address)
 	request, _ := http.NewRequest("PUT", url, strings.NewReader(data))
-	request.Header.Set("Authorization", "Bearer" + " " + token)
+	request.Header.Set("Authorization", "Bearer"+" "+token)
 
 	client := &http.Client{}
 	result, _ := client.Do(request)
@@ -81,7 +81,7 @@ func (s *usersTestSuite) Test04UpdatePassword_ValidUserInvalidPassword() {
 	data := `{"old-password":"user","password-1":"test","password-2":"test"}`
 	url := fmt.Sprintf("%s/clients/users", utils.Address)
 	request, _ := http.NewRequest("PUT", url, strings.NewReader(data))
-	request.Header.Set("Authorization", "Bearer" + " " + token)
+	request.Header.Set("Authorization", "Bearer"+" "+token)
 
 	client := &http.Client{}
 	result, _ := client.Do(request)
@@ -90,7 +90,7 @@ func (s *usersTestSuite) Test04UpdatePassword_ValidUserInvalidPassword() {
 
 	data = `{"old-password":"test","password-1":"pass","password-2":"pass2"}`
 	request, _ = http.NewRequest("PUT", url, strings.NewReader(data))
-	request.Header.Set("Authorization", "Bearer" + " " + token)
+	request.Header.Set("Authorization", "Bearer"+" "+token)
 
 	client = &http.Client{}
 	result, _ = client.Do(request)
@@ -104,7 +104,7 @@ func (s *usersTestSuite) Test05UpdatePassword_InvalidUserValidPassword() {
 
 	url := fmt.Sprintf("%s/clients/users", utils.Address)
 	request, _ := http.NewRequest("PUT", url, strings.NewReader(data))
-	request.Header.Set("Authorization", "Bearer" + " " + token)
+	request.Header.Set("Authorization", "Bearer"+" "+token)
 
 	client := &http.Client{}
 	result, _ := client.Do(request)
