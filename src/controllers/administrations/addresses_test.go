@@ -21,7 +21,7 @@ func TestAddresses(t *testing.T) {
 	suite.Run(t, new(addressesTestSuite))
 }
 
-func (s *accountsTestSuite) Test01GetAddresses_ValidUser() {
+func (s *addressesTestSuite) Test01GetAddresses_ValidUser() {
 	expected := `[{"id":1,"zip":"100-8307","street":"千代田区丸の内二丁目1番1号明治安田生命ビル","city":"東京都","company-id":1},` +
 		`{"id":2,"zip":"23106-1","street":"中区栄3-14-12","city":"名古屋市","company-id":2},` +
 		`{"id":3,"zip":"140-0002","street":"品川区東品川二丁目5番8号","city":"東京都","company-id":3},` +
@@ -45,7 +45,7 @@ func (s *accountsTestSuite) Test01GetAddresses_ValidUser() {
 	s.Equal(expected, string(body))
 }
 
-func (s *accountsTestSuite) Test02GetAddresses_InvalidUser() {
+func (s *addressesTestSuite) Test02GetAddresses_InvalidUser() {
 	token, _ := utils.GenerateToken(1, databases.ClientScope)
 
 	url := fmt.Sprintf("%s/administrations/addresses", utils.Address)
