@@ -12,7 +12,7 @@ import (
 )
 
 // DB is an instance of the database used for the queries
-var DB gorm.DB
+var DB *gorm.DB
 
 // Database is a structure describing the database environment
 type Database struct {

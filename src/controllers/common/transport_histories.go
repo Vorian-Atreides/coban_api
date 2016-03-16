@@ -10,7 +10,7 @@ import (
 	"coban/api/src/utils"
 )
 
-func generalGetQuery(offset uint, begin time.Time, end time.Time) *gorm.DB {
+func generalGetQuery(offset int, begin time.Time, end time.Time) *gorm.DB {
 	query := databases.DB.Offset(offset).Limit(utils.PageSize)
 	if !begin.IsZero() {
 		query = query.Where("date > ?", begin)
@@ -23,7 +23,7 @@ func generalGetQuery(offset uint, begin time.Time, end time.Time) *gorm.DB {
 }
 
 // GetTransportHistories get every transport histories from the database
-func GetTransportHistories(offset uint, begin time.Time,
+func GetTransportHistories(offset int, begin time.Time,
 	end time.Time) []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 
@@ -38,7 +38,7 @@ func GetTransportHistories(offset uint, begin time.Time,
 
 // GetTransportHistoriesByUserID get every transport histories
 // related to an user
-func GetTransportHistoriesByUserID(offset uint, begin time.Time,
+func GetTransportHistoriesByUserID(offset int, begin time.Time,
 	end time.Time, id uint) []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 
@@ -54,7 +54,7 @@ func GetTransportHistoriesByUserID(offset uint, begin time.Time,
 
 // GetTransportHistoriesByCompanyID get every transport histories
 // related to the company's employees
-func GetTransportHistoriesByCompanyID(offset uint, begin time.Time,
+func GetTransportHistoriesByCompanyID(offset int, begin time.Time,
 	end time.Time, id uint) []databases.TransportHistory {
 	var transportHistories []databases.TransportHistory
 

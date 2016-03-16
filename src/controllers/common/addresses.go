@@ -8,7 +8,7 @@ import (
 )
 
 // GetAddresses get every addresses in the databases
-func GetAddresses(offset uint) []databases.Address {
+func GetAddresses(offset int) []databases.Address {
 	var addresses []databases.Address
 
 	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&addresses)

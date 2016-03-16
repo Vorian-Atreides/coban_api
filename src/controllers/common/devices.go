@@ -8,7 +8,7 @@ import (
 )
 
 // GetDevices get every devices in the database
-func GetDevices(offset uint) []databases.Device {
+func GetDevices(offset int) []databases.Device {
 	var devices []databases.Device
 
 	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&devices)

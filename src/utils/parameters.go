@@ -45,11 +45,11 @@ func GetDateParameter(r *http.Request, name string) (time.Time, error) {
 }
 
 // GetPageOffset get the optional page argument and retrieve its offset
-func GetPageOffset(r *http.Request) (uint, error) {
+func GetPageOffset(r *http.Request) (int, error) {
 	str := r.FormValue("page")
-	value, err := strconv.ParseUint(str, 10, 64)
-	if err != nil || value == 0 {
+	value, err := strconv.ParseInt(str, 10, 64)
+	if err != nil || value <= 0 {
 		return 0, err
 	}
-	return uint((value - 1) * PageSize), err
+	return int((value - 1) * PageSize), err
 }

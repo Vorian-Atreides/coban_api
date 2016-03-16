@@ -8,7 +8,7 @@ import (
 )
 
 // GetUsers get every users in the database
-func GetUsers(offset uint) []databases.User {
+func GetUsers(offset int) []databases.User {
 	var users []databases.User
 
 	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&users)

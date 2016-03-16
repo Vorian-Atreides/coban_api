@@ -9,7 +9,7 @@ import (
 )
 
 // GetCompanies get every companies in the database
-func GetCompanies(offset uint) []databases.Company {
+func GetCompanies(offset int) []databases.Company {
 	var companies []databases.Company
 
 	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&companies)

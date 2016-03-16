@@ -8,7 +8,7 @@ import (
 )
 
 // GetStations get every stations in the databases
-func GetStations(offset uint) []databases.Station {
+func GetStations(offset int) []databases.Station {
 	var stations []databases.Station
 
 	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&stations)

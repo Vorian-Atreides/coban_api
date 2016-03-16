@@ -28,5 +28,6 @@ func AuthenticateRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Fprint(w, token)
 }

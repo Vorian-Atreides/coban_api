@@ -22,7 +22,7 @@ func Authenticate(email string, password string) (string, error) {
 }
 
 // GetAccounts get every accounts in the database
-func GetAccounts(offset uint) []databases.Account {
+func GetAccounts(offset int) []databases.Account {
 	var accounts []databases.Account
 
 	databases.DB.Offset(offset).Limit(utils.PageSize).Find(&accounts)

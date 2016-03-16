@@ -17,6 +17,7 @@ func WriteBody(w http.ResponseWriter, content interface{},
 	if err != nil {
 		return err
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusHTTP)
 	if _, err = fmt.Fprint(w, string(data)); err != nil {
