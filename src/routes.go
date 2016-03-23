@@ -30,7 +30,37 @@ func NewRouter() *mux.Router {
 			Path(route.Path).
 			Handler(route.Handler)
 	}
+	for _, route := range allowAccessControlRoutes {
+		router.
+			Methods(route.Method).
+			Name(route.Name).
+			PathPrefix(route.Path).
+			Handler(route.Handler)
+	}
 	return router
+}
+
+var allowAccessControlRoutes = routes {
+
+	route{
+			Name: "Options",
+			Method: "OPTIONS",
+			Path: "/clients/",
+			Handler: common.AllowAccessControlForClients,
+	},
+	route{
+			Name: "Options",
+			Method: "OPTIONS",
+			Path: "/offices/",
+			Handler: common.AllowAccessControlForOffices,
+	},
+	route{
+			Name: "Options",
+			Method: "OPTIONS",
+			Path: "/administrations/",
+			Handler: common.AllowAccessControlForAdmin,
+	},
+
 }
 
 var items = routes{
